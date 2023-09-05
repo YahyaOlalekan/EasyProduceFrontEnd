@@ -1,0 +1,110 @@
+
+
+<div class="login-box">
+    <select id="user-type" class="selectpicker show-tick form-control" data-placeholder="Select Action">
+        <option value="signin">Sign In</option>
+        <option value="farmer">Register as Farmer</option>
+        <option value="customer">Register as Customer</option>
+    </select>
+</div>
+
+<div id="registration-forms">
+    <div id="farmer-registration" class="registration-form" style="display: none;">
+        <!-- Farmer registration form fields and content -->
+        <!-- For example: -->
+        <label for="farmer-name">Name:</label>
+        <input type="text" id="farmer-name" name="farmer-name">
+        <!-- Other farmer-specific fields -->
+    </div>
+    
+    <div id="customer-registration" class="registration-form" style="display: none;">
+        <!-- Customer registration form fields and content -->
+        <!-- For example: -->
+        <label for="customer-name">Name:</label>
+        <input type="text" id="customer-name" name="customer-name">
+        <!-- Other customer-specific fields -->
+    </div>
+
+    <div id="signin-form" class="registration-form" style="display: none;">
+        <!-- Sign in form fields and content -->
+        <!-- For example: -->
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username">
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password">
+    </div>
+
+
+
+    <script>
+        document.getElementById("user-type").addEventListener("change", function() {
+        var selectedOption = this.value;
+        
+        // Hide all registration forms
+        var registrationForms = document.querySelectorAll(".registration-form");
+        registrationForms.forEach(function(form) {
+            form.style.display = "none";
+        });
+        
+        // Show the selected form
+        if (selectedOption !== "signin") {
+            document.getElementById(selectedOption + "-registration").style.display = "block";
+        } else {
+            document.getElementById("signin-form").style.display = "block";
+        }
+    });
+    
+        </script>
+    
+
+
+
+    <!-- function Submit() {
+        let inputemail = document.querySelector('#email');
+        let inputpassword = document.querySelector('#password');
+    
+        const user = {
+            email: inputemail.value,
+            password: inputpassword.value,
+        };
+        
+        const options = {
+            method: 'POST',
+            body: JSON.stringify(user),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        };
+    
+        fetch('https://localhost:5195/api/User/Login', options)
+            .then(res => res.json())
+            .then(function (res) {
+                if (res.status == true) {
+                    localStorage.setItem("Id", res.data.id);
+                    localStorage.setItem("Role", res.data.role);
+                    
+                    if (res.data.role === "customer") {
+                        location.href = "./customer/getAll.html";
+                    } else if (res.data.role === "admin") {
+                        location.href = "./admin/dashboard.html";
+                    } else if (res.data.role === "manager") {
+                        location.href = "./manager/dashboard.html";
+                    } else if (res.data.role === "farmer") {
+                        location.href = "./farmer/dashboard.html";
+                    } else {
+                        window.alert("Unknown role: " + res.data.role);
+                    }
+                } else {
+                    window.alert(res.message);
+                }
+            })
+            .catch((error) => {
+                console.error(error);
+                window.alert("An error occurred during login.");
+            });
+    }
+    
+    // Attach the Submit function to the login button click event
+    let login = document.querySelector('#login');
+    login.addEventListener('click', Submit);
+     -->

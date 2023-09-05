@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Add Bootstrap CSS -->
+    <link rel="stylesheet" href="../manager/https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="shortcut icon" href="../assets/images/favicon.ico">
+    
+    <!-- Bootstrap Css -->
+    <link href="../assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css">
+    <!-- Icons Css -->
+    <link href="../assets/css/icons.min.css" rel="stylesheet" type="text/css">
+    <!-- App Css-->
+    <link href="../assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css">
+
+    <title>Customer List</title>
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Customers</h4>
+                        <p class="card-title-desc">All EasyProduce</p>    
+                        
+                        <div class="table-responsive">
+                            <table class="table mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>First Name</th>
+                                        <th>Last Name</th>
+                                        <th>Phone Number</th>
+                                        <th>Address</th>
+                                        <th>Registration Number</th>
+                                        <th>Email</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="customerTableBody">
+                                    <!-- Customer data will be inserted here dynamically -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Add Bootstrap and your JavaScript file -->
+    <script src="../manager/https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="../manager/https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="../manager/https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="./getAllManagers.js"></script>
+</body>
+</html>
