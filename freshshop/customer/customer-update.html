@@ -4,41 +4,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.css">
+    <link rel="stylesheet" href="update.css">
+    <link rel="stylesheet" href="../swal.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <title>Update Customer</title>
 </head>
 
 <body>
-    <div class="container mt-5">
-        <h1>Update Customer</h1>
-        <form id="updateCustomerForm">
-            <div class="form-group">
-                <label for="address">Address:</label>
-                <input type="text" class="form-control" id="address" name="Address" required>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6 form-container">
+                <h1>Customer Update Form</h1>
+                <form id="updateCustomerForm">
+                    <div class="form-group">
+                        <label for="address">Address:</label>
+                        <input type="text" class="form-control" id="address" name="Address" placeholder="Address" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password:</label>
+                        <input type="password" class="form-control" id="password" name="Password" placeholder="Password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phoneNumber">Phone Number:</label>
+                        <input type="tel" class="form-control" id="phoneNumber" name="PhoneNumber" placeholder="Phone Number" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="profilePicture">Profile Picture:</label>
+                        <input type="file" class="form-control-file" id="profilePicture" name="ProfilePicture">
+                    </div>
+                    <div class="text-center">
+                        <button type="submit" id="update-botton" class="btn btn-primary">Update</button>
+                    </div>
+                </form>
+                <div id="updateResult" class="mt-3"></div>
             </div>
-            <div class="form-group">
-                <label for="password">Password:</label>
-                <input type="password" class="form-control" id="password" name="Password" required>
-            </div>
-            <div class="form-group">
-                <label for="phoneNumber">Phone Number:</label>
-                <input type="tel" class="form-control" id="phoneNumber" name="PhoneNumber" required>
-            </div>
-            <div class="form-group">
-                <label for="profilePicture">Profile Picture:</label>
-                <input type="file" class="form-control-file" id="profilePicture" name="ProfilePicture">
-            </div>
-            <button type="submit" class="btn btn-primary">Update</button>
-        </form>
-        <div id="updateResult" class="mt-3"></div>
+        </div>
     </div>
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="./updateCustomer.js"></script>
+    <!-- <script src="./updateCustomer.js"></script> -->
 
     <script>
-        // JavaScript for updating customer details
 
         var form = document.getElementById("updateCustomerForm")
         form.addEventListener("submit", (event) => {
@@ -59,12 +72,13 @@
                     return response.json();
                 })
                 .then((data) => {
-                    // console.log(data)
+                    // Check if the request was successful
                     if (data.status) {
-                        alert(data.message)
-                    }
-                    else {
-                        window.alert(data.message)
+                        // Show SweetAlert2 modal
+                        showSweetAlert(data.message);
+                    } else {
+                        // Handle error and show SweetAlert2 modal
+                        showSweetAlertError(data.message);
                     }
                 })
                 .catch((error) => {
@@ -73,18 +87,55 @@
                 });
         });
 
-        function displayUpdateResult(message, isError = false) {
-            const updateResult = document.getElementById("updateResult");
-            updateResult.textContent = message;
-            if (isError) {
-                updateResult.classList.add("text-danger");
-            } else {
-                updateResult.classList.remove("text-danger");
-            }
+        // Function to show success SweetAlert2 modal
+        function showSweetAlert(message) {
+            Swal.fire({
+                text: message,
+                icon: 'success',
+                confirmButtonColor: 'hsl(210, 17%, 93%)',
+                confirmButtonText: 'CONTINUE',
+                customClass: {
+                    popup: 'animated fadeIn', // Apply the fadeIn animation
+                    title: 'custom-title-class', // Create a custom class for title styling
+                    content: 'custom-content-class', // Create a custom class for content styling
+                    actions: 'custom-actions-class', // Create a custom class for action button styling
+                    // Apply custom classes to specific elements
+                    icon: 'swal-icon', // Custom class for the icon container
+                    confirmButton: 'swal-button', // Custom class for the confirm button
+                    confirmButtonText: 'swal-button-text', // Custom class for the confirm button text
+                },
+                background: 'rgb(1, 6, 28)',
+            }).then(() => {
+                window.location.href = './getCustomerById.html';
+                // Handle the "Continue" button click here if needed
+                // For example, you can redirect to another page or perform other actions
+                // window.location.href = 'your_target_url';
+            });
         }
+
+        // Function to show error SweetAlert2 modal
+        function showSweetAlertError(message) {
+            Swal.fire({
+                text: message,
+                icon: 'error',
+            });
+        }
+
+        // function displayUpdateResult(message, isError = false) {
+        //     const updateResult = document.getElementById("updateResult");
+        //     updateResult.textContent = message;
+        //     if (isError) {
+        //         updateResult.classList.add("text-danger");
+        //     } else {
+        //         updateResult.classList.remove("text-danger");
+        //     }
+        // }
 
     </script>
 
 </body>
 
 </html>
+
+
+

@@ -13,7 +13,87 @@
 </head>
 
 <body>
+
     <div class="container-fluid p-0">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <h5 class="card-header bg-primary text-white">Customer Details</h5>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-3 text-center">
+                                <img id="profilePicture" src="" alt="Profile Picture" style="max-width: 100%;" class="rounded-circle">
+                            </div>
+                            <div class="col-md-9">
+                                <ul class="list-group">
+                                    <li class="list-group-item bg-light">
+                                        <strong>First Name:</strong> <span id="firstName"></span>
+                                    </li>
+                                    <li class="list-group-item bg-light">
+                                        <strong>Last Name:</strong> <span id="lastName"></span>
+                                    </li>
+                                    <li class="list-group-item bg-light">
+                                        <strong>Phone Number:</strong> <span id="phoneNumber"></span>
+                                    </li>
+                                    <li class="list-group-item bg-light">
+                                        <strong>Address:</strong> <span id="address"></span>
+                                    </li>
+                                    <li class="list-group-item bg-light">
+                                        <strong>Registration Number:</strong> <span id="registrationNumber"></span>
+                                    </li>
+                                    <li class="list-group-item bg-light">
+                                        <strong>Email:</strong> <span id="email"></span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
+
+    <!-- <div class="container-fluid p-0">
+        <div class="card" style="max-width: 800px;"> 
+            <h5 class="card-header bg-primary text-white">Customer Details</h5>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-3 text-center">
+                        <img id="profilePicture" src="" alt="Profile Picture" style="max-width: 100%;" class="rounded-circle">
+                    </div>
+                    <div class="col-md-9">
+                        <ul class="list-group">
+                            <li class="list-group-item bg-light">
+                                <strong>First Name:</strong> <span id="firstName"></span>
+                            </li>
+                            <li class="list-group-item bg-light">
+                                <strong>Last Name:</strong> <span id="lastName"></span>
+                            </li>
+                            <li class="list-group-item bg-light">
+                                <strong>Phone Number:</strong> <span id="phoneNumber"></span>
+                            </li>
+                            <li class="list-group-item bg-light">
+                                <strong>Address:</strong> <span id="address"></span>
+                            </li>
+                            <li class="list-group-item bg-light">
+                                <strong>Registration Number:</strong> <span id="registrationNumber"></span>
+                            </li>
+                            <li class="list-group-item bg-light">
+                                <strong>Email:</strong> <span id="email"></span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+     -->
+    
+    
+
+    <!-- <div class="container-fluid p-0">
         <div class="card">
             <h5 class="card-header">Customer Details</h5>
             <div class="card-body">
@@ -34,7 +114,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 
     <!-- Add Bootstrap and your JavaScript file -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
@@ -79,12 +159,12 @@
             const profilePicture = document.getElementById("profilePicture");
 
             // Set the customer details
-            firstName.textContent = `First Name: ${customer.firstName}`;
-            lastName.textContent = `Last Name: ${customer.lastName}`;
-            phoneNumber.textContent = `Phone Number: ${customer.phoneNumber}`;
-            address.textContent = `Address: ${customer.address}`;
-            registrationNumber.textContent = `Registration Number: ${customer.registrationNumber}`;
-            email.textContent = `Email: ${customer.email}`;
+            firstName.textContent = `${customer.firstName}`;
+            lastName.textContent = `${customer.lastName}`;
+            phoneNumber.textContent = `${customer.phoneNumber}`;
+            address.textContent = `${customer.address}`;
+            registrationNumber.textContent = `${customer.registrationNumber}`;
+            email.textContent = `${customer.email}`;
 
             // Set the profile picture source
             profilePicture.src =`${baseUrl}Upload/images/${customer.profilePicture}`;
