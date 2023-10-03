@@ -6,7 +6,7 @@ document.getElementById('submitButton').addEventListener('click', function (e) {
     if (formData.get('password') === formData.get('confirmpassword')) {
         console.log("Password match");
         //submit to backend
-        fetch('http://localhost:5195/api/Customer/CustomerRegistration', {
+        fetch('http://localhost:5195/api/Manager/RegisterManager', {
             method: 'POST',
             body: formData
         })
@@ -80,7 +80,7 @@ function showSweetAlertError(data) {
         background: 'rgb(1, 6, 28)',
     })
         .then(() => {
-            window.location.href = './customer-registration.html';
+            window.location.href = './manager-registration.html';
 
         });
 }

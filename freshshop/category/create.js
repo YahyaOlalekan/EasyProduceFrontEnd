@@ -2,11 +2,8 @@ document.getElementById('submitButton').addEventListener('click', function (e) {
     e.preventDefault();
     const formElement = document.getElementById('myForm');
     const formData = new FormData(formElement);
-    // console.log(formData.get('LastName'));
-    if (formData.get('password') === formData.get('confirmpassword')) {
-        console.log("Password match");
-        //submit to backend
-        fetch('http://localhost:5195/api/Customer/CustomerRegistration', {
+   
+        fetch('http://localhost:5195/api/Category/CreateCategory', {
             method: 'POST',
             body: formData
         })
@@ -18,7 +15,6 @@ document.getElementById('submitButton').addEventListener('click', function (e) {
                     // window.alert(data.message)
                     showSweetAlert(data);
 
-                    //  window.location.replace('../login.html');
                 } else {
                     // document.getElementById('error').innerHTML = data.message;
                     showSweetAlertError(data);
@@ -28,11 +24,7 @@ document.getElementById('submitButton').addEventListener('click', function (e) {
                 console.error('Error:', error);
             });
 
-    }
-    else {
-        document.getElementById('error').innerHTML = "password doesn't match please refill"
-    }
-
+ 
 });
 
 // Function to show success SweetAlert2 modal
@@ -54,9 +46,7 @@ function showSweetAlert(data) {
         },
         background: 'rgb(1, 6, 28)',
     }).then(() => {
-        // window.location.href = './getAllCustomers.html';
-        window.location.replace('../general/login.html');
-
+        window.location.replace('../admin/dashboard.html');
     });
 }
 
@@ -80,7 +70,7 @@ function showSweetAlertError(data) {
         background: 'rgb(1, 6, 28)',
     })
         .then(() => {
-            window.location.href = './customer-registration.html';
+            window.location.href = '../admin/dashboard.html';
 
         });
 }

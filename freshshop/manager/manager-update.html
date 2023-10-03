@@ -9,15 +9,15 @@
     <link rel="stylesheet" href="update.css">
     <link rel="stylesheet" href="../general/swal.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <title>Update Customer</title>
+    <title>Update Manager</title>
 </head>
 
 <body>
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-6 form-container">
-                <h1>Customer Update Form</h1>
-                <form id="updateCustomerForm">
+                <h1>Manager Update Form</h1>
+                <form id="updateManagerForm">
                     <div class="form-group">
                         <label for="address">Address:</label>
                         <input type="text" class="form-control" id="address" name="Address" placeholder="Address"
@@ -38,7 +38,7 @@
                         <input type="file" class="form-control-file" id="profilePicture" name="ProfilePicture">
                     </div>
                     <div class="text-center">
-                        <!-- <a href="./customer-update.html" class="btn btn-secondary">Back</a> -->
+                        <!-- <a href="./manager-update.html" class="btn btn-secondary">Back</a> -->
                         <button type="submit" id="update-botton" class="btn btn-primary">Update</button>
                     </div>
                 </form>
@@ -53,25 +53,22 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <!-- <script src="./updateCustomer.js"></script> -->
+    <!-- <script src="./updateManager.js"></script> -->
 
     <script src="../general/login.js"></script>
 
 
     <script>
 
-        var form = document.getElementById("updateCustomerForm")
+        var form = document.getElementById("updateManagerForm")
         form.addEventListener("submit", (event) => {
             event.preventDefault(); // Prevent the default form submission
 
-            // const customerId = '520c0433-8938-43e5-9609-7a093b7292b3'; // Replace with the actual customer ID
-            const customerId = localStorage.getItem("id");
+            const managerId = localStorage.getItem("id");
 
             const formData = new FormData(form);
-            // console.log("customerId:", customerId);
-
-
-            fetch(`http://localhost:5195/api/Customer/UpdateCustomer/${customerId}`, {
+           
+            fetch(`http://localhost:5195/api/Manager/UpdateManager/${managerId}`, {
                 method: "PUT",
                 body: formData,
             })
@@ -119,9 +116,7 @@
                 background: 'rgb(1, 6, 28)',
             }).then(() => {
                 window.location.href = './dashboard.html';
-                // Handle the "Continue" button click here if needed
-                // For example, you can redirect to another page or perform other actions
-                // window.location.href = 'your_target_url';
+               
             });
         }
 

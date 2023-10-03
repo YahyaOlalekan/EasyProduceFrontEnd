@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <!-- Site CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Responsive CSS -->
+    <link rel="stylesheet" href="css/responsive.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/custom.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.css">
+    <link rel="stylesheet" href="../general/swal.css">
+
+    <meta charset="utf-8">
+    <title>Produce Creation Page || EasyProduce</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="Premium Multipurpose Admin & Dashboard Template" name="description">
+    <meta content="Themesbrand" name="author">
+    <!-- App favicon -->
+    <!-- <link rel="shortcut icon" href="../assets/images/favicon.ico"> -->
+    <link rel="shortcut icon" href="../producePictures/4905.jpg">
+
+    <!-- Bootstrap Css -->
+    <!-- <link href="/assets/libs/bootstrap/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css"> -->
+    <link href="../assets/libs/bootstrap/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css">
+    <!-- Icons Css -->
+    <link href="../assets/css/icons.ico" rel="stylesheet" type="text/css">
+    <link href="../assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css">
+
+    <!-- App Css-->
+    <link href="../assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css">
+
+    <title>Produce | Creation</title>
+</head>
+
+<body>
+    <div id="produce-creation" class="registration-form">
+        <!-- Customer registration form fields and content -->
+
+        <!-- <body class="account-pages"> -->
+        <!-- Begin page -->
+        <div class="accountbg"
+            style="background: url('../producePictures/woman.jpg');background-size: cover;background-position: center;">
+        </div>
+
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header bg-primary text-white text-center">
+                            <h4 class="font-size-18 mt-2">Produce Creation</h4>
+                        </div>
+                        <div class="card-body">
+                            <form id="myForm">
+                                <div class="mb-3">
+                                    <label class="form-label" for="CategoryId">Select Category</label>
+                                    <select class="form-control" name="CategoryId">
+                                        <!-- Category options will be populated dynamically -->
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label" for="ProduceName">Produce Name</label>
+                                    <input type="text" class="form-control" name="ProduceName">
+                                    <!-- <input type="text" class="form-control" name="ProduceName" placeholder="Produce Name"> -->
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label" for="DescriptionOfProduce">Produce Description</label>
+                                    <input type="text" class="form-control" name="DescriptionOfProduce">
+                                    <!-- <input type="text" class="form-control" name="DescriptionOfProduce" placeholder="Produce Description"> -->
+                                </div>
+                              
+                                <div class="mb-3 text-end">
+                                    <button class="btn btn-primary w-md waves-effect waves-light" type="submit" id="submitButton">Create</button>
+                                </div>
+                            </form>
+                            <div class="mt-5 pt-4 text-center">
+                                <p>© <script>document.write(new Date().getFullYear())</script> EasyProduce <i
+                                        class="mdi mdi-heart text-danger"></i></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+
+
+
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="./create.js"></script>
+
+
+</body>
+
+</html>

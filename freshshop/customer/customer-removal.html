@@ -7,7 +7,7 @@
     <!-- Add Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.css">
-    <link rel="stylesheet" href="../swal.css">
+    <link rel="stylesheet" href="../general/swal.css">
     <title>Customer Details</title>
 </head>
 
@@ -33,8 +33,8 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="./getCustomerById.js"></script>
-    <script src="../basejs.js"></script>
+    <script src="./customer-profile.js"></script>
+    <script src="../general/basejs.js"></script>
 
 </body>
 
@@ -147,7 +147,7 @@
             },
             background: 'rgb(1, 6, 28)',
         }).then(() => {
-            window.location.href = './getCustomerById.html';
+            window.location.href = './customers.html';
             // Handle the "Continue" button click here if needed
             // For example, you can redirect to another page or perform other actions
             // window.location.href = 'your_target_url';
@@ -162,7 +162,30 @@
         });
     }
 
+// // Function to show error SweetAlert2 modal
+// function showSweetAlertError(data) {
+//     Swal.fire({
+//         text: data.message,
+//         icon: 'error',
+//         confirmButtonColor: 'hsl(210, 17%, 93%)',
+//         confirmButtonText: 'OK',
+//         customClass: {
+//             popup: 'animated fadeIn', // Apply the fadeIn animation
+//             title: 'custom-title-class', // Create a custom class for title styling
+//             content: 'custom-content-class', // Create a custom class for content styling
+//             actions: 'custom-actions-class', // Create a custom class for action button styling
+//             // Apply custom classes to specific elements
+//             icon: 'swal-icon', // Custom class for the icon container
+//             confirmButton: 'swal-button', // Custom class for the confirm button
+//             confirmButtonText: 'swal-button-text', // Custom class for the confirm button text
+//         },
+//         background: 'rgb(1, 6, 28)',
+//     })
+//         .then(() => {
+//             window.location.href = './customer-registration.html';
 
+//         });
+// }
 
 
 

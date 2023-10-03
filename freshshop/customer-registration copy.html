@@ -16,7 +16,7 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" href="css/custom.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.css">
-    <link rel="stylesheet" href="../general/swal.css">
+    <link rel="stylesheet" href="../swal.css">
 
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
@@ -162,7 +162,7 @@
                                 </form>
 
                                 <div class="mt-5 pt-4 text-center">
-                                    <p>Already have an account ? <a href="../general/login.html" class="fw-medium text-primary"> Login </a>  </p>
+                                    <p>Already have an account ? <a href="../login.html" class="fw-medium text-primary"> Login </a>  </p>
                                          
                                     <p>©
                                         <script>document.write(new Date().getFullYear())</script> EasyProduce
@@ -190,6 +190,129 @@
     <script src="./customer-registration.js"></script>
 
   
+</body>
+
+</html>
+
+
+
+
+
+//////////////////////
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Include your CSS and other meta tags here -->
+
+    <!-- Include SweetAlert2 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.css">
+
+    <title>Customer | Registration</title>
+</head>
+
+<body>
+    <div id="customer-registration" class="registration-form">
+        <!-- Customer registration form fields and content -->
+
+        <!-- Add your HTML form here -->
+        <form id="myForm">
+            <!-- Your form fields -->
+
+            <!-- Email and Phone Number fields -->
+            <div class="mb-3">
+                <input type="email" class="form-control" id="email" name="Email" placeholder="Enter Your Email" required>
+                <div id="emailError" style="color: red;"></div>
+            </div>
+
+            <div class="mb-3">
+                <input type="text" class="form-control" name="PhoneNumber" placeholder="Enter Your Phone Number" required>
+                <div id="phoneNumberError" style="color: red;"></div>
+            </div>
+
+            <!-- Password and Confirm Password fields -->
+            <div class="mb-3">
+                <input type="password" class="form-control" name="Password" placeholder="Enter Password" required>
+            </div>
+
+            <div class="mb-3">
+                <input type="password" class="form-control" name="ConfirmPassword" placeholder="Confirm Password" required>
+            </div>
+
+            <div class="mb-3">
+                <button class="btn btn-primary w-md waves-effect waves-light" type="submit" id="submitButton">Register</button>
+            </div>
+        </form>
+
+        <!-- Add your JavaScript here -->
+        <script>
+            // Add an event listener to the form submission
+            document.getElementById('myForm').addEventListener('submit', function (e) {
+                e.preventDefault();
+                const formData = new FormData(this);
+
+                // Perform client-side validation here
+                const email = formData.get('Email');
+                const phoneNumber = formData.get('PhoneNumber');
+
+                // Validate email format (you can use a regex pattern)
+                const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+                if (!emailPattern.test(email)) {
+                    document.getElementById('emailError').textContent = 'Invalid email format';
+                    return;
+                } else {
+                    document.getElementById('emailError').textContent = '';
+                }
+
+                // Validate phone number format (you can use a regex pattern)
+                const phonePattern = /^\d{10}$/;
+                if (!phonePattern.test(phoneNumber)) {
+                    document.getElementById('phoneNumberError').textContent = 'Invalid phone number format';
+                    return;
+                } else {
+                    document.getElementById('phoneNumberError').textContent = '';
+                }
+
+                // Password validation (e.g., match passwords, length)
+                const password = formData.get('Password');
+                const confirmPassword = formData.get('ConfirmPassword');
+                if (password !== confirmPassword || password.length < 8) {
+                    // Handle password validation errors
+                    return;
+                }
+
+                // At this point, all client-side validations have passed
+                // You can now send an AJAX request to check email and phone number uniqueness
+                // Replace the URL with your server endpoint for uniqueness checks
+                fetch('YOUR_SERVER_ENDPOINT_HERE', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.emailExists) {
+                        document.getElementById('emailError').textContent = 'Email already exists';
+                    }
+                    if (data.phoneNumberExists) {
+                        document.getElementById('phoneNumberError').textContent = 'Phone number already exists';
+                    }
+                    if (!data.emailExists && !data.phoneNumberExists) {
+                        // Submit the form if everything is valid
+                        this.submit();
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+            });
+        </script>
+    </div>
+
+    <!-- Include your other JavaScript libraries and dependencies here -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <!-- Add any other scripts or libraries you need -->
+
 </body>
 
 </html>

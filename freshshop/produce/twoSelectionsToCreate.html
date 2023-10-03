@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <!-- Site CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Responsive CSS -->
+    <link rel="stylesheet" href="css/responsive.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/custom.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.css">
+    <link rel="stylesheet" href="../general/swal.css">
+
+    <meta charset="utf-8">
+    <title>Produce Creation Page || EasyProduce</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="Premium Multipurpose Admin & Dashboard Template" name="description">
+    <meta content="Themesbrand" name="author">
+    <!-- App favicon -->
+    <!-- <link rel="shortcut icon" href="../assets/images/favicon.ico"> -->
+    <link rel="shortcut icon" href="../producePictures/4905.jpg">
+
+    <!-- Bootstrap Css -->
+    <!-- <link href="/assets/libs/bootstrap/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css"> -->
+    <link href="../assets/libs/bootstrap/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css">
+    <!-- Icons Css -->
+    <link href="../assets/css/icons.ico" rel="stylesheet" type="text/css">
+    <link href="../assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css">
+
+    <!-- App Css-->
+    <link href="../assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css">
+
+    <title>Produce | Creation</title>
+</head>
+
+<body>
+    <div id="produce-creation" class="registration-form">
+        <!-- Customer registration form fields and content -->
+
+        <!-- <body class="account-pages"> -->
+        <!-- Begin page -->
+        <div class="accountbg"
+            style="background: url('../producePictures/woman.jpg');background-size: cover;background-position: center;">
+        </div>
+
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header bg-primary text-white text-center">
+                            <h4 class="font-size-18 mt-2">Produce Creation</h4>
+                        </div>
+                        <div class="card-body">
+                            <form id="myForm">
+
+                                <div class="mb-3">
+                                     <label class="form-label" for="CategoryId">Select Category</label>
+                                    <select class="form-control" name="CategoryId" id="categoryDropdown">
+                                        <!-- Category options will be populated dynamically -->
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label" for="ProduceId">Select Produce</label>
+                                    <select class="form-control" name="ProduceId" id="produceDropdown">
+                                        <!-- Produce options will be populated dynamically based on the selected category -->
+                                    </select>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label class="form-label" for="DescriptionOfProduce">Produce Description</label>
+                                    <input type="text" class="form-control" name="DescriptionOfProduce" placeholder="Produce Description">
+                                </div>
+                              
+                                <div class="mb-3 text-end">
+                                    <button class="btn btn-primary w-md waves-effect waves-light" type="submit" id="submitButton">Create</button>
+                                </div>
+                            </form>
+                            <div class="mt-5 pt-4 text-center">
+                                <p>© <script>document.write(new Date().getFullYear())</script> EasyProduce <i
+                                        class="mdi mdi-heart text-danger"></i></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+
+
+
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="./create.js"></script>
+
+
+</body>
+
+</html>
+
+
+<script>
+
+
+
+
+
+// // Function to populate the category dropdown dynamically
+// function populateCategoryDropdown() {
+//     // Make an API request to get the list of categories dynamically
+//     fetch('http://localhost:5195/api/Category/GetAllCategories')
+//         .then(response => response.json())
+//         .then(data => {
+//             const categoryDropdown = document.querySelector('#categoryDropdown');
+//             // Clear any existing options
+//             categoryDropdown.innerHTML = '';
+//             // Add new options based on the fetched data
+//             data.data.forEach(category => {
+//                 const option = document.createElement('option');
+//                 option.value = category.id; // You may need to adjust the value accordingly
+//                 option.textContent = category.nameOfCategory; // Use the appropriate property from your API response
+//                 categoryDropdown.appendChild(option);
+//             });
+//             // Trigger the change event to populate produces based on the initially selected category
+//             categoryDropdown.dispatchEvent(new Event('change'));
+//         })
+//         .catch(error => {
+//             console.error('Error:', error);
+//         });
+// }
+
+// // Function to populate the produce dropdown based on the selected category
+// function populateProduceDropdown(categoryId) {
+//     // Make an API request to get the list of produces for the selected category
+//     fetch(`http://localhost:5195/api/Produce/GetAllProduceByCategoryId/${categoryId}`)
+//         .then(response => response.json())
+//         .then(data => {
+//             const produceDropdown = document.querySelector('#produceDropdown');
+//             // Clear any existing options
+//             produceDropdown.innerHTML = '';
+//             // Add new options based on the fetched data
+//             data.data.forEach(produce => {
+//                 const option = document.createElement('option');
+//                 option.value = produce.id; // You may need to adjust the value accordingly
+//                 option.textContent = produce.produceName ; // Use the appropriate property from your API response
+//                 produceDropdown.appendChild(option);
+//             });
+//         })
+//         .catch(error => {
+//             console.error('Error:', error);
+//         });
+// }
+
+// // Call the function to populate the category dropdown when the page loads
+// window.addEventListener('load', populateCategoryDropdown);
+
+// // Add an event listener for the category dropdown change event
+// document.querySelector('#categoryDropdown').addEventListener('change', function (e) {
+//     const selectedCategoryId = e.target.value;
+//     // Populate the produce dropdown based on the selected category
+//     populateProduceDropdown(selectedCategoryId);
+// });
+
+
+
+
+
+
+
+</script>
