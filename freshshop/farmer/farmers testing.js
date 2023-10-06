@@ -63,150 +63,128 @@ function ViewDetails(id) {
         });
 
     function displayFarmerData(farmer) {
-        // Select the elements for farmer details
-        const body = document.querySelector(".body");
-        body.innerHTML = `
-         <div class="container-fluid p-0">
-             <div class="row justify-content-center">
-                 <div class="col-md-8">
-                     <div class="card">
-                         <h5 class="card-header bg-primary text-white">Farmer Details</h5>
-                         <div class="card-body">
-                             <div class="row">
-                                 <div class="col-md-3 text-center">
-                                     <img id="profilePicture" src="" alt="Profile Picture" style="max-width: 100%;" class="rounded-circle">
-                                 </div>
-                                 <!-- Add the new fields to the card-body section -->
-                                 <div class="col-md-9">
-                                     <ul class="list-group">
-                                         <li class="list-group-item bg-light">
-                                             <strong>First Name:</strong> <span id="firstName"></span>
-                                         </li>
-                                         <li class="list-group-item bg-light">
-                                             <strong>Name Of Category, Produce Name, Type Name:</strong>
-                                             <ul id="produceInfoList"></ul>
-                                         </li>
-                                         <li class="list-group-item bg-light">
-                                             <strong>Farmer Registration Status:</strong> <span id="farmerRegStatus"></span>
-                                         </li>
-                                         <li class="list-group-item bg-light">
-                                             <strong>Farm Name:</strong> <span id="farmName"></span>
-                                         </li>
-                                         <li class="list-group-item bg-light">
-                                             <strong>Last Name:</strong> <span id="lastName"></span>
-                                         </li>
-                                         <li class="list-group-item bg-light">
-                                             <strong>Phone Number:</strong> <span id="phoneNumber"></span>
-                                         </li>
-                                         <li class="list-group-item bg-light">
-                                             <strong>Address:</strong> <span id="address"></span>
-                                         </li>
-                                         <li class="list-group-item bg-light">
-                                             <strong>Registration Number:</strong> <span id="registrationNumber"></span>
-                                         </li>
-                                         <li class="list-group-item bg-light">
-                                             <strong>Email:</strong> <span id="email"></span>
-                                         </li>
-                                     </ul>
-                                 </div>
-                                 <a href="./farmers.html" class="btn btn-secondary">Back</a>
-                             </div>
-                         </div>
-                     </div>
-                 </div>
-             </div>
-         </div>
-     `;
+    // Select the elements for farmer details
+    const body = document.querySelector(".body");
+    body.innerHTML = `
+        <div class="container-fluid p-0">
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <div class="card">
+                        <h5 class="card-header bg-primary text-white">Farmer Details</h5>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-3 text-center">
+                                    <img id="profilePicture" src="" alt="Profile Picture" style="max-width: 100%;" class="rounded-circle">
+                                </div>
+                                <!-- Add the new fields to the card-body section -->
+                                <div class="col-md-9">
+                                    <ul class="list-group">
+                                        <li class="list-group-item bg-light">
+                                            <strong>First Name:</strong> <span id="firstName"></span>
+                                        </li>
+                                        <li class="list-group-item bg-light">
+                                            <strong>Name Of Category:</strong>
+                                            <ul id="nameOfCategoryList"></ul>
+                                        </li>
+                                        <li class="list-group-item bg-light">
+                                            <strong>Produce Name:</strong>
+                                            <ul id="produceNameList"></ul>
+                                        </li>
+                                        <li class="list-group-item bg-light">
+                                            <strong>Type Name:</strong>
+                                            <ul id="typeNameList"></ul>
+                                        </li>
+                                        <li class="list-group-item bg-light">
+                                            <strong>Farmer Registration Status:</strong> <span id="farmerRegStatus"></span>
+                                        </li>
+                                        <li class="list-group-item bg-light">
+                                            <strong>Farm Name:</strong> <span id="farmName"></span>
+                                        </li>
+                                        <li class="list-group-item bg-light">
+                                            <strong>Last Name:</strong> <span id="lastName"></span>
+                                        </li>
+                                        <li class="list-group-item bg-light">
+                                            <strong>Phone Number:</strong> <span id="phoneNumber"></span>
+                                        </li>
+                                        <li class="list-group-item bg-light">
+                                            <strong>Address:</strong> <span id="address"></span>
+                                        </li>
+                                        <li class="list-group-item bg-light">
+                                            <strong>Registration Number:</strong> <span id="registrationNumber"></span>
+                                        </li>
+                                        <li class="list-group-item bg-light">
+                                            <strong>Email:</strong> <span id="email"></span>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <a href="./farmers.html" class="btn btn-secondary">Back</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
 
-        // Select the elements for farmer details
-        const firstName = document.getElementById("firstName");
-        const farmerRegStatus = document.getElementById("farmerRegStatus");
-        const farmName = document.getElementById("farmName");
-        const lastName = document.getElementById("lastName");
-        const phoneNumber = document.getElementById("phoneNumber");
-        const address = document.getElementById("address");
-        const registrationNumber = document.getElementById("registrationNumber");
-        const email = document.getElementById("email");
+    // Select the elements for farmer details
+    const firstName = document.getElementById("firstName");
+    const farmerRegStatus = document.getElementById("farmerRegStatus");
+    const farmName = document.getElementById("farmName");
+    const lastName = document.getElementById("lastName");
+    const phoneNumber = document.getElementById("phoneNumber");
+    const address = document.getElementById("address");
+    const registrationNumber = document.getElementById("registrationNumber");
+    const email = document.getElementById("email");
+    const profilePicture = document.getElementById("profilePicture");
 
-        console.log("Farmer Object:", farmer);
-        console.log("Profile Picture URL:", farmer.profilePicture);
+    // Set the farmer details
+    firstName.textContent = `${farmer.firstName}`;
+    lastName.textContent = `${farmer.lastName}`;
+    phoneNumber.textContent = `${farmer.phoneNumber}`;
+    address.textContent = `${farmer.address}`;
+    registrationNumber.textContent = `${farmer.registrationNumber}`;
+    email.textContent = `${farmer.email}`;
+    farmerRegStatus.textContent = `${farmer.farmerRegStatus}`;
+    farmName.textContent = `${farmer.farmName}`;
 
-        const profilePicture = document.getElementById("profilePicture");
+    // Set the additional fields dynamically
+    const nameOfCategoryList = document.getElementById("nameOfCategoryList");
+    const produceNameList = document.getElementById("produceNameList");
+    const typeNameList = document.getElementById("typeNameList");
 
-        // Set the farmer details
-        firstName.textContent = `${farmer.firstName}`;
-        lastName.textContent = `${farmer.lastName}`;
-        phoneNumber.textContent = `${farmer.phoneNumber}`;
-        address.textContent = `${farmer.address}`;
-        registrationNumber.textContent = `${farmer.registrationNumber}`;
-        email.textContent = `${farmer.email}`;
-        farmerRegStatus.textContent = `${farmer.farmerRegStatus}`;
-        farmName.textContent = `${farmer.farmName}`;
+    // Loop through the arrays and create list items
+    farmer.NameOfCategory.forEach(category => {
+        const listItem = document.createElement("li");
+        listItem.textContent = category;
+        nameOfCategoryList.appendChild(listItem);
+    });
 
-        //  // Combine NameOfCategory, ProduceName, and TypeName into a single array
-        //  const produceInfo = [...farmer.NameOfCategory, ...farmer.ProduceName, ...farmer.TypeName];
+    farmer.ProduceName.forEach(name => {
+        const listItem = document.createElement("li");
+        listItem.textContent = name;
+        produceNameList.appendChild(listItem);
+    });
 
+    farmer.TypeName.forEach(type => {
+        const listItem = document.createElement("li");
+        listItem.textContent = type;
+        typeNameList.appendChild(listItem);
+    });
 
-        // // Combine NameOfCategory, ProduceName, and TypeName into a single array
-        // const produceInfo = [
-        //     ...(Array.isArray(farmer.NameOfCategory) ? farmer.NameOfCategory : []),
-        //     ...(Array.isArray(farmer.ProduceName) ? farmer.ProduceName : []),
-        //     ...(Array.isArray(farmer.TypeName) ? farmer.TypeName : [])
-        // ];
-
-
-        // Combine the properties into a single array if they exist and are arrays
-        const nameOfCategoryArray = Array.isArray(farmer.NameOfCategory) ? farmer.NameOfCategory : [];
-        const produceNameArray = Array.isArray(farmer.ProduceName) ? farmer.ProduceName : [];
-        const typeNameArray = Array.isArray(farmer.TypeName) ? farmer.TypeName : [];
-
-        // Combine the arrays
-        const produceInfo = [...nameOfCategoryArray, ...produceNameArray, ...typeNameArray];
-
-
-        // Select the list element
-        const produceInfoList = document.getElementById("produceInfoList");
-
-        // Loop through the produceInfo array and create list items
-        produceInfo.forEach(info => {
-            const listItem = document.createElement("li");
-            listItem.textContent = info;
-            produceInfoList.appendChild(listItem);
-        });
-
-       // Check if a valid profilePicture URL exists
-    if (farmer.profilePicture && farmer.profilePicture.trim() !== "") {
-        // Trim the profilePicture value
-        const profilePictureUrl = farmer.profilePicture.trim();
-
+    // Check if a valid profilePicture URL exists
+    if (farmer.profilePicture !== "undefined") {
         // Set the profile picture source
         var baseUrl = "http://localhost:5195/";
-        profilePicture.src = `${baseUrl}Upload/images/${profilePictureUrl}`;
+        profilePicture.src = `${baseUrl}Upload/images/${farmer.profilePicture}`;
         profilePicture.alt = "Profile Picture";
     } else {
         // Handle the case where there's no valid profilePicture URL
-        profilePicture.src = "../producePictures/farmIcons.jpg"; // Provide a placeholder image URL
+        profilePicture.src = "./freshshop/producePictures/farmIcons.jpg"; // Provide a placeholder image URL
         profilePicture.alt = "Profile Picture";
     }
+}
 
-
-
-        // // Check if a valid profilePicture URL exists
-        // if (farmer.profilePicture !== "undefined") {
-        //     // Set the profile picture source
-        //     var baseUrl = "http://localhost:5195/";
-        //     profilePicture.src = `${baseUrl}Upload/images/${farmer.profilePicture}`;
-        //     profilePicture.alt = "Profile Picture";
-        // } else {
-        //     // Handle the case where there's no valid profilePicture URL
-        //     profilePicture.src = "./freshshop/producePictures/farmIcons.jpg"; // Provide a placeholder image URL
-        //     profilePicture.alt = "Profile Picture";
-        // }
-
-
-    }
-
-
+    
 
     function displayError() {
         const farmerDetails = document.querySelector(".card-body");

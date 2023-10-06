@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <title>Register | Veltrix - Admin & Dashboard Template</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="Premium Multipurpose Admin & Dashboard Template" name="description">
+    <meta content="Themesbrand" name="author">
+    <!-- App favicon -->
+    <link rel="shortcut icon" href="../assets/images/favicon.ico">
+
+
+    <!-- Bootstrap Css -->
+    <link href="../assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css">
+    <!-- Icons Css -->
+    <link href="../assets/css/icons.min.css" rel="stylesheet" type="text/css">
+    <!-- App Css-->
+    <link href="../assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css">
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+
+
+</head>
+
+<body onload="LoadProduce()">
+    <div class="account-pages my-5 pt-5">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-8 col-lg-6 col-xl-4">
+                    <div class="card overflow-hidden">
+                        <div class="bg-primary">
+                            <div class="text-center p-4">
+                                <h5 class="text-white font-size-20">Free Farmer Registration</h5>
+                                <p class="text-white-50">Get your free EasyProduce account now.</p>
+                            </div>
+                        </div>
+                        <div class="card-body p-4">
+                            <div class="p-3">
+                                <form class="mt-4" id="farmer-form">
+                                    <div class="mb-3">
+                                        <label class="form-label" for="produceTypes">Select Produce Types</label>
+                                        <select class="form-select" multiple name="ProduceTypes[]" id="produceTypesSelect">
+                                            <!-- Produce type options will be populated dynamically -->
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <input type="text" class="form-control" name="farmName" placeholder="Farm Name">
+                                    </div>
+                                    <div class="mb-3">
+                                        <input type="text" class="form-control" name="firstName" placeholder="First Name">
+                                    </div>
+                                    <div class="mb-3">
+                                        <input type="text" class="form-control" name="lastName" placeholder="Last Name">
+                                    </div>
+                                    <div class="mb-3">
+                                        <input type="email" class="form-control" name="email" placeholder="Email">
+                                    </div>
+                                    <div class="mb-3">
+                                        <input type="text" class="form-control" name="phoneNumber" placeholder="Phone Number">
+                                    </div>
+                                    <div class="mb-3">
+                                        <input type="password" class="form-control" name="password" placeholder="Password">
+                                    </div>
+                                    <div class="mb-3">
+                                        <input type="password" class="form-control" name="confirmPassword" placeholder="Confirm Password">
+                                    </div>
+                                    <div class="mb-3">
+                                        <input type="text" class="form-control" name="address" placeholder="Address">
+                                    </div>
+                                    <div class="mb-3">
+                                        <input type="file" class="form-control" name="profilePicture" placeholder="Choose profile picture">
+                                    </div>
+                                    <div class="row mb-3">
+                                        <label class="col-sm-2 col-form-label">Gender</label>
+                                        <div class="col-sm-10">
+                                            <select class="form-select" aria-label="Default select example" name="gender">
+                                                <option value="1">Male</option>
+                                                <option value="2">Female</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <input type="number" class="form-control" name="accountNumber" placeholder="Account Number">
+                                    </div>
+                                    <div class="mb-3">
+                                        <input type="text" class="form-control" name="accountName" placeholder="Account Name">
+                                    </div>
+                                    <div class="mb-3">
+                                        <input type="text" class="form-control" name="bankName" placeholder="Bank Name">
+                                    </div>
+                                    <div class="mb-3 row">
+                                        <div class="col-12 text-end">
+                                            <button class="btn btn-primary w-md waves-effect waves-light" type="submit" id="submit-farmer">Register</button>
+                                            <p id="error"></p>
+                                        </div>
+                                    </div>
+                                    <div class="mt-2 mb-0 row">
+                                        <div class="col-12 mt-4">
+                                            <p class="mb-0">By registering, you agree to the Veltrix <a href="#" class="text-primary">Terms of Use</a></p>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-5 text-center">
+                        <p>Already have an account? <a href="../general/login.html" class="fw-medium text-primary">Login</a></p>
+                        <p>&copy; <script>document.write(new Date().getFullYear())</script> EasyProduce <i class="mdi mdi-heart text-danger"></i> Company</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT -->
+    <script src="../assets/libs/jquery/jquery.min.js"></script>
+    <script src="../assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/libs/metismenu/metisMenu.min.js"></script>
+    <script src="../assets/libs/simplebar/simplebar.min.js"></script>
+    <script src="../assets/libs/node-waves/waves.min.js"></script>
+
+
+    <script src="../assets/js/app.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+
+
+
+
+
+<script>
+   
+    // In your JavaScript code to load produce types and initialize Select2
+    function LoadProduce() {
+        fetch('http://localhost:5195/api/ProduceType/GetAllProduceType')
+            .then(response => response.json())
+            .then(res => {
+                const selectElement = document.getElementById('produceTypesSelect');
+                res.data.forEach(option => {
+                    // Create an <option> element for each produce type
+                    const optionElement = document.createElement('option');
+                    optionElement.value = option.id;
+                    optionElement.textContent = option.typeName;
+                    // Append the option to the select element
+                    selectElement.appendChild(optionElement);
+                });
+
+                // Initialize Select2 for the dropdown
+                $('#produceTypesSelect').select2();
+            });
+    }
+
+    document.querySelector('#farmer-form').addEventListener('submit', e => {
+        e.preventDefault();
+        let formElement = document.querySelector('#farmer-form');
+        const formData = new FormData(formElement);
+
+        // Get the selected values of produce types using Select2
+        const selectedProduceTypes = $('#produceTypesSelect').val();
+        formData.delete('ProduceTypes'); // Remove the previous value
+        selectedProduceTypes.forEach(type => {
+            formData.append('ProduceTypes', type);
+        });
+
+        fetch('http://localhost:5195/api/Farmer/RegisterFarmer', {
+            method: 'POST',
+            body: formData
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status == true) {
+                    window.alert(1);
+                } else {
+                    document.getElementById('error').innerHTML = data.message;
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    });
+
+
+
+    </script>
+
+
+</body>
+
+</html>
