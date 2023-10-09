@@ -4,25 +4,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
-    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
-
+    <link rel="shortcut icon" href="../images/favicon.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="../images/apple-touch-icon.png">
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
     <!-- Site CSS -->
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="../css/style.css">
     <!-- Responsive CSS -->
-    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="../css/responsive.css">
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="css/custom.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.css">
+    <link rel="stylesheet" href="../css/custom.css">
+    <link rel="stylesheet" href="../https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.css">
     <link rel="stylesheet" href="../general/swal.css">
-
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-
 
     <meta charset="utf-8">
     <title>Customer Registration Page || EasyProduce</title>
@@ -56,145 +49,129 @@
             style="background: url('../producePictures/woman.jpg');background-size: cover;background-position: center;">
         </div>
 
-        <div class="wrapper-page account-page-full">
 
-            <div class="card shadow-none">
-                <div class="card-block">
+        <div id="customer-registration" class="registration-form">
+            <!-- Customer registration form fields and content -->
+            <div class="wrapper-page account-page-full">
+                <div class="card shadow-none">
+                    <div class="card-block">
+                        <div class="account-box" style="border: none;">
+                            <div class="card-box shadow-none p-4">
+                                <div class="p-2">
 
-                    <div class="account-box" style="border: none;">
+                                    <h4 class="font-size-18 mt-5 text-center">Free Customer Registration</h4>
+                                    <p class="text-muted text-center">Get your free EasyProduce account now.</p>
 
-                        <div class="card-box shadow-none p-4">
-                            <div class="p-2">
-                                <!-- <div class="text-center mt-4">
-                                        <a href="../index.html" class="logo logo-dark">
-                                            <span class="logo-lg">
-                                                <img src="../full-stack-hero-logo (1).jpg" alt="" height="17">
-                                            </span>
-                                        </a>
-        
-                                        <a href="../index.html" class="logo logo-light">
-                                            <span class="logo-lg">
-                                                <img src="../assets/images/logo-light.png" alt="" height="18">
-                                            </span>
-                                        </a>
-                                    </div> -->
-                                <!-- <h5 id="error"></h5> -->
-                                <h4 class="font-size-18 mt-5 text-center">Free Customer Registration</h4>
-                                <p class="text-muted text-center">Get your free EasyProduce account now.</p>
-
-                                <form class="mt-4" id="myForm">
-
-
-                                    <div class="mb-3">
-                                        <!-- <label class="form-label" for="first-name">First Name</label> -->
-                                        <input type="text" class="form-control" name="FirstName"
-                                            placeholder="Enter Your First Name">
-                                    </div>
-
-                                    <div class="mb-3">
-                                        <!-- <label class="form-label" for="last-name">Last Name</label> -->
-                                        <input type="text" class="form-control" name="LastName"
-                                            placeholder="Enter Your Last Name">
-                                    </div>
-
-                                    <div class="mb-3">
-                                        <!-- <label class="form-label" for="email">Email</label> -->
-                                        <input type="email" class="form-control" id="email" value="" name="Email"
-                                            placeholder="Enter Your Email">
-                                    </div>
-
-                                    <div class="mb-3">
-                                        <!-- <label class="form-label" for="username">Phone Number</label> -->
-                                        <input type="text" class="form-control" name="PhoneNumber"
-                                            placeholder="Enter Your Phone Number">
-                                    </div>
-
-
-                                    <div class="mb-3">
-                                        <!-- <label class="form-label" for="password">Password</label> -->
-                                        <input type="password" class="form-control" name="Password"
-                                            placeholder="Enter Password">
-
-                                    </div>
-
-                                    <div class="mb-3">
-                                        <!-- <label class="form-label" for="password">Confirm Password</label> -->
-                                        <input type="password" class="form-control" name="ConfirmPassword"
-                                            placeholder="Confirm Password">
-                                    </div>
-
-                                    <div class="mb-3">
-                                        <!-- <label class="form-label" for="last-name">Address</label> -->
-                                        <input type="text" class="form-control" name="Address"
-                                            placeholder="Enter Your Address">
-                                    </div>
-
-                                    <div class="mb-3">
-                                        <!-- <label class="form-label" for="picture">Picture</label> -->
-                                        <input type="file" class="form-control" name="ProfilePicture"
-                                            placeholder="choose profile picture ">
-                                    </div>
-                                    <div class="row mb-3">
-                                        <label class="col-sm-2 col-form-label">Gender</label>
-                                        <div class="col-sm-10">
-                                            <select class="form-select" aria-label="Default select example"
-                                                name="gender">
-                                                <option value="1">Male</option>
-                                                <option value="2">Female</option>
-                                            </select>
+                                    <form class="mt-4" id="myForm">
+                                        <div class="mb-3">
+                                            <label for="FirstName" class="form-label">First Name</label>
+                                            <input type="text" class="form-control" name="FirstName" id="FirstName"
+                                            required  oninput="validateInput(this, 'FirstNameError')" />
+                                            <span class="text-danger" id="FirstNameError"></span>
                                         </div>
-                                    </div>
 
-                                    <div class="mb-3" id="error">
-                                        <!-- This is where the error message will be displayed -->
-                                    </div>
-                                    
-
-                                    <div class="mb-3 row">
-                                        <div class="col-12 text-end">
-                                            <button class="btn btn-primary w-md waves-effect waves-light" type="submit"
-                                                id="submitButton">Register</button>
+                                        <div class="mb-3">
+                                            <label for="LastName" class="form-label">Last Name</label>
+                                            <input type="text" class="form-control" name="LastName" id="LastName"
+                                            required   oninput="validateInput(this, 'LastNameError')" />
+                                            <span class="text-danger" id="LastNameError"></span>
                                         </div>
-                                    </div>
 
-                                    <!-- <div class="mt-2 mb-0 row">
-                                        <div class="col-12 mt-3">
-                                            <p class="mb-0">By registering you agree to the EasyProduce <a href="#"
-                                                    class="text-primary">Terms of Use</a></p>
+                                        <div class="mb-3">
+                                            <label for="Email" class="form-label">Email</label>
+                                            <input type="email" class="form-control" name="Email" id="Email"
+                                            required   oninput="validateInput(this, 'EmailError')" />
+                                            <span class="text-danger" id="EmailError"></span>
                                         </div>
-                                    </div> -->
 
-                                </form>
+                                        <div class="mb-3">
+                                            <label for="PhoneNumber" class="form-label">Phone Number</label>
+                                            <input type="text" class="form-control" name="PhoneNumber" id="PhoneNumber"
+                                            required   oninput="validateInput(this, 'PhoneNumberError')" />
+                                            <span class="text-danger" id="PhoneNumberError"></span>
+                                        </div>
 
-                                <div class="mt-5 pt-4 text-center">
-                                    <p>Already have an account ? <a href="../general/login.html" class="fw-medium text-primary"> Login </a>  </p>
-                                         
-                                    <p>©
-                                        <script>document.write(new Date().getFullYear())</script> EasyProduce
-                                         <i class="mdi mdi-heart text-danger"></i> 
-                                    </p>
+                                        <div class="mb-3">
+                                            <label for="Password" class="form-label">Password</label>
+                                            <input type="password" class="form-control" name="Password" id="Password"
+                                            required   oninput="validateInput(this, 'PasswordError')" />
+                                            <span class="text-danger" id="PasswordError"></span>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="ConfirmPassword" class="form-label">Confirm Password</label>
+                                            <input type="password" class="form-control" name="ConfirmPassword"
+                                            required   id="ConfirmPassword"
+                                                oninput="validateInput(this, 'ConfirmPasswordError')" />
+                                            <span class="text-danger" id="ConfirmPasswordError"></span>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="Address" class="form-label">Address</label>
+                                            <input type="text" class="form-control" name="Address" id="Address"
+                                                oninput="validateInput(this, 'AddressError')" required/>
+                                            <span class="text-danger" id="AddressError"></span>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="ProfilePicture" class="form-label">Select a Profile
+                                                Picture</label>
+                                            <input type="file" class="form-control" id="ProfilePicture"
+                                                name="ProfilePicture"
+                                                oninput="validateInput(this, 'ProfilePictureError')" required />
+                                            <span class="text-danger" id="ProfilePictureError" ></span>
+                                        </div>
+
+                                        <div class="row mb-3">
+                                            <label for="Gender" class="col-sm-2 col-form-label">Gender</label>
+                                            <div class="col-sm-10">
+                                                <select class="form-select" aria-label="Gender" name="Gender" required
+                                                    id="Gender">
+                                                    <option value="1">Male</option>
+                                                    <option value="2">Female</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="mb-3 row">
+                                            <div class="col-12 text-end">
+                                                <button class="btn btn-primary w-md waves-effect waves-light"
+                                                    type="submit" id="submitButton">Register</button>
+                                            </div>
+                                        </div>
+
+                                        <div class="mb-3" id="error">
+                                            <!-- This is where the error message will be displayed -->
+                                        </div>
+                                    </form>
+
+
+                                    <div class="mt-5 pt-4 text-center">
+                                        <p>Already have an account ? <a href="../general/login.html"
+                                                class="fw-medium text-primary"> Login </a> </p>
+
+                                        <p>©
+                                            <script>document.write(new Date().getFullYear())</script> EasyProduce
+                                            <i class="mdi mdi-heart text-danger"></i>
+                                        </p>
+                                    </div>
                                 </div>
-
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
-
         </div>
-
-
-
 
     </div>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>   
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
     <script src="./customer-registration.js"></script>
 
-  
+
 </body>
 
 </html>
