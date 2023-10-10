@@ -1,0 +1,5 @@
+/* Add margin between the buttons */
+td button {
+    margin-top: 8px; /* Adjust the value to your desired spacing */
+   
+}
