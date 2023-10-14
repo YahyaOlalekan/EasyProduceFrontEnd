@@ -12,6 +12,7 @@ fetch("http://localhost:5195/api/Farmer/GetAllFarmers")
     })
     .then(data => {
         data.data.forEach(farmer => {
+            console.log(farmer);
             const row = `
                 <tr>
                     <td>${count}</td>
@@ -27,8 +28,13 @@ fetch("http://localhost:5195/api/Farmer/GetAllFarmers")
     <button class="btn btn-outline-info mx-2" id="${farmer.id}" onclick="VerifyFarmer(this.id, 3)"><i class="fa fa-check-circle" aria-hidden="true"></i> Approve </button>
     <button class="btn btn-outline-danger mx-2" id="${farmer.id}" onclick="VerifyFarmer(this.id, 2)"> <i class="fa fa-times-circle" aria-hidden="true"></i> Decline </button>
      </td>
+    
+     
+     <td> <button class="btn btn-success mx-2" onclick="ApproveProducetypes('${farmer.id}')"><i class="fas fa-check"></i> Approve</button></td>
+
               
-                 <td><button  class="btn btn-success mx-2"  id="${farmer.id}" onclick="AccountDetails(this.id)"> <i class="fa fa-info" aria-hidden="true"></i> View </button> </td> 
+     <td><button class="btn btn-success mx-2" id="${farmer.id}" onclick="fetchAndDisplayApprovedProduceTypes(this.id)"><i class="fa fa-info" aria-hidden="true"></i> View</button></td>
+     <td><button  class="btn btn-success mx-2"  id="${farmer.id}" onclick="AccountDetails(this.id)"> <i class="fa fa-info" aria-hidden="true"></i> View </button> </td> 
                  <td><button  class="btn btn-primary mx-2"  id="${farmer.id}" onclick="displayUpdateForm(this.id)"> <i class="fa-solid fa-pen-to-square"></i> Edit </button> </td> 
                  <td><button  class="btn btn-danger mx-2"  id="${farmer.id}" onclick="DeleteDetails(this.id)">  <i class="fa fa-trash" aria-hidden="true"></i> Remove </button> </td> 
                 </tr>`;
@@ -46,6 +52,15 @@ fetch("http://localhost:5195/api/Farmer/GetAllFarmers")
     });
 
 
+
+{/* <td> <button class="btn btn-success mx-2" onclick="ApproveProducetypes('${farmer.id}')"><i class="fas fa-check"></i> Approve</button></td> */}
+
+
+
+//     <td>
+//     <button class="btn btn-success mx-2" id="${produce.produceId}" data-farmerid="${farmer.id}" data-status="2" onclick="approveProduceType(this)"> Approve </button>
+//     <button class="btn btn-danger mx-2" id="${produce.produceId}" data-farmerid="${farmer.id}" data-status="3" onclick="approveProduceType(this)"> Not Approved</button>
+//    </td>
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -88,11 +103,12 @@ function ViewDetails(id) {
                             <ul class="list-group">
                                
                                 <li class="list-group-item bg-light">
-                                    <strong>Name Of Category, Produce Name, Type Name:</strong>
+                                    <strong>Farmer's Registered Produce </strong> <br/>
+                                    <strong>Category Name, Produce Name, Type Name:</strong>
                                     <ul id="produceInfoList"></ul>
                                 </li>
                                 <li class="list-group-item bg-light">
-                                    <strong>Farmer Registration Status:</strong> <span id="farmerRegStatus"></span>
+                                    <strong> Current Farmer Registration Status:</strong> <span id="farmerRegStatus"></span>
                                 </li>
                                 <li class="list-group-item bg-light">
                                     <strong>Farm Name:</strong> <span id="farmName"></span>
@@ -239,6 +255,186 @@ function VerifyFarmer(id, status) {
         });
 }
 
+
+//////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+function ApproveProducetypes(farmerId) {
+    // Fetch the list of produce types to be approved
+    console.log("FARMERID", farmerId)
+    fetch(`http://localhost:5195/api/ProduceType/GetProduceTypesToBeApprovedAsync/${farmerId}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw Error("Network response was not ok");
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.status) {
+                // Display the list of produce types to be approved
+                displayProduceTypes(data.data, farmerId);
+            } else {
+                alert("No produce types to be approved found.");
+            }
+        })
+        .catch(error => {
+            console.error("Error:", error);
+            alert("An error occurred while fetching produce types to be approved.");
+        });
+}
+
+
+function displayProduceTypes(produceTypes) {
+    // Select the elements for displaying produce types
+    const body = document.querySelector(".body");
+    console.log(produceTypes)
+    body.innerHTML = `
+    <div class="container mt-3">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h4>Produce Types to be Approved</h4>
+                    </div>
+                    <div class="card-body">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Type Name</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${produceTypes.map(produceType => `
+                                    <tr>
+                                        <td>${produceType.typeName}</td>
+                                        <td>
+                                            <button class="btn btn-success mx-2" id="${produceType.id}" data-farmerid="${produceType.farmerId}" data-status=2 onclick="approveProduceType(this)">
+                                                Approve
+                                            </button>
+                                            <button class="btn btn-danger mx-2" id="${produceType.id}" data-farmerid="${produceType.farmerId}" data-status=3 onclick="approveProduceType(this)">
+                                                Not Approved
+                                            </button>
+                                        </td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                        <a href="./farmers.html" class="btn btn-secondary">Back</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    `;
+}
+
+function approveProduceType(button) {
+    const produceTypeId = button.id;
+    const farmerId = button.getAttribute("data-farmerid");
+    const status = button.getAttribute("data-status");
+
+    // Create an object to send to the server
+    const verificationData = {
+        produceTypeId: produceTypeId,
+        farmerId: farmerId,
+        status: status
+    };
+    console.log(JSON.stringify(verificationData))
+
+    // Send a POST request to the server to verify the produce type
+    fetch('http://localhost:5195/api/ProduceType/VerifyProduceType', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(verificationData)
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Network response was not ok");
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.status) {
+                alert("Produce type verification successful!");
+            } else {
+                alert("Produce type verification failed.");
+            }
+        })
+        .catch(error => {
+            console.error("Error:", error);
+            alert("An error occurred while verifying the produce type.");
+        });
+}
+
+//////////////////////////////////////////////////////////////////////////////////////
+
+function fetchAndDisplayApprovedProduceTypes(farmerId) {
+    fetch(`http://localhost:5195/api/ProduceType/GetApprovedProduceTypesForAFarmer/${farmerId}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Network response was not ok");
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.status) {
+                displayApprovedFarmerProducetypes(data.data);
+            } else {
+                displayError();
+            }
+        })
+        .catch(error => {
+            console.error("Error:", error);
+            displayError();
+        });
+}
+
+function displayApprovedFarmerProducetypes(data) {
+    // const approvedProduceTypesContainer = document.getElementById("approvedProduceTypesContainer");
+    // approvedProduceTypesContainer.innerHTML = `
+    const body = document.querySelector(".body");
+    body.innerHTML = `
+    <div class="container mt-3">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h4>Approved Farmer Produce Types</h4>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group">
+                        ${data.map(produceType => `
+                            <li class="list-group-item">
+                                <strong>Produce Type Name:</strong> ${produceType.typeName}
+                            </li>
+                        `).join('')}
+                    </ul>
+                    <br>
+                    <a href="./farmers.html" class="btn btn-secondary">Back</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+    `;
+}
+
+function displayError() {
+    const approvedProduceTypesContainer = document.getElementById("approvedProduceTypesContainer");
+    approvedProduceTypesContainer.innerHTML = `<p>An error occurred while fetching the data.</p>`;
+}
 
 //////////////////////////////////////////////////////////////////////////////////////
 
