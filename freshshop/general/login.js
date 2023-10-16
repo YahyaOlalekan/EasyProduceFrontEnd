@@ -47,6 +47,7 @@ function showSweetAlert(data) {
         // window.location.href = './getCustomerById.html';
         // localStorage.setItem("id", data.id)
         localStorage.setItem("id", data.data.id.toString()); // Convert to string before storing
+        localStorage.setItem("token", data.data.token.toString()); // Convert to string before storing
 
 
         if (data.data.roleName == "customer") {

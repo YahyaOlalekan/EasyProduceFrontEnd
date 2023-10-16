@@ -87,6 +87,8 @@ function ViewDetails(id) {
     function displayFarmerData(data) {
         // Select the elements for farmer details
         const body = document.querySelector(".body");
+        // <strong>Category Name, Produce Name, Type Name:</strong>
+
         body.innerHTML = `
         <div class="container-fluid p-0">
     <div class="row justify-content-center">
@@ -104,7 +106,6 @@ function ViewDetails(id) {
                                
                                 <li class="list-group-item bg-light">
                                     <strong>Farmer's Registered Produce </strong> <br/>
-                                    <strong>Category Name, Produce Name, Type Name:</strong>
                                     <ul id="produceInfoList"></ul>
                                 </li>
                                 <li class="list-group-item bg-light">

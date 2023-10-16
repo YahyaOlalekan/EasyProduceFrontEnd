@@ -2,21 +2,6 @@
 <html lang="en">
 
 <head>
-    <!-- <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
-    <link rel="apple-touch-icon" href="images/apple-touch-icon.png"> -->
-    <!-- Bootstrap CSS -->
-    <!-- <link rel="stylesheet" href="css/bootstrap.min.css"> -->
-    <!-- Site CSS -->
-    <!-- <link rel="stylesheet" href="css/style.css"> -->
-    <!-- Responsive CSS -->
-    <!-- <link rel="stylesheet" href="css/responsive.css"> -->
-    <!-- Custom CSS -->
-    <!-- <link rel="stylesheet" href="css/custom.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.css">
-    <link rel="stylesheet" href="../general/swal.css"> -->
-
     <meta charset="utf-8">
     <title>Produce Type Creation Page || EasyProduce</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -27,9 +12,7 @@
     <link rel="shortcut icon" href="../producePictures/4905.jpg">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-    <!-- Bootstrap Css -->
-    <!-- <link href="/assets/libs/bootstrap/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css"> -->
-    <link href="../assets/libs/bootstrap/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css">
+        <link href="../assets/libs/bootstrap/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css">
     <!-- Icons Css -->
     <link href="../assets/css/icons.ico" rel="stylesheet" type="text/css">
     <link href="../assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css">
@@ -44,35 +27,28 @@
 
 <body>
     <div id="producetype-creation" class="registration-form">
-        <!-- Customer registration form fields and content -->
-
-        <!-- <body class="account-pages"> -->
-        <!-- Begin page -->
+       
         <div class="accountbg"
             style="background: url('../producePictures/woman.jpg');background-size: cover;background-position: center;">
         </div>
-
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-md-6">
                     <div class="card">
                         <div class="card-header bg-primary text-white text-center">
-                            <h4 class="font-size-18 mt-2">Produce Type Creation</h4>
+                            <h4 class="font-size-18 mt-2"> Add Produce Type </h4>
                         </div>
                         <div class="card-body">
                             <form id="addProduceTypeForm">
-                                <div class="form-group">
-                                    <label for="produceTypeId">Produce Type ID</label>
-                                    <input type="text" class="form-control" id="produceTypeId" name="produceTypeId">
+                                <div class="mb-3">
+                                    <label class="form-label" for="ProduceId">Select Produce</label>
+                                    <select class="form-control" name="ProduceId" id="ProduceId">
+                                        <!-- Produce options will be populated dynamically -->
+                                    </select>
                                 </div>
-                                <div class="form-group">
-                                    <label for="rejectionReason">Rejection Reason</label>
-                                    <textarea class="form-control" id="rejectionReason" name="rejectionReason"></textarea>
-                                </div>
-                                <button type="button" class="btn btn-primary" onclick="addNewProduceType()">Submit Request</button>
+                                <button type="button" class="btn btn-primary" id="submitButton">Submit Request</button>
                             </form>
                             <div id="result"></div>
-                        
                             <div class="mt-5 pt-4 text-center">
                                 <p>© <script>document.write(new Date().getFullYear())</script> EasyProduce <i
                                         class="mdi mdi-heart text-danger"></i></p>
@@ -82,7 +58,7 @@
                 </div>
             </div>
         </div>
-        
+    
 
 
 
@@ -91,7 +67,106 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="./create.js"></script>
+    <!-- <script src="./create.js"></script> -->
+
+    <script>
+        function populateProduceTypeDropdown() {
+            fetch('http://localhost:5195/api/ProduceType/GetAllProduceType')
+                .then(response => response.json())
+                .then(data => {
+                    const produceTypeDropdown = document.getElementById('ProduceId');
+                    data.data.forEach(produceType => {
+                        const option = document.createElement('option');
+                        option.value = produceType.id; // Adjust according to your API response
+                        option.textContent = produceType.typeName;
+                        produceTypeDropdown.appendChild(option);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+
+        window.addEventListener('load', populateProduceTypeDropdown);
+
+        document.getElementById('submitButton').addEventListener('click', function (e) {
+            e.preventDefault();
+            const formElement = document.getElementById('addProduceTypeForm');
+            const formData = new FormData(formElement);
+            const farmerId = localStorage.getItem("id");
+
+            const selectedProduceId = document.getElementById('ProduceId').value;
+            formData.append('ProduceId', selectedProduceId);
+
+            fetch(`http://localhost:5195/api/ProduceType/AddNewProduceType/${farmerId}/${selectedProduceId}`, {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status) {
+                        // Handle success
+                        showSweetAlert(data);
+                    } else {
+                        // Handle error
+                        showSweetAlertError(data);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        });
+
+        // Function to show success SweetAlert2 modal
+function showSweetAlert(data) {
+    Swal.fire({
+        text: data.message,
+        icon: 'success',
+        confirmButtonColor: 'hsl(210, 17%, 93%)',
+        confirmButtonText: 'CONTINUE',
+        customClass: {
+            popup: 'animated fadeIn', // Apply the fadeIn animation
+            title: 'custom-title-class', // Create a custom class for title styling
+            content: 'custom-content-class', // Create a custom class for content styling
+            actions: 'custom-actions-class', // Create a custom class for action button styling
+            // Apply custom classes to specific elements
+            icon: 'swal-icon', // Custom class for the icon container
+            confirmButton: 'swal-button', // Custom class for the confirm button
+            confirmButtonText: 'swal-button-text', // Custom class for the confirm button text
+        },
+        background: 'rgb(1, 6, 28)',
+    }).then(() => {
+        window.location.replace('../admin/dashboard.html');
+    });
+}
+
+// Function to show error SweetAlert2 modal
+function showSweetAlertError(data) {
+    Swal.fire({
+        text: data.message,
+        icon: 'error',
+        confirmButtonColor: 'hsl(210, 17%, 93%)',
+        confirmButtonText: 'OK',
+        customClass: {
+            popup: 'animated fadeIn', // Apply the fadeIn animation
+            title: 'custom-title-class', // Create a custom class for title styling
+            content: 'custom-content-class', // Create a custom class for content styling
+            actions: 'custom-actions-class', // Create a custom class for action button styling
+            // Apply custom classes to specific elements
+            icon: 'swal-icon', // Custom class for the icon container
+            confirmButton: 'swal-button', // Custom class for the confirm button
+            confirmButtonText: 'swal-button-text', // Custom class for the confirm button text
+        },
+        background: 'rgb(1, 6, 28)',
+    })
+        .then(() => {
+            window.location.href = '../admin/dashboard.html';
+
+        });
+}
+
+
+    </script>
 
 
 </body>

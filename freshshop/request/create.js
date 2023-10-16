@@ -27,6 +27,159 @@ function addNewProduceType() {
     });
 }
 
+
+function LoadProduce() {
+    fetch('http://localhost:5195/api/ProduceType/GetAllProduceType')
+        .then(response => response.json())
+        .then(res => {
+            const selectElement = document.getElementById('produceTypesSelect');
+            res.data.forEach(option => {
+                // Create an <option> element for each produce type
+                const optionElement = document.createElement('option');
+                optionElement.value = option.id;
+                optionElement.textContent = option.typeName;
+                // Append the option to the select element
+                selectElement.appendChild(optionElement);
+            });
+
+            // Initialize Select2 for the dropdown
+            $('#produceTypesSelect').select2();
+        });
+}
+
+document.querySelector('#farmer-form').addEventListener('submit', e => {
+    e.preventDefault();
+    let formElement = document.querySelector('#farmer-form');
+    const formData = new FormData(formElement);
+    const selectedProduceTypes = $('#produceTypesSelect').val();
+    formData.delete('ProduceTypes');
+    selectedProduceTypes.forEach(type => {
+        formData.append('ProduceTypes', type);
+    });
+    fetch('http://localhost:5195/api/Farmer/RegisterFarmer', {
+        method: 'POST',
+        body: formData
+    })
+        .then(response => response.json())
+
+        .then(data => {
+            if (data.status === 400 && data.errors) {
+                // Handle validation errors
+                showSweetAlertValidationErrors(data)
+
+            } else if (data.status === 200) {
+                // Handle success
+                showSweetAlert(data.message);
+
+            } else {
+                // Handle other errors
+                showSweetAlertError(data.message);
+            }
+        })
+
+        .catch(error => {
+            console.error('Error:', error);
+        });
+});
+
+
+
+// Function to show validation errors
+function showSweetAlertValidationErrors(data) {
+    let errorMessage = "Validation errors occurred:<br><ul>";
+    for (const field in data.errors) {
+        errorMessage += `<li>${field}: ${data.errors[field]}</li>`;
+    }
+    errorMessage += "</ul>";
+
+    Swal.fire({
+        html: errorMessage,
+        icon: 'error',
+        confirmButtonColor: 'hsl(210, 17%, 93%)',
+        confirmButtonText: 'OK',
+        customClass: {
+            popup: 'animated fadeIn',
+            title: 'custom-title-class',
+            content: 'custom-content-class',
+            actions: 'custom-actions-class',
+            icon: 'swal-icon',
+            confirmButton: 'swal-button',
+            confirmButtonText: 'swal-button-text',
+        },
+        background: 'rgb(1, 6, 28)',
+    }).then(() => {
+        window.location.href = './farmer-registration.html';
+
+    });
+}
+
+
+// Function to show success SweetAlert2 modal
+function showSweetAlert(message) {
+    Swal.fire({
+        text: message,
+        icon: 'success',
+        confirmButtonColor: 'hsl(210, 17%, 93%)',
+        confirmButtonText: 'CONTINUE',
+        customClass: {
+            popup: 'animated fadeIn',
+            title: 'custom-title-class',
+            content: 'custom-content-class',
+            actions: 'custom-actions-class',
+            icon: 'swal-icon',
+            confirmButton: 'swal-button',
+            confirmButtonText: 'swal-button-text',
+        },
+        background: 'rgb(1, 6, 28)',
+        allowOutsideClick: false, // Add this line
+    }).then(() => {
+        window.location.href = '../general/login.html';
+        // window.location.replace('../general/login.html');
+
+    });
+}
+
+
+// Function to show error SweetAlert2 modal with status message
+function showSweetAlertError(errorMessage) {
+    Swal.fire({
+        text: errorMessage,
+        icon: 'error',
+        confirmButtonColor: 'hsl(210, 17%, 93%)',
+        confirmButtonText: 'OK',
+        customClass: {
+            popup: 'animated fadeIn',
+            title: 'custom-title-class',
+            content: 'custom-content-class',
+            actions: 'custom-actions-class',
+            icon: 'swal-icon',
+            confirmButton: 'swal-button',
+            confirmButtonText: 'swal-button-text',
+        },
+        background: 'rgb(1, 6, 28)',
+    }).then((result) => {
+
+        if (result.value) {
+            window.location.href = './farmer-registration.html';
+        }
+
+
+    });
+}
+
+function validateInput(inputElement, errorElementId) {
+    // Get the input value
+    var inputValue = inputElement.value;
+    var errorElement = document.getElementById(errorElementId);
+
+    if (inputValue.length < 3) {
+        errorElement.textContent = "Input must be at least 3 characters long";
+        inputElement.focus(); // Keep focus on the input field
+    } else {
+        errorElement.textContent = ""; // Clear any previous error message
+    }
+}
+
         
         
         
