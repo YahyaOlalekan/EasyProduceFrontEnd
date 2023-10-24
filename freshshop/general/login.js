@@ -4,7 +4,7 @@ document.querySelector('#loginform').addEventListener('submit', e => {
     let formElement = document.querySelector('#loginform');
     const formData = new FormData(formElement);
     console.log(formData.get('email'));
-    fetch('http://localhost:5195/api/User/Login', {
+    fetch(`${baseUrl}api/User/Login`, {
         method: 'POST',
         body: formData
     })

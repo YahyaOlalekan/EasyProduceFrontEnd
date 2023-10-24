@@ -17,6 +17,8 @@
     <link href="../assets/css/icons.min.css" rel="stylesheet" type="text/css">
     <!-- App Css-->
     <link href="../assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css">
+    <!-- <link href="../general/logout.html"> -->
+
 
 </head>
 
@@ -73,6 +75,7 @@
                     </div>
                 </div>
 
+                <div> <button class="btn btn-danger"  id="logoutButton">Logout</button>  </div>
 
             </div>
 
@@ -119,7 +122,27 @@
                             </ul>
                         </li>
 
-                       
+                        <li>
+                            <a href="javascript: void(0);" class="has-arrow waves-effect">
+                                <!-- <i class="ti-email"></i> -->
+                                <span>Chat</span>
+                            </a>
+                            <ul class="sub-menu" aria-expanded="false">
+
+                                <li>
+                                    <a href="../chat/create.html" class=" waves-effect">
+                                        <span>Send Message</span>
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a href="../chat/read.html" class=" waves-effect">
+                                        <span>Read Message</span>
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </li>
                        
 
 
@@ -150,6 +173,7 @@
     <script src="../assets/libs/simplebar/simplebar.min.js"></script>
     <script src="../assets/libs/node-waves/waves.min.js"></script>
 
+    <script src="../general/logout.js"></script>
 
     <script src="../assets/js/app.js"></script>
 

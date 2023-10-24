@@ -7,7 +7,7 @@
     <!-- Add Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
-   
+
 
     <title>Customer Details</title>
 </head>
@@ -22,7 +22,8 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-3 text-center">
-                                <img id="profilePicture" src="" alt="Profile Picture" style="max-width: 100%;" class="rounded-circle">
+                                <img id="profilePicture" src="" alt="Profile Picture" style="max-width: 100%;"
+                                    class="rounded-circle">
                             </div>
                             <div class="col-md-9">
                                 <ul class="list-group">
@@ -55,7 +56,7 @@
             </div>
         </div>
     </div>
-    
+
 
     <!-- Add Bootstrap and your JavaScript file -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
@@ -70,10 +71,16 @@
     <script>
         // JavaScript for getting a single customer by ID
         // const customerId = 'bc88be3c-832b-43bb-ac07-74d3f51b0455';
-         const customerId = localStorage.getItem("id");
+        const token = localStorage.getItem("token");
 
 
-        fetch(`${baseUrl}api/Customer/GetCustomerById/${customerId}`)
+        fetch(`${baseUrl}api/Customer/GetCustomerById/`,
+            {
+                method: "GET",
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            })
             .then(response => {
                 if (!response.ok) {
                     throw new Error("Network response was not ok");
@@ -109,7 +116,7 @@
             email.textContent = `${customer.email}`;
 
             // Set the profile picture source
-            profilePicture.src =`${baseUrl}Upload/images/${customer.profilePicture}`;
+            profilePicture.src = `${baseUrl}Upload/images/${customer.profilePicture}`;
             console.log(customer.profilePicture);
             profilePicture.alt = "Profile Picture";
         }
@@ -123,6 +130,3 @@
 </body>
 
 </html>
-
-
-

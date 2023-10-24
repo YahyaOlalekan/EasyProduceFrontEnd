@@ -3,7 +3,7 @@
 let count = 1;
 let tableBody = document.getElementById("farmerTableBody");
 
-fetch("http://localhost:5195/api/Farmer/GetAllFarmers")
+fetch(`${baseUrl}api/Farmer/GetAllFarmers`)
     .then(response => {
         if (!response.ok) {
             throw new Error("Network response was not ok");
@@ -66,7 +66,7 @@ fetch("http://localhost:5195/api/Farmer/GetAllFarmers")
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
 function ViewDetails(id) {
-    fetch(`http://localhost:5195/api/Farmer/GetFarmerAlongWithRegisteredProduceType/${id}`)
+    fetch(`${baseUrl}api/Farmer/GetFarmerAlongWithRegisteredProduceType/${id}`)
         .then(response => {
             if (!response.ok) {
                 throw new Error("Network response was not ok");
@@ -76,6 +76,7 @@ function ViewDetails(id) {
         .then(data => {
             // Assuming the returned data is an object with customer attributes
             displayFarmerData(data.data);
+            // showSweetAlert(data.message);
         })
         .catch(error => {
             console.error("Error:", error);
@@ -164,33 +165,24 @@ function ViewDetails(id) {
         address.textContent = farmerData.address;
         registrationNumber.textContent = farmerData.registrationNumber;
         email.textContent = farmerData.email;
-        // farmerRegStatus.textContent = farmerData.farmerRegStatus;
-        // Set the farmer registration status using the mapFarmerRegStatus function
         farmerRegStatus.textContent = mapFarmerRegStatus(farmerData.farmerRegStatus);
         farmName.textContent = farmerData.farmName;
 
         // Select the list element for produce types
         const produceInfoList = document.getElementById("produceInfoList");
 
-        // Loop through the produceTypeDto array and create list items
         data.produceTypeDto.forEach(produceType => {
             const listItem = document.createElement("li");
             listItem.textContent = `Type Name: ${produceType.typeName}, Produce Name: ${produceType.produceName}, Category: ${produceType.nameOfCategory}`;
             produceInfoList.appendChild(listItem);
         });
 
-        // Check if a valid profilePicture URL exists
         if (farmerData.profilePicture && farmerData.profilePicture.trim() !== "") {
-            // Trim the profilePicture value
             const profilePictureUrl = farmerData.profilePicture.trim();
-
-            // Set the profile picture source
-            var baseUrl = "http://localhost:5195/";
             profilePicture.src = `${baseUrl}Upload/images/${profilePictureUrl}`;
             profilePicture.alt = "Profile Picture";
         } else {
-            // Handle the case where there's no valid profilePicture URL
-            profilePicture.src = "../producePictures/farmIcons.jpg"; // Provide a placeholder image URL
+            profilePicture.src = "../producePictures/farmIcons.jpg"; 
             profilePicture.alt = "Profile Picture";
         }
     }
@@ -220,13 +212,12 @@ function mapFarmerRegStatus(status) {
 //////////////////////////////////////////////////////////////////////////////////////
 
 function VerifyFarmer(id, status) {
-    // Create an object to send to the server with the farmer's ID and status as an integer
     const verificationData = {
         Id: id,
-        Status: status // Use the provided integer value (3 for Approved, 2 for Declined)
+        Status: status 
     };
 
-    fetch('http://localhost:5195/api/Farmer/VerifyFarmer', {
+    fetch(`${baseUrl}api/Farmer/VerifyFarmer`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -242,11 +233,11 @@ function VerifyFarmer(id, status) {
         .then(data => {
             // Check the response from the server and handle it accordingly
             if (data.status) {
-                // Verification successful, you can display a success message or perform other actions
-                alert("Farmer verification successful!");
+                // alert("Farmer verification successful!");
+                showSweetAlert(data.message);
             } else {
-                // Verification failed, you can display an error message or perform other actions
-                alert("Farmer verification failed.");
+                // alert("Farmer verification failed.");
+                showSweetAlertError(data.message);
             }
         })
         .catch(error => {
@@ -265,7 +256,7 @@ function VerifyFarmer(id, status) {
 function ApproveProducetypes(farmerId) {
     // Fetch the list of produce types to be approved
     console.log("FARMERID", farmerId)
-    fetch(`http://localhost:5195/api/ProduceType/GetProduceTypesToBeApprovedAsync/${farmerId}`, {
+    fetch(`${baseUrl}api/ProduceType/GetProduceTypesToBeApprovedAsync/${farmerId}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json'
@@ -351,7 +342,7 @@ function approveProduceType(button) {
     console.log(JSON.stringify(verificationData))
 
     // Send a POST request to the server to verify the produce type
-    fetch('http://localhost:5195/api/ProduceType/VerifyProduceType', {
+    fetch(`${baseUrl}api/ProduceType/VerifyProduceType`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -366,9 +357,11 @@ function approveProduceType(button) {
         })
         .then(data => {
             if (data.status) {
-                alert("Produce type verification successful!");
+                // alert("Produce type verification successful!");
+                showSweetAlert(data.message);
             } else {
-                alert("Produce type verification failed.");
+                // alert("Produce type verification failed.");
+                showSweetAlertError(data.message);
             }
         })
         .catch(error => {
@@ -380,7 +373,7 @@ function approveProduceType(button) {
 //////////////////////////////////////////////////////////////////////////////////////
 
 function fetchAndDisplayApprovedProduceTypes(farmerId) {
-    fetch(`http://localhost:5195/api/ProduceType/GetApprovedProduceTypesForAFarmer/${farmerId}`)
+    fetch(`${baseUrl}api/ProduceType/GetApprovedProduceTypesForAFarmer/${farmerId}`)
         .then(response => {
             if (!response.ok) {
                 throw new Error("Network response was not ok");
@@ -441,7 +434,7 @@ function displayError() {
 
 function AccountDetails(id) {
     // Fetch the farmer's account details
-    fetch(`http://localhost:5195/api/Farmer/GetFarmerAccountDetails/${id}`)
+    fetch(`${baseUrl}api/Farmer/GetFarmerAccountDetails/${id}`)
         .then(response => {
             if (!response.ok) {
                 throw new Error("Network response was not ok");
@@ -562,7 +555,7 @@ function handleFormSubmit(event, id) {
     const formData = new FormData(form);
     // const id = /* Get the customer ID here */;
 
-    fetch(`http://localhost:5195/api/Farmer/UpdateFarmer/${id}`, {
+    fetch(`${baseUrl}api/Farmer/UpdateFarmer/${id}`, {
         method: "PUT",
         body: formData,
     })
@@ -664,7 +657,7 @@ function DeleteDetails(id) {
         if (result.isConfirmed) {
             // User confirmed, proceed with deletion
             // Make a DELETE request to the API
-            fetch(`http://localhost:5195/api/Farmer/DeleteFarmer/${id}`, {
+            fetch(`${baseUrl}api/Farmer/DeleteFarmer/${id}`, {
                 method: 'DELETE',
             })
                 .then(response => {

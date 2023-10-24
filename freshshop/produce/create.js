@@ -1,7 +1,7 @@
         // Function to populate the category dropdown dynamically
         function populateCategoryDropdown() {
             // Make an API request to get the list of categories dynamically
-            fetch('http://localhost:5195/api/Category/GetAllCategories')
+            fetch(`${baseUrl}api/Category/GetAllCategories`)
                 .then(response => response.json())
                 .then(data => {
                     const categoryDropdown = document.querySelector('select[name="CategoryId"]');
@@ -33,7 +33,7 @@
             const selectedCategory = document.querySelector('select[name="CategoryId"]').value;
             formData.append('CategoryId', selectedCategory);
 
-            fetch('http://localhost:5195/api/Produce/CreateProduce', {
+            fetch(`${baseUrl}api/Produce/CreateProduce`, {
                 method: 'POST',
                 body: formData
             })

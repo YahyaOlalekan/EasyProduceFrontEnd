@@ -3,7 +3,14 @@
 let count = 1;
 let tableBody = document.getElementById("categoryTableBody");
 
-fetch("http://localhost:5195/api/Category/GetAllCategories")
+ const token = localStorage.getItem("token");
+fetch(`${baseUrl}api/Category/GetAllCategories`,
+        {
+            method: "GET",
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+        })
     .then(response => {
         if (!response.ok) {
             throw new Error("Network response was not ok");
@@ -92,7 +99,7 @@ function handleFormSubmit(event, id) {
     const form = event.target;
     const formData = new FormData(form);
 
-    fetch(`http://localhost:5195/api/Category/UpdateCategory/${id}`, {
+    fetch(`${baseUrl}api/Category/UpdateCategory/${id}`, {
         method: "PUT",
         body: formData,
     })
@@ -194,7 +201,7 @@ function DeleteDetails(id) {
         if (result.isConfirmed) {
             // User confirmed, proceed with deletion
             // Make a DELETE request to the API
-            fetch(`http://localhost:5195/api/Category/DeleteCategory/${id}`, {
+            fetch(`${baseUrl}api/Category/DeleteCategory/${id}`, {
                 method: 'DELETE',
             })
                 .then(response => {

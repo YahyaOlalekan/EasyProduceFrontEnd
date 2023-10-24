@@ -191,6 +191,8 @@
     </div>
 
     <!-- JAVASCRIPT -->
+    <script src="../general/basejs.js"></script>
+
     <script src="../assets/libs/jquery/jquery.min.js"></script>
     <script src="../assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="../assets/libs/metismenu/metisMenu.min.js"></script>
@@ -204,7 +206,7 @@
     <script>
         // JavaScript code for loading produce types and initializing Select2
         function LoadProduce() {
-            fetch('http://localhost:5195/api/ProduceType/GetAllProduceType')
+            fetch(`${baseUrl}api/ProduceType/GetAllProduceType`)
                 .then(response => response.json())
                 .then(res => {
                     const selectElement = document.getElementById('produceTypesSelect');
@@ -231,7 +233,7 @@
             selectedProduceTypes.forEach(type => {
                 formData.append('ProduceTypes', type);
             });
-            fetch('http://localhost:5195/api/Farmer/RegisterFarmer', {
+            fetch(`${baseUrl}api/Farmer/RegisterFarmer`, {
                 method: 'POST',
                 body: formData
             })

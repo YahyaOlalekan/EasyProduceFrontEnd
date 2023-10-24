@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Produce Type Creation Page || EasyProduce</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="Premium Multipurpose Admin & Dashboard Template" name="description">
+    <meta content="Themesbrand" name="author">
+    <!-- App favicon -->
+    <!-- <link rel="shortcut icon" href="../assets/images/favicon.ico"> -->
+    <link rel="shortcut icon" href="../producePictures/4905.jpg">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <link href="../assets/libs/bootstrap/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css">
+    <!-- Icons Css -->
+    <link href="../assets/css/icons.ico" rel="stylesheet" type="text/css">
+    <link href="../assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css">
+
+    <!-- App Css-->
+    <link href="../assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.css">
+    <link rel="stylesheet" href="../general/swal.css">
+
+    <title>Produce Type | Creation</title>
+</head>
+
+<body>
+    <div id="removeProduceType" class="registration-form">
+        <!-- Your existing content here -->
+
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header bg-primary text-white text-center">
+                            <h4 class="font-size-18 mt-2">Remove Produce Type</h4>
+                        </div>
+                        <div class="card-body">
+                            <form id="removeProduceTypeForm">
+                                <div class="mb-3">
+                                    <label class="form-label" for="ProduceTypeId">Select Produce Type</label>
+                                    <select class="form-control" name="produceTypeId" id="produceTypeId">
+                                        <!-- Produce Type options will be populated dynamically -->
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label" for="ReasonForStopSelling">Reason for Removal</label>
+                                    <input type="text" class="form-control" name="reasonForStopSelling"
+                                        id="reasonForStopSelling" required>
+                                </div>
+                                <button type="button" class="btn btn-primary" id="removeButton">Submit Request</button>
+                            </form>
+                            <div id="result"></div>
+                            <div class="mt-5 pt-4 text-center">
+                                <p>© <script>document.write(new Date().getFullYear())</script> EasyProduce <i
+                                        class="mdi mdi-heart text-danger"></i>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../general/basejs.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- <script src="./create.js"></script> -->
+
+    <script>
+       function populateProduceTypeDropdown() {
+            fetch(`${baseUrl}api/ProduceType/GetAllProduceType`)
+                .then(response => response.json())
+                .then(data => {
+                    const produceTypeDropdown = document.getElementById('produceTypeId');
+                    data.data.forEach(produceType => {
+                        const option = document.createElement('option');
+                        option.value = produceType.id;
+                        option.textContent = produceType.typeName;
+                        produceTypeDropdown.appendChild(option);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+
+        window.addEventListener('load', populateProduceTypeDropdown);
+
+        document.getElementById('removeButton').addEventListener('click', function (e) {
+            e.preventDefault();
+            const formElement = document.getElementById('removeProduceTypeForm');
+            const formData = new FormData(formElement);
+            const farmerId = localStorage.getItem("id");
+
+            const selectedProduceTypeId = document.getElementById('produceTypeId').value;
+            formData.append('ProduceTypeId', selectedProduceTypeId);
+
+            const token = localStorage.getItem("token");
+            fetch(`${baseUrl}api/Request/RemoveExistingProduceType/${farmerId}`, {
+                method: 'POST',
+                headers: {
+                    "Authorization": `Bearer ${token}`,
+                },
+                body: formData
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status) {
+                        showSweetAlertSuccess(data);
+                    } else {
+                        showSweetAlertError(data);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        });
+
+        // Function to show success SweetAlert2 modal
+        function showSweetAlertSuccess(data) {
+            Swal.fire({
+                text: data.message,
+                icon: 'success',
+                confirmButtonColor: 'hsl(210, 17%, 93%)',
+                confirmButtonText: 'CONTINUE',
+                customClass: {
+                    popup: 'animated fadeIn',
+                    title: 'custom-title-class',
+                    content: 'custom-content-class',
+                    actions: 'custom-actions-class',
+                    icon: 'swal-icon',
+                    confirmButton: 'swal-button',
+                    confirmButtonText: 'swal-button-text',
+                },
+                background: 'rgb(1, 6, 28)',
+            }).then(() => {
+                window.location.replace('../farmer/dashboard.html');
+            });
+        }
+
+        // Function to show error SweetAlert2 modal
+        function showSweetAlertError(data) {
+            Swal.fire({
+                text: data.message,
+                icon: 'error',
+                confirmButtonColor: 'hsl(210, 17%, 93%)',
+                confirmButtonText: 'OK',
+                customClass: {
+                    popup: 'animated fadeIn',
+                    title: 'custom-title-class',
+                    content: 'custom-content-class',
+                    actions: 'custom-actions-class',
+                    icon: 'swal-icon',
+                    confirmButton: 'swal-button',
+                    confirmButtonText: 'swal-button-text',
+                },
+                background: 'rgb(1, 6, 28)',
+            }).then(() => {
+                window.location.href = '../farmer/dashboard.html';
+            });
+        }
+    </script>
+
+
+</body>
+
+</html>

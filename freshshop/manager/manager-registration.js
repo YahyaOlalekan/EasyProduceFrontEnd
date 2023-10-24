@@ -6,7 +6,7 @@ document.getElementById('submitButton').addEventListener('click', function (e) {
     if (formData.get('password') === formData.get('confirmpassword')) {
         console.log("Password match");
         //submit to backend
-        fetch('http://localhost:5195/api/Manager/RegisterManager', {
+        fetch(`${baseUrl}api/Manager/RegisterManager`, {
             method: 'POST',
             body: formData
         })

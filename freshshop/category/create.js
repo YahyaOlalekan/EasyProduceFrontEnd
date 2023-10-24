@@ -3,7 +3,7 @@ document.getElementById('submitButton').addEventListener('click', function (e) {
     const formElement = document.getElementById('myForm');
     const formData = new FormData(formElement);
    
-        fetch('http://localhost:5195/api/Category/CreateCategory', {
+        fetch(`${baseUrl}api/Category/CreateCategory`, {
             method: 'POST',
             body: formData
         })

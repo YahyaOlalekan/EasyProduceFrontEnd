@@ -3,7 +3,7 @@
 let count = 1;
 let tableBody = document.getElementById("managerTableBody");
 
-fetch("http://localhost:5195/api/Manager/GetAllManagers")
+fetch(`${baseUrl}api/Manager/GetAllManagers`)
     .then(response => {
         if (!response.ok) {
             throw new Error("Network response was not ok");
@@ -44,7 +44,7 @@ fetch("http://localhost:5195/api/Manager/GetAllManagers")
 
 function ViewDetails(id) {
     // fetch(`${baseUrl}api/Customer/GetCustomerById/${id}`)
-    fetch(`http://localhost:5195/api/Manager/GetManagerById/${id}`)
+    fetch(`${baseUrl}api/Manager/GetManagerById/${id}`)
         .then(response => {
             if (!response.ok) {
                 throw new Error("Network response was not ok");
@@ -126,7 +126,7 @@ function ViewDetails(id) {
         email.textContent = `${manager.email}`;
 
         // Set the profile picture source
-        var baseUrl = "http://localhost:5195/"
+        // var baseUrl = "http://localhost:5195/"
         profilePicture.src = `${baseUrl}Upload/images/${manager.profilePicture}`;
         console.log(manager.profilePicture);
         profilePicture.alt = "Profile Picture";
@@ -197,7 +197,7 @@ function handleFormSubmit(event, id) {
     const form = event.target;
     const formData = new FormData(form);
 
-    fetch(`http://localhost:5195/api/Manager/UpdateManager/${id}`, {
+    fetch(`${baseUrl}api/Manager/UpdateManager/${id}`, {
         method: "PUT",
         body: formData,
     })
@@ -299,7 +299,7 @@ function DeleteDetails(id) {
         if (result.isConfirmed) {
             // User confirmed, proceed with deletion
             // Make a DELETE request to the API
-            fetch(`http://localhost:5195/api/Manager/DeleteManager/${id}`, {
+            fetch(`${baseUrl}api/Manager/DeleteManager/${id}`, {
                 method: 'DELETE',
             })
                 .then(response => {

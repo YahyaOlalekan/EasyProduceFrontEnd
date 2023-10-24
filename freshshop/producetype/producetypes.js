@@ -3,7 +3,7 @@
 let count = 1;
 let tableBody = document.getElementById("producetypeTableBody");
 
-fetch("http://localhost:5195/api/ProduceType/GetAllProduceType")
+fetch(`${baseUrl}api/ProduceType/GetAllProduceType`)
     .then(response => {
         if (!response.ok) {
             throw new Error("Network response was not ok");
@@ -86,7 +86,7 @@ function handleFormSubmit(event, id) {
     const form = event.target;
     const formData = new FormData(form);
 
-    fetch(`http://localhost:5195/api/ProduceType/UpdateProduceType/${id}`, {
+    fetch(`${baseUrl}api/ProduceType/UpdateProduceType/${id}`, {
         method: "PUT",
         body: formData,
     })
@@ -188,7 +188,7 @@ function DeleteDetails(id) {
         if (result.isConfirmed) {
             // User confirmed, proceed with deletion
             // Make a DELETE request to the API
-            fetch(`http://localhost:5195/api/ProduceType/DeleteProduceType/${id}`, {
+            fetch(`${baseUrl}api/ProduceType/DeleteProduceType/${id}`, {
                 method: 'DELETE',
             })
                 .then(response => {

@@ -3,7 +3,7 @@
 let count = 1;
 let tableBody = document.getElementById("roleTableBody");
 
-fetch("http://localhost:5195/api/Role/GetAllRoles")
+fetch(`${baseUrl}api/Role/GetAllRoles`)
     .then(response => {
         if (!response.ok) {
             throw new Error("Network response was not ok");
@@ -92,7 +92,7 @@ function handleFormSubmit(event, id) {
     const form = event.target;
     const formData = new FormData(form);
 
-    fetch(`http://localhost:5195/api/Role/UpdateRole/${id}`, {
+    fetch(`${baseUrl}api/Role/UpdateRole/${id}`, {
         method: "PUT",
         body: formData,
     })
@@ -194,7 +194,7 @@ function DeleteDetails(id) {
         if (result.isConfirmed) {
             // User confirmed, proceed with deletion
             // Make a DELETE request to the API
-            fetch(`http://localhost:5195/api/Role/DeleteRole/${id}`, {
+            fetch(`${baseUrl}api/Role/DeleteRole/${id}`, {
                 method: 'DELETE',
             })
                 .then(response => {

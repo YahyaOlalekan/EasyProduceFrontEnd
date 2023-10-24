@@ -3,7 +3,7 @@
 let count = 1;
 let tableBody = document.getElementById("customerTableBody");
 
-fetch("http://localhost:5195/api/Customer/GetAllCustomers")
+fetch(`${baseUrl}api/Customer/GetAllCustomers`)
     .then(response => {
         if (!response.ok) {
             throw new Error("Network response was not ok");
@@ -44,8 +44,8 @@ fetch("http://localhost:5195/api/Customer/GetAllCustomers")
 
 function ViewDetails(id) {
     // fetch(`${baseUrl}api/Customer/GetCustomerById/${id}`)
-    // fetch("http://localhost:5195/api/Customer/GetCustomerById/(id)")
-    fetch(`http://localhost:5195/api/Customer/GetCustomerById/${id}`)
+    // fetch("${baseUrl}api/Customer/GetCustomerById/(id)")
+    fetch(`${baseUrl}api/Customer/GetCustomerById/${id}`)
         .then(response => {
             if (!response.ok) {
                 throw new Error("Network response was not ok");
@@ -127,7 +127,7 @@ function ViewDetails(id) {
         email.textContent = `${customer.email}`;
 
         // Set the profile picture source
-        var baseUrl = "http://localhost:5195/"
+       
         profilePicture.src = `${baseUrl}Upload/images/${customer.profilePicture}`;
         console.log(customer.profilePicture);
         profilePicture.alt = "Profile Picture";
@@ -199,7 +199,7 @@ function handleFormSubmit(event, id) {
     const formData = new FormData(form);
     // const id = /* Get the customer ID here */;
 
-    fetch(`http://localhost:5195/api/Customer/UpdateCustomer/${id}`, {
+    fetch(`${baseUrl}api/Customer/UpdateCustomer/${id}`, {
         method: "PUT",
         body: formData,
     })
@@ -303,7 +303,7 @@ function DeleteDetails(id) {
         if (result.isConfirmed) {
             // User confirmed, proceed with deletion
             // Make a DELETE request to the API
-            fetch(`http://localhost:5195/api/Customer/DeleteCustomer/${id}`, {
+            fetch(`${baseUrl}api/Customer/DeleteCustomer/${id}`, {
                 method: 'DELETE',
             })
                 .then(response => {
