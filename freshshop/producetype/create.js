@@ -7,11 +7,10 @@
                     const categoryDropdown = document.querySelector('select[name="ProduceId"]');
                     // Clear any existing options
                     categoryDropdown.innerHTML = '';
-                    // Add new options based on the fetched data
                     data.data.forEach(produce => {
                         const option = document.createElement('option');
-                        option.value = produce.id; // You may need to adjust the value accordingly
-                        option.textContent = produce.produceName; // Use the appropriate property from your API response
+                        option.value = produce.id; 
+                        option.textContent = produce.produceName; 
                         categoryDropdown.appendChild(option);
                     });
                 })
@@ -20,7 +19,6 @@
                 });
         }
 
-        // Call the function to populate the category dropdown when the page loads
         window.addEventListener('load', populateCategoryDropdown);
 
         // Modify the submit event listener to include the selected category
@@ -58,14 +56,13 @@ function showSweetAlert(data) {
         confirmButtonColor: 'hsl(210, 17%, 93%)',
         confirmButtonText: 'CONTINUE',
         customClass: {
-            popup: 'animated fadeIn', // Apply the fadeIn animation
-            title: 'custom-title-class', // Create a custom class for title styling
-            content: 'custom-content-class', // Create a custom class for content styling
-            actions: 'custom-actions-class', // Create a custom class for action button styling
-            // Apply custom classes to specific elements
-            icon: 'swal-icon', // Custom class for the icon container
-            confirmButton: 'swal-button', // Custom class for the confirm button
-            confirmButtonText: 'swal-button-text', // Custom class for the confirm button text
+            popup: 'animated fadeIn', 
+            title: 'custom-title-class', 
+            content: 'custom-content-class', 
+            actions: 'custom-actions-class', 
+            icon: 'swal-icon', 
+            confirmButton: 'swal-button', 
+            confirmButtonText: 'swal-button-text', 
         },
         background: 'rgb(1, 6, 28)',
     }).then(() => {
@@ -81,14 +78,13 @@ function showSweetAlertError(data) {
         confirmButtonColor: 'hsl(210, 17%, 93%)',
         confirmButtonText: 'OK',
         customClass: {
-            popup: 'animated fadeIn', // Apply the fadeIn animation
-            title: 'custom-title-class', // Create a custom class for title styling
-            content: 'custom-content-class', // Create a custom class for content styling
-            actions: 'custom-actions-class', // Create a custom class for action button styling
-            // Apply custom classes to specific elements
-            icon: 'swal-icon', // Custom class for the icon container
-            confirmButton: 'swal-button', // Custom class for the confirm button
-            confirmButtonText: 'swal-button-text', // Custom class for the confirm button text
+            popup: 'animated fadeIn', 
+            title: 'custom-title-class', 
+            content: 'custom-content-class', 
+            actions: 'custom-actions-class', 
+            icon: 'swal-icon', 
+            confirmButton: 'swal-button', 
+            confirmButtonText: 'swal-button-text', 
         },
         background: 'rgb(1, 6, 28)',
     })

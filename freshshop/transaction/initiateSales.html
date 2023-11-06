@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <!-- Site CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Responsive CSS -->
+    <link rel="stylesheet" href="css/responsive.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/custom.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.css">
+    <link rel="stylesheet" href="../general/swal.css">
+
+    <meta charset="utf-8">
+    <title>Produce Type Creation Page || EasyProduce</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="Premium Multipurpose Admin & Dashboard Template" name="description">
+    <meta content="Themesbrand" name="author">
+    <!-- App favicon -->
+    <!-- <link rel="shortcut icon" href="../assets/images/favicon.ico"> -->
+    <link rel="shortcut icon" href="../producePictures/4905.jpg">
+
+    <!-- Bootstrap Css -->
+    <!-- <link href="/assets/libs/bootstrap/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css"> -->
+    <link href="../assets/libs/bootstrap/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css">
+    <!-- Icons Css -->
+    <link href="../assets/css/icons.ico" rel="stylesheet" type="text/css">
+    <link href="../assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css">
+
+    <!-- App Css-->
+    <link href="../assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css">
+
+    <title>Produce Type | Creation</title>
+</head>
+
+<body>
+    <div id="producetype-creation" class="registration-form">
+        <!-- Customer registration form fields and content -->
+
+        <!-- <body class="account-pages"> -->
+        <!-- Begin page -->
+        <div class="accountbg"
+            style="background: url('../producePictures/woman.jpg');background-size: cover;background-position: center;">
+        </div>
+
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header bg-primary text-white text-center">
+                            <h4 class="font-size-18 mt-2">Initialize producetype Sales</h4>
+                        </div>
+                        <div class="card-body">
+                            <form id="initiateSalesForm">
+                                <div class="form-group">
+                                    <label for="produceType">Select Approved Produce Type</label>
+                                    <select id="produceType" class="form-control">
+                                        <!-- Populate this dropdown with the approved produce types from the server -->
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="price">Selling Price</label>
+                                    <input type="number" id="price" class="form-control" required />
+                                </div>
+                                <div class="form-group">
+                                    <label for="quantity">Available Quantity</label>
+                                    <input type="number" id="quantity" class="form-control" required />
+                                </div>
+                                <div class="form-group">
+                                    <label for="unitOfMeasurement">Unit Of Measurement</label>
+                                    <input type="text" id="unitOfMeasurement" class="form-control" required />
+                                </div>
+                                <button type="submit" class="btn btn-primary">Initiate Sales</button>
+                            </form>
+
+                            <div class="mt-5 pt-4 text-center">
+                                <p>©
+                                    <script>document.write(new Date().getFullYear())</script> EasyProduce <i
+                                        class="mdi mdi-heart text-danger"></i>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+    </div>
+    <script src="../general/basejs.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- <script src="./create.js"></script> -->
+
+
+    <script>
+
+        fetch(`${baseUrl}api/ProduceType/GetAllProduceType`)
+            .then(response => response.json())
+            .then(data => {
+                // console.log('data:', data)
+                const produceTypeDropdown = document.getElementById('produceType');
+                data.data.forEach(produceType => {
+                    const option = document.createElement('option');
+                    option.value = produceType.id;
+                    option.textContent = produceType.typeName;
+                    produceTypeDropdown.appendChild(option);
+                });
+            });
+
+
+        document.getElementById('initiateSalesForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const farmerId = localStorage.getItem("id");
+            const produceTypeId = document.getElementById('produceType').value;
+            const price = parseFloat(document.getElementById('price').value);
+            const quantity = parseFloat(document.getElementById('quantity').value);
+            const unitOfMeasurement = document.getElementById('unitOfMeasurement').value;
+
+            const data = {
+                ProduceTypeId: produceTypeId,
+                Price: price,
+                Quantity: quantity,
+                UnitOfMeasurement: unitOfMeasurement
+            };
+
+            fetch(`${baseUrl}api/Transaction/InitiateProducetypeSales/${farmerId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+                .then(response => response.json())
+                .then(result => {
+                    if (result.status) {
+                        // alert(result.message);
+                        showSweetAlert(result)
+                    } else {
+                        // alert(result.message);
+                        showSweetAlertError(result)
+                    }
+                });
+        });
+
+
+        // Function to show success SweetAlert2 modal
+        function showSweetAlert(result) {
+            Swal.fire({
+                text: result.message,
+                icon: 'success',
+                confirmButtonColor: 'hsl(210, 17%, 93%)',
+                confirmButtonText: 'CONTINUE',
+                customClass: {
+                    popup: 'animated fadeIn',
+                    title: 'custom-title-class',
+                    content: 'custom-content-class',
+                    actions: 'custom-actions-class',
+                    icon: 'swal-icon',
+                    confirmButton: 'swal-button',
+                    confirmButtonText: 'swal-button-text',
+                },
+                background: 'rgb(1, 6, 28)',
+            }).then(() => {
+                window.location.replace('../farmer/dashboard.html');
+            });
+        }
+
+        // Function to show error SweetAlert2 modal
+        function showSweetAlertError(result) {
+            Swal.fire({
+                text: result.message,
+                icon: 'error',
+                confirmButtonColor: 'hsl(210, 17%, 93%)',
+                confirmButtonText: 'OK',
+                customClass: {
+                    popup: 'animated fadeIn',
+                    title: 'custom-title-class',
+                    content: 'custom-content-class',
+                    actions: 'custom-actions-class',
+                    icon: 'swal-icon',
+                    confirmButton: 'swal-button',
+                    confirmButtonText: 'swal-button-text',
+                },
+                background: 'rgb(1, 6, 28)',
+            })
+                .then(() => {
+                    window.location.href = './transaction/initiateSales.html';
+
+                });
+        }
+
+
+
+
+
+
+
+
+
+
+
+    </script>
+
+
+</body>
+
+</html>
