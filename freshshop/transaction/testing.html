@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Form</title>
+</head>
+<body>
+
+    <h2>Payment Information</h2>
+
+    <form id="paymentForm">
+        <label for="amount">Amount:</label>
+        <input type="text" id="amount" name="amount" required><br>
+
+        <label for="reference">Reference No:</label>
+        <input type="text" id="reference" name="reference" required><br>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required><br>
+
+        <label for="callbackUrl">Callback URL:</label>
+        <input type="text" id="callbackUrl" name="callbackUrl" required><br>
+
+        <button type="button" onclick="initiatePayment()">Initiate Payment</button>
+    </form>
+
+    <script>
+        async function initiatePayment() {
+            const amount = document.getElementById('amount').value;
+            const reference = document.getElementById('reference').value;
+            const email = document.getElementById('email').value;
+            const callbackUrl = document.getElementById('callbackUrl').value;
+
+            const response = await fetch('/api/payment/initialize', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    Amount: amount,
+                    RefrenceNo: reference,
+                    Email: email,
+                    CallbackUrl: callbackUrl,
+                }),
+            });
+
+            const result = await response.json();
+
+            // Handle the result, e.g., redirect to payment page
+            if (result.status) {
+                window.location.href = result.data.authorization_url;
+            } else {
+                alert('Failed to initiate payment. Please try again.');
+            }
+        }
+    </script>
+
+</body>
+</html>

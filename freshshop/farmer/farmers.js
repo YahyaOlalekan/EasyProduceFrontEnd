@@ -35,8 +35,7 @@ fetch(`${baseUrl}api/Farmer/GetAllFarmers`)
               
      <td><button class="btn btn-success mx-2" id="${farmer.id}" onclick="fetchAndDisplayApprovedProduceTypes(this.id)"><i class="fa fa-info" aria-hidden="true"></i> View</button></td>
      <td><button  class="btn btn-success mx-2"  id="${farmer.id}" onclick="AccountDetails(this.id)"> <i class="fa fa-info" aria-hidden="true"></i> View </button> </td> 
-                 <td><button  class="btn btn-primary mx-2"  id="${farmer.id}" onclick="displayUpdateForm(this.id)"> <i class="fa-solid fa-pen-to-square"></i> Edit </button> </td> 
-                 <td><button  class="btn btn-danger mx-2"  id="${farmer.id}" onclick="DeleteDetails(this.id)">  <i class="fa fa-trash" aria-hidden="true"></i> Remove </button> </td> 
+                 <td><button  class="btn btn-danger mx-2"  id="${farmer.id}" onclick="DeleteDetails(this.id)">  <i class="fa fa-trash" aria-hidden="true"></i> Deactivate </button> </td> 
                 </tr>`;
             tableBody.innerHTML += row;
             count++;
@@ -51,16 +50,10 @@ fetch(`${baseUrl}api/Farmer/GetAllFarmers`)
             </tr>`;
     });
 
-
-
-{/* <td> <button class="btn btn-success mx-2" onclick="ApproveProducetypes('${farmer.id}')"><i class="fas fa-check"></i> Approve</button></td> */}
+//  <td><button  class="btn btn-primary mx-2"  id="${farmer.id}" onclick="displayUpdateForm(this.id)"> <i class="fa-solid fa-pen-to-square"></i> Edit </button> </td> 
 
 
 
-//     <td>
-//     <button class="btn btn-success mx-2" id="${produce.produceId}" data-farmerid="${farmer.id}" data-status="2" onclick="approveProduceType(this)"> Approve </button>
-//     <button class="btn btn-danger mx-2" id="${produce.produceId}" data-farmerid="${farmer.id}" data-status="3" onclick="approveProduceType(this)"> Not Approved</button>
-//    </td>
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -224,14 +217,14 @@ function VerifyFarmer(id, status) {
         },
         body: JSON.stringify(verificationData)
     })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error("Network response was not ok");
-            }
-            return response.json();
-        })
+        // .then(response => {
+        //     if (!response.ok) {
+        //         throw new Error("Network response was not ok");
+        //     }
+        //     return response.json();
+        // })
+        .then(response => response.json())
         .then(data => {
-            // Check the response from the server and handle it accordingly
             if (data.status) {
                 // alert("Farmer verification successful!");
                 showSweetAlert(data.message);
@@ -383,8 +376,11 @@ function fetchAndDisplayApprovedProduceTypes(farmerId) {
         .then(data => {
             if (data.status) {
                 displayApprovedFarmerProducetypes(data.data);
+                // showSweetAlert(data.message);
+
             } else {
-                displayError();
+                // displayError();
+                showSweetAlertError(data.message);
             }
         })
         .catch(error => {
@@ -570,12 +566,9 @@ function handleFormSubmit(event, id) {
 
             displayUpdateForm(data.data);
 
-            // Check if the request was successful
             if (data.status) {
-                // Show SweetAlert2 modal
                 showSweetAlert(data.message);
             } else {
-                // Handle error and show SweetAlert2 modal
                 showSweetAlertError(data.message);
             }
         })
