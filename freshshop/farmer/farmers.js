@@ -24,13 +24,14 @@ fetch(`${baseUrl}api/Farmer/GetAllFarmers`)
                     <td>${farmer.email}</td>
                  <td><button  class="btn btn-success mx-2"  id="${farmer.id}" onclick="ViewDetails(this.id)"> <i class="fa fa-info" aria-hidden="true"></i> View </button> </td> 
               
+                 <td> <button class="btn btn-success mx-2" onclick="ApproveProducetypes('${farmer.id}')"><i class="fas fa-check"></i> Approve</button></td>
+    
      <td>
     <button class="btn btn-outline-info mx-2" id="${farmer.id}" onclick="VerifyFarmer(this.id, 3)"><i class="fa fa-check-circle" aria-hidden="true"></i> Approve </button>
     <button class="btn btn-outline-danger mx-2" id="${farmer.id}" onclick="VerifyFarmer(this.id, 2)"> <i class="fa fa-times-circle" aria-hidden="true"></i> Decline </button>
      </td>
     
      
-     <td> <button class="btn btn-success mx-2" onclick="ApproveProducetypes('${farmer.id}')"><i class="fas fa-check"></i> Approve</button></td>
 
               
      <td><button class="btn btn-success mx-2" id="${farmer.id}" onclick="fetchAndDisplayApprovedProduceTypes(this.id)"><i class="fa fa-info" aria-hidden="true"></i> View</button></td>

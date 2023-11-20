@@ -27,6 +27,7 @@
     <link rel="stylesheet" href="css/responsive.css">
     <!-- Custom CSS -->
     <link rel="stylesheet" href="css/custom.css">
+    <link rel="stylesheet" href="./general/signin.css">
 
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
@@ -41,7 +42,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-					<!-- <div class="custom-select-box">
+                    <!-- <div class="custom-select-box">
                         <select id="basic" class="selectpicker show-tick form-control" data-placeholder="$ USD">
 							<option>¥ JPY</option>
 							<option>$ USD</option>
@@ -60,7 +61,8 @@
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                    <div class="login-box">
+
+                    <!-- <div class="login-box">
                         <select id="user-type" class="selectpicker show-tick form-control"
                             data-placeholder="Select Action">
                             <option value="" disabled selected>Pages</option>
@@ -68,9 +70,25 @@
                             <option value="farmer">Register as Farmer</option>
                             <option value="customer">Register as Customer</option>
                         </select>
+                    </div> -->
+
+                    <div class="login-box">
+                        <select id="user-type" class="selectpicker show-tick form-control"
+                            data-placeholder="Select Action">
+                            <option value="" disabled selected>Registration</option>
+                            <!-- <option value="signin">Sign In</option> -->
+                            <option value="farmer">Register as Farmer</option>
+                            <option value="customer">Register as Customer</option>
+                        </select>
                     </div>
 
-                  
+                    <div class="login-box">
+                        <button id="signin-button" class="btn btn-success">Sign In</button>
+                    </div>
+
+
+
+
                     <div class="text-slid-box">
                         <div id="offer-box" class="carouselTicker">
                             <ul class="offer-box">
@@ -96,7 +114,7 @@
                                     <i class="fab fa-opencart"></i> 20% off Entire Purchase Promo code: offT30
                                 </li>
                                 <li>
-                                    <i class="fab fa-opencart"></i> Off 50%! Shop Now 
+                                    <i class="fab fa-opencart"></i> Off 50%! Shop Now
                                 </li>
                             </ul>
                         </div>
@@ -129,14 +147,14 @@
                         <li class="dropdown">
                             <a href="#" class="nav-link dropdown-toggle arrow" data-toggle="dropdown">SHOP</a>
                             <ul class="dropdown-menu">
-								<li><a href="shop.html">Sidebar Shop</a></li>
-								<li><a href="shop-detail.html">Shop Detail</a></li>
+                                <li><a href="shop.html">Sidebar Shop</a></li>
+                                <li><a href="shop-detail.html">Shop Detail</a></li>
                                 <li><a href="cart.html">Cart</a></li>
                                 <li><a href="checkout.html">Checkout</a></li>
                                 <li><a href="my-account.html">My Account</a></li>
                                 <li><a href="wishlist.html">Wishlist</a></li>
                             </ul>
-                        <!-- </li>
+                            <!-- </li>
                         <li class="nav-item"><a class="nav-link" href="gallery.html">Gallery</a></li>
                         <li class="nav-item"><a class="nav-link" href="contact-us.html">Contact Us</a></li> -->
                     </ul>
@@ -148,12 +166,12 @@
                     <ul>
                         <li class="search"><a href="#"><i class="fa fa-search"></i></a></li>
                         <li class="side-menu">
-							<a href="#">
-								<i class="fa fa-shopping-bag"></i>
-								<span class="badge">3</span>
-								<p>My Cart</p>
-							</a>
-						</li>
+                            <a href="#">
+                                <i class="fa fa-shopping-bag"></i>
+                                <span class="badge">3</span>
+                                <p>My Cart</p>
+                            </a>
+                        </li>
                     </ul>
                 </div>
                 <!-- End Atribute Navigation -->
@@ -212,19 +230,21 @@
                     <div class="row">
                         <div class="col-md-12">
                             <h1 class="m-b-20"><strong>Welcome To <br> EasyProduce</strong></h1>
-                            <p class="m-b-40">See how your users experience, your website in realtime <br> trend to see any changes in performance over time.</p>
+                            <p class="m-b-40">See how your users experience, your website in realtime <br> trend to see
+                                any changes in performance over time.</p>
                             <p><a class="btn hvr-hover" href="#">Shop New</a></p>
                         </div>
                     </div>
                 </div>
-            </li> 
+            </li>
             <li class="text-center">
                 <img src="images/banner-02.jpg" alt="">
                 <div class="container">
                     <div class="row">
                         <div class="col-md-12">
                             <h1 class="m-b-20"><strong>Welcome To <br> EasyProduce</strong></h1>
-                            <p class="m-b-40">See how your users experience, your website in realtime  <br> trend to see any changes in performance over time.</p>
+                            <p class="m-b-40">See how your users experience, your website in realtime <br> trend to see
+                                any changes in performance over time.</p>
                             <p><a class="btn hvr-hover" href="#">Shop New</a></p>
                         </div>
                     </div>
@@ -236,7 +256,8 @@
                     <div class="row">
                         <div class="col-md-12">
                             <h1 class="m-b-20"><strong>Welcome To <br> EasyProduce</strong></h1>
-                            <p class="m-b-40">See how your users experience, your website in realtime  <br> trend to see any changes in performance over time.</p>
+                            <p class="m-b-40">See how your users experience, your website in realtime <br> trend to see
+                                any changes in performance over time.</p>
                             <p><a class="btn hvr-hover" href="#">Shop New</a></p>
                         </div>
                     </div>
@@ -276,8 +297,8 @@
         </div>
     </div> -->
     <!-- End Categories -->
-	
-	<!-- <div class="box-add-products">
+
+    <!-- <div class="box-add-products">
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-6 col-md-6 col-sm-12">
@@ -578,8 +599,8 @@
     <footer>
         <div class="footer-main">
             <div class="container">
-				<div class="row">
-					<!-- <div class="col-lg-4 col-md-12 col-sm-12">
+                <div class="row">
+                    <!-- <div class="col-lg-4 col-md-12 col-sm-12">
 						<div class="footer-top-box">
 							<h3>Business Time</h3>
 							<ul class="list-time">
@@ -587,7 +608,7 @@
 							</ul>
 						</div>
 					</div> -->
-					<!-- <div class="col-lg-4 col-md-12 col-sm-12">
+                    <!-- <div class="col-lg-4 col-md-12 col-sm-12">
 						<div class="footer-top-box">
 							<h3>Newsletter</h3>
 							<form class="newsletter-box">
@@ -599,7 +620,7 @@
 							</form>
 						</div>
 					</div> -->
-					<!-- <div class="col-lg-4 col-md-12 col-sm-12">
+                    <!-- <div class="col-lg-4 col-md-12 col-sm-12">
 						<div class="footer-top-box">
 							<h3>Social Media</h3>
 							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
@@ -614,19 +635,20 @@
                             </ul>
 						</div>
 					</div> -->
-				</div>
-				<hr>
+                </div>
+                <hr>
                 <div class="row">
                     <div class="col-lg-4 col-md-12 col-sm-12">
                         <div class="footer-widget">
                             <h4>About EasyProduce</h4>
-                            <p> Easy Produce is an Online Market Place that provides an effective way of bridging the gap between farmers and markets. </p> 
-							<p> Buyers also have easy access to affordable quality produce. </p> 							
+                            <p> Easy Produce is an Online Market Place that provides an effective way of bridging the
+                                gap between farmers and markets. </p>
+                            <p> Buyers also have easy access to affordable quality produce. </p>
                         </div>
                     </div>
 
 
-                   
+
 
                     <div class="col-lg-4 col-md-12 col-sm-12">
                         <div class="footer-link">
@@ -640,19 +662,22 @@
                                 <li><a href="#">Delivery Information</a></li>
                             </ul> -->
                         </div>
-                    </div> 
+                    </div>
                     <div class="col-lg-4 col-md-12 col-sm-12">
                         <div class="footer-link-contact">
                             <h4>Contact Us</h4>
                             <ul>
                                 <li>
-                                    <p><i class="fas fa-map-marker-alt"></i>Address: Odo-Eran <br> Abeokuta,<br> Ogun State </p>
+                                    <p><i class="fas fa-map-marker-alt"></i>Address: Odo-Eran <br> Abeokuta,<br> Ogun
+                                        State </p>
                                 </li>
                                 <li>
-                                    <p><i class="fas fa-phone-square"></i>Phone: <a href="tel:+2348132759937">+2348132759937</a></p>
+                                    <p><i class="fas fa-phone-square"></i>Phone: <a
+                                            href="tel:+2348132759937">+2348132759937</a></p>
                                 </li>
                                 <li>
-                                    <p><i class="fas fa-envelope"></i>Email: <a href="mailto:easyproduce@gmail.com">easyproduce@gmail.com</a></p>
+                                    <p><i class="fas fa-envelope"></i>Email: <a
+                                            href="mailto:easyproduce@gmail.com">easyproduce@gmail.com</a></p>
                                 </li>
                             </ul>
                         </div>
@@ -665,8 +690,8 @@
 
     <!-- Start copyright  -->
     <div class="footer-copyright">
-        <p class="footer-company">EasyProduce &copy; 2023  </p>
-            <!-- <a href="https://html.design/">html design</a></p> -->
+        <p class="footer-company">EasyProduce &copy; 2023 </p>
+        <!-- <a href="https://html.design/">html design</a></p> -->
     </div>
     <!-- End copyright  -->
 
@@ -689,31 +714,39 @@
     <script src="js/contact-form-script.js"></script>
     <script src="js/custom.js"></script>
 
- 
- 
+
+
     <!-- JavaScript for toggling registration forms and customer registration -->
- <script>
+    <script>
 
-    // Get a reference to the select element
-    var userTypeSelect = document.getElementById("user-type");
+        var userTypeSelect = document.getElementById("user-type");
 
-    // Listen for changes in the select element
-    userTypeSelect.addEventListener("change", function () {
-        // Get the selected option's value
-        var selectedOption = userTypeSelect.value;
+        // Listen for changes in the select element
+        userTypeSelect.addEventListener("change", function () {
+            var selectedOption = userTypeSelect.value;
 
-        // Redirect to the appropriate page based on the selected option
-        if (selectedOption === "signin") {
+            // if (selectedOption === "signin") {
+            //     location.href = "./general/login.html";
+
+            if (selectedOption === "farmer") {
+                location.href = "farmer/farmer-registration.html";
+            } else if (selectedOption === "customer") {
+                location.href = "customer/customer-registration.html";
+            }
+        });
+
+
+        var signinButton = document.getElementById("signin-button");
+
+        // Listen for clicks on the button
+        signinButton.addEventListener("click", function () {
+            // Redirect to the login page
             location.href = "./general/login.html";
-        } else if (selectedOption === "farmer") {
-            location.href = "farmer/farmer-registration.html";
-        } else if (selectedOption === "customer") {
-            location.href = "customer/customer-registration.html";
-        }
-    });
+        });
 
 
-</script>
+
+    </script>
 
 
 </body>

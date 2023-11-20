@@ -26,13 +26,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="Premium Multipurpose Admin & Dashboard Template" name="description">
     <meta content="Themesbrand" name="author">
-    <!-- App favicon -->
-    <!-- <link rel="shortcut icon" href="../assets/images/favicon.ico"> -->
+   
     <link rel="shortcut icon" href="../producePictures/4905.jpg">
 
-    <!-- Bootstrap Css -->
-    <!-- <link href="/assets/libs/bootstrap/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css"> -->
-    <link href="../assets/libs/bootstrap/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css">
+       <link href="../assets/libs/bootstrap/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css">
     <!-- Icons Css -->
     <link href="../assets/css/icons.ico" rel="stylesheet" type="text/css">
     <link href="../assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css">
@@ -40,15 +37,12 @@
     <!-- App Css-->
     <link href="../assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css">
 
-    <title>Initiated Sales</title>
+    <title>Confirmed Initiated Produce Sales</title>
 </head>
 
 <body>
     <div id="producetype-creation" class="registration-form">
-        <!-- Customer registration form fields and content -->
-
-        <!-- <body class="account-pages"> -->
-        <!-- Begin page -->
+      
         <div class="accountbg"
             style="background: url('../producePictures/woman.jpg');background-size: cover;background-position: center;">
         </div>
@@ -58,13 +52,18 @@
                 <div class="col-md-6">
                     <div class="card">
                         <div class="card-header bg-primary text-white text-center">
-                            <h2 class="font-size-18 mt-2">Initiated Sales</h2>
+                            <h2 class="font-size-18 mt-2">Confirmed Initiated Produce Sales</h2>
                         </div>
                         <div class="card-body">
 
-                            <!-- <h1>Initiated Sales</h1> -->
-
                             <div id="salesList"></div>
+
+                            <div id="otpContainer" style="display: none;">
+                                <label for="otpInput" class="form-label">Enter OTP:</label>
+                                <input type="text" class="form-control" id="otpInput" placeholder="Enter OTP">
+                                <button class="btn btn-primary mt-3" id="submitOtp">Submit OTP</button>
+                            </div>
+
 
                             <div class="mt-5 pt-4 text-center">
                                 <p>©
@@ -92,12 +91,17 @@
 
     <script>
 
-        async function getInitiatedSales() {
-            const response = await fetch(`${baseUrl}api/Transaction/GetAllInitiatedProducetypeSales`);
+        function showOTPContainer() {
+            const otpContainer = document.getElementById('otpContainer');
+            otpContainer.style.display = 'block';
+        }
+
+        async function getConfirmedInitiatedSales() {
+            const response = await fetch(`${baseUrl}api/Transaction/GetAllConfirmedProducetypeSales`);
             if (response.ok) {
                 const sales = await response.json();
                 const salesList = document.getElementById('salesList');
-                salesList.innerHTML = ''; // Clear previous content
+                salesList.innerHTML = ''; 
 
                 if (sales.data && sales.data.length > 0) {
                     sales.data.forEach((sale, index) => {
@@ -110,8 +114,8 @@
                     <p><strong>Total Amount:</strong> ${sale.totalAmount}</p>
                     <p><strong>Transaction Number:</strong> ${sale.transactionNum}</p>
                     <p><strong>Farmer Registration Number:</strong> ${sale.registrationNumber}</p>
-                    <button class="btn btn-outline-info mx-2 sale-button" id="${sale.id}" onclick="VerifyInitiatedProducetypeSales(this.id, 2)"><i class="fa fa-check-circle" aria-hidden="true"></i> Confirm</button>
-                    <button class="btn btn-outline-danger mx-2 sale-button" id="${sale.id}" onclick="VerifyInitiatedProducetypeSales(this.id, 3)"> <i class="fa fa-times-circle" aria-hidden="true"></i> Decline </button>
+                   
+                    <button class="btn btn-outline-success mx-2 sale-button" id="${sale.id}" onclick="MakePayment(this.id)"> </i> Pay </button>
                 `;
 
                         if (index % 2 === 0) {
@@ -121,26 +125,15 @@
                         salesList.appendChild(saleItem);
                     });
                 } else {
-                    salesList.innerHTML = '<p>No initiated sales found.</p>';
+                    salesList.innerHTML = '<p>No Confirmed initiated sales found.</p>';
                 }
             }
         }
 
 
 
-        function VerifyInitiatedProducetypeSales(id, transactionStatus) {
-            const verificationData = {
-                Id: id,
-                TransactionStatus: transactionStatus
-            };
-
-            fetch(`${baseUrl}api/Transaction/VerifyInitiatedProducetypeSales`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(verificationData)
-            })
+        function MakePayment(id) {
+            fetch(`${baseUrl}api/Transaction/InitiatePayment/${id}`)
                 .then(response => {
                     if (!response.ok) {
                         throw new Error("Network response was not ok");
@@ -149,18 +142,59 @@
                 })
                 .then(data => {
                     if (data.status) {
-                        // alert("Farmer verification successful!");
-                        showSweetAlert(data);
+                        // Assuming "transferCode" is a property in the response data
+                        const transferCode = data.data;
+
+                        showOTPContainer();
+
+                        generateOTP(transferCode);
                     } else {
-                        // alert("Farmer verification failed.");
                         showSweetAlertError(data);
                     }
                 })
                 .catch(error => {
                     console.error("Error:", error);
-                    alert("An error occurred while verifying the farmer.");
+                    alert("An error occurred while verifying the transaction.");
                 });
         }
+
+       
+       
+        function generateOTP(transferCode) {
+            const otpInput = document.getElementById('otpInput');
+            const submitOtpButton = document.getElementById('submitOtp');
+
+            otpInput.style.display = 'block';
+            submitOtpButton.style.display = 'block';
+
+            submitOtpButton.addEventListener('click', () => {
+                const otp = otpInput.value;
+
+                finalizePayment(transferCode, otp);
+            });
+        }
+
+        function finalizePayment(transferCode, otp) {
+            fetch(`${baseUrl}api/Transaction/FinalizePayment/${transferCode}?otp=${otp}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("Network response was not ok");
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.status) {
+                        showSweetAlert(data);
+                    } else {
+                        showSweetAlertError(data);
+                    }
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                    alert("An error occurred while finalizing the payment.");
+                });
+        }
+
 
 
 
@@ -183,7 +217,7 @@
                 background: 'rgb(1, 6, 28)',
             }).then(() => {
                 // window.location.replace('./transaction/initiatedSales.html');
-                window.location.href = '../transaction/initiatedSales.html';
+                window.location.href = '../transaction/confirmedSales.html';
 
             });
         }
@@ -207,45 +241,13 @@
                 background: 'rgb(1, 6, 28)',
             })
                 .then(() => {
-                    window.location.href = '../transaction/initiatedSales.html';
+                    window.location.href = '../transaction/confirmedSales.html';
 
                 });
         }
 
-        // Load initiated sales when the page loads
-        getInitiatedSales();
+        getConfirmedInitiatedSales();
 
-
-
-
-        // async function getInitiatedSales() {
-        //     const response = await fetch(`${baseUrl}api/Transaction/GetAllInitiatedProducetypeSales`);
-        //     if (response.ok) {
-        //         const sales = await response.json();
-        //         const salesList = document.getElementById('salesList');
-        //         salesList.innerHTML = ''; // Clear previous content
-
-        //         if (sales.data && sales.data.length > 0) {
-        //             sales.data.forEach(sale => {
-        //                 const saleItem = document.createElement('div');
-        //                 saleItem.innerHTML = `
-        //                     <p><strong>Price:</strong> ${sale.price}</p>
-        //                     <p><strong>Quantity:</strong> ${sale.quantity}</p>
-        //                     <p><strong>Unit Of Measurement:</strong> ${sale.unitOfMeasurement}</p>
-        //                     <p><strong>Total Amount:</strong> ${sale.totalAmount}</p>
-        //                     <p><strong>Transaction Number:</strong> ${sale.transactionNum}</p>
-        //                     <p><strong>Farmer Registration Number:</strong> ${sale.registrationNumber}</p>
-        //                     <button class="btn btn-outline-info mx-2" id="${sale.id}" onclick="VerifyInitiatedProducetypeSales(this.id, 2)"><i class="fa fa-check-circle" aria-hidden="true"></i> Confirm </button>
-        //                     <button class="btn btn-outline-danger mx-2" id="${sale.id}" onclick="VerifyInitiatedProducetypeSales(this.id, 3)"> <i class="fa fa-times-circle" aria-hidden="true"></i> Decline </button>
-        //                 `;
-        //                 salesList.appendChild(saleItem);
-
-        //             });
-        //         } else {
-        //             salesList.innerHTML = '<p>No initiated sales found.</p>';
-        //         }
-        //     }
-        // }
 
 
     </script>

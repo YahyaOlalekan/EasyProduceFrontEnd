@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Register | EasyProduce</title>
+    <title>Farmer Registration | EasyProduce</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="Premium Multipurpose Admin & Dashboard Template" name="description">
     <meta content="Themesbrand" name="author">
@@ -247,6 +247,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <!-- <script src="./farmer-registration.js"></script> -->
 
     <script>
         function LoadProduce() {
@@ -315,18 +316,28 @@
                 }
             })
 
-            // const url = 'https://api.paystack.co/bank';
-            // const authorization = 'Bearer sk_test_bcd26e03b2282ddf4f2affe2c8ff796c91b86ba5';
+                // const url = 'https://api.paystack.co/bank';
+                // const authorization = 'Bearer sk_test_bcd26e03b2282ddf4f2affe2c8ff796c91b86ba5';
 
-            // fetch(url, {
-            //     method: 'GET',
-            //     headers: {
-            //         'Authorization': authorization
-            //     }
-            // })
-            
-                .then(response => response.json())
+                // fetch(url, {
+                //     method: 'GET',
+                //     headers: {
+                //         'Authorization': authorization
+                //     }
+                // })
+
+                // .then(response => response.json())
+
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+
                 .then(data => {
+                    console.log('data', data)
+
                     const bankSelect = document.getElementById('bankCode');
                     const selectedBankNameInput = document.getElementById('selectedBankName');
 
@@ -382,7 +393,7 @@
         async function verifyAccount() {
             const accountNumber = document.getElementById('accountNumber').value;
             const bankCode = document.getElementById('bankCode').value;
-            const accountNameInput = document.getElementById('accountName'); 
+            const accountNameInput = document.getElementById('accountName');
 
             if (!accountNumber || !bankCode) {
                 alert('Please enter the account number.');
@@ -524,7 +535,7 @@
         }
 
     </script>
-    
-    </body>
 
-    </html>
+</body>
+
+</html>

@@ -22,8 +22,7 @@ fetch(`${baseUrl}api/Customer/GetAllCustomers`)
                     <td>${customer.registrationNumber}</td>
                     <td>${customer.email}</td>
                  <td><button  class="btn btn-success mx-2"  id="${customer.id}" onclick="ViewDetails(this.id)"> <i class="fa fa-info" aria-hidden="true"></i> View </button> </td> 
-                 <td><button  class="btn btn-primary mx-2"  id="${customer.id}" onclick="displayUpdateForm(this.id)"> <i class="fa-solid fa-pen-to-square"></i> Edit </button> </td> 
-                 <td><button  class="btn btn-danger mx-2"  id="${customer.id}" onclick="DeleteDetails(this.id)">  <i class="fa fa-trash" aria-hidden="true"></i> Remove </button> </td> 
+                 <td><button  class="btn btn-danger mx-2"  id="${customer.id}" onclick="DeleteDetails(this.id)">  <i class="fa fa-trash" aria-hidden="true"></i> Deactivate </button> </td> 
                 </tr>`;
             tableBody.innerHTML += row;
             count++;
@@ -38,6 +37,7 @@ fetch(`${baseUrl}api/Customer/GetAllCustomers`)
             </tr>`;
     });
 
+    // <td><button  class="btn btn-primary mx-2"  id="${customer.id}" onclick="displayUpdateForm(this.id)"> <i class="fa-solid fa-pen-to-square"></i> Edit </button> </td> 
 
 
 //////////////////////////

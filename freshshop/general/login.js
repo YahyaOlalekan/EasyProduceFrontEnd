@@ -10,11 +10,9 @@ document.querySelector('#loginform').addEventListener('submit', e => {
     })
         .then(response => response.json())
         .then(data => {
-            // console.log(data);
             if (data.status) {
                 // alert(data.message)
                 showSweetAlert(data);
-                // console.log(data.status);
             } else {
                 // document.getElementById('error').innerHTML = data.message;
                 showSweetAlertError(data);
@@ -33,25 +31,22 @@ function showSweetAlert(data) {
         confirmButtonColor: 'hsl(210, 17%, 93%)',
         confirmButtonText: 'CONTINUE',
         customClass: {
-            popup: 'animated fadeIn', // Apply the fadeIn animation
-            title: 'custom-title-class', // Create a custom class for title styling
-            content: 'custom-content-class', // Create a custom class for content styling
-            actions: 'custom-actions-class', // Create a custom class for action button styling
-            // Apply custom classes to specific elements
-            icon: 'swal-icon', // Custom class for the icon container
-            confirmButton: 'swal-button', // Custom class for the confirm button
-            confirmButtonText: 'swal-button-text', // Custom class for the confirm button text
+            popup: 'animated fadeIn', 
+            title: 'custom-title-class', 
+            content: 'custom-content-class', 
+            actions: 'custom-actions-class', 
+            icon: 'swal-icon', 
+            confirmButton: 'swal-button', 
+            confirmButtonText: 'swal-button-text', 
         },
         background: 'rgb(1, 6, 28)',
     }).then(() => {
-        // window.location.href = './getCustomerById.html';
         // localStorage.setItem("id", data.id)
-        localStorage.setItem("id", data.data.id.toString()); // Convert to string before storing
-        localStorage.setItem("token", data.data.token.toString()); // Convert to string before storing
+        localStorage.setItem("id", data.data.id.toString()); 
+        localStorage.setItem("token", data.data.token.toString()); 
 
 
         if (data.data.roleName == "customer") {
-            // location.href = "./customer/getAllCustomers.html";
             window.location.href = "../customer/dashboard.html";
         }
         else if (data.data.roleName == "admin") {
@@ -77,14 +72,14 @@ function showSweetAlertError(data) {
         confirmButtonColor: 'hsl(210, 17%, 93%)',
         confirmButtonText: 'OK',
         customClass: {
-            popup: 'animated fadeIn', // Apply the fadeIn animation
-            title: 'custom-title-class', // Create a custom class for title styling
-            content: 'custom-content-class', // Create a custom class for content styling
-            actions: 'custom-actions-class', // Create a custom class for action button styling
+            popup: 'animated fadeIn', 
+            title: 'custom-title-class', 
+            content: 'custom-content-class', 
+            actions: 'custom-actions-class', 
             // Apply custom classes to specific elements
-            icon: 'swal-icon', // Custom class for the icon container
-            confirmButton: 'swal-button', // Custom class for the confirm button
-            confirmButtonText: 'swal-button-text', // Custom class for the confirm button text
+            icon: 'swal-icon', 
+            confirmButton: 'swal-button', 
+            confirmButtonText: 'swal-button-text', 
         },
         background: 'rgb(1, 6, 28)',
     })
