@@ -278,89 +278,93 @@
                 });
         }
 
-        document.querySelector('#farmer-form').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const formElement = document.querySelector('#farmer-form');
-            const formData = new FormData(formElement);
-            const selectedProduceTypes = $('#produceTypesSelect').val();
-            formData.delete('ProduceTypes');
-            selectedProduceTypes.forEach((type) => {
-                formData.append('ProduceTypes', type);
-            });
-
-            // // Show loading spinner
-            // const loadingSpinner = document.getElementById('loading-spinner');
-            // loadingSpinner.style.display = 'inline-block';
-
-            try {
-                const response = await fetch(`${baseUrl}api/Farmer/RegisterFarmer`, {
-                    method: 'POST',
-                    body: formData,
-                });
-
-                const data = await response.json();
-
-                // Show loading spinner
-                const loadingSpinner = document.getElementById('loading-spinner');
-                loadingSpinner.style.display = 'inline-block';
-
-                if (data.status === 400 && data.errors) {
-                    // Validation errors
-                    showSweetAlertValidationErrors(data);
-                } else if (data.status === 200) {
-                    // Success
-                    showSweetAlert(data.message);
-                } else {
-                    // Other errors
-                    showSweetAlertError(data.message);
-                }
-            } catch (error) {
-                console.error('Error:', error);
-            } finally {
-                // Hide loading spinner (whether the request was successful or not)
-                loadingSpinner.style.display = 'none';
-            }
-        });
 
 
-
-
-
-
-        // document.querySelector('#farmer-form').addEventListener('submit', e => {
+        // document.querySelector('#farmer-form').addEventListener('submit', async (e) => {
         //     e.preventDefault();
-        //     let formElement = document.querySelector('#farmer-form');
+        //     const formElement = document.querySelector('#farmer-form');
         //     const formData = new FormData(formElement);
         //     const selectedProduceTypes = $('#produceTypesSelect').val();
         //     formData.delete('ProduceTypes');
-        //     selectedProduceTypes.forEach(type => {
+        //     selectedProduceTypes.forEach((type) => {
         //         formData.append('ProduceTypes', type);
         //     });
-        //     fetch(`${baseUrl}api/Farmer/RegisterFarmer`, {
-        //         method: 'POST',
-        //         body: formData
-        //     })
-        //         .then(response => response.json())
 
-        //         .then(data => {
-        //             if (data.status === 400 && data.errors) {
-        //                 //  validation errors
-        //                 showSweetAlertValidationErrors(data)
+        //     // // Show loading spinner
+        //     // const loadingSpinner = document.getElementById('loading-spinner');
+        //     // loadingSpinner.style.display = 'inline-block';
 
-        //             } else if (data.status === 200) {
-        //                 // success
-        //                 showSweetAlert(data.message);
-
-        //             } else {
-        //                 // other errors
-        //                 showSweetAlertError(data.message);
-        //             }
-        //         })
-
-        //         .catch(error => {
-        //             console.error('Error:', error);
+        //     try {
+        //         const response = await fetch(`${baseUrl}api/Farmer/RegisterFarmer`, {
+        //             method: 'POST',
+        //             body: formData,
         //         });
+
+        //         const data = await response.json();
+
+        //         // Show loading spinner
+        //         const loadingSpinner = document.getElementById('loading-spinner');
+        //         loadingSpinner.style.display = 'inline-block';
+
+        //         if (data.status === 400 && data.errors) {
+        //             // Validation errors
+        //             showSweetAlertValidationErrors(data);
+        //         } else if (data.status === 200) {
+        //             // Success
+        //             showSweetAlert(data.message);
+        //         } else {
+        //             // Other errors
+        //             showSweetAlertError(data.message);
+        //         }
+        //     } catch (error) {
+        //         console.error('Error:', error);
+        //     } finally {
+        //         // Hide loading spinner (whether the request was successful or not)
+        //         loadingSpinner.style.display = 'none';
+        //     }
         // });
+
+
+
+
+
+
+        document.querySelector('#farmer-form').addEventListener('submit', e => {
+            e.preventDefault();
+            let formElement = document.querySelector('#farmer-form');
+            const formData = new FormData(formElement);
+            const selectedProduceTypes = $('#produceTypesSelect').val();
+            formData.delete('ProduceTypes');
+            selectedProduceTypes.forEach(type => {
+                formData.append('ProduceTypes', type);
+            });
+            fetch(`${baseUrl}api/Farmer/RegisterFarmer`, {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => response.json())
+
+                .then(data => {
+                    console.log('data:', data)
+                    console.log('dataStaus:', data.status)
+                    if (data.status === 400 && data.errors) {
+                        //  validation errors
+                        showSweetAlertValidationErrors(data)
+
+                    } else if (data.status == true) {
+                        // success
+                        showSweetAlert(data.message);
+
+                    } else {
+                        // other errors
+                        showSweetAlertError(data.message);
+                    }
+                })
+
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        });
 
 
 

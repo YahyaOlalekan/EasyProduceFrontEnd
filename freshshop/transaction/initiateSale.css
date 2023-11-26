@@ -1,0 +1,11 @@
+/* .form-group {
+    margin-top: 25px; 
+} */
+
+#initiateSalesForm .form-group {
+    margin-bottom: 20px; 
+}
+
+#initiateSalesForm button {
+    margin-top: 1px; 
+}

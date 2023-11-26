@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Add Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-   
+
     <title>Farmer Details</title>
 </head>
 
@@ -20,10 +20,23 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-3 text-center">
-                                <img id="profilePicture" src="" alt="Profile Picture" style="max-width: 100%;" class="rounded-circle">
+                                <img id="profilePicture" src="" alt="Profile Picture" style="max-width: 100%;"
+                                    class="rounded-circle">
                             </div>
                             <div class="col-md-9">
                                 <ul class="list-group">
+
+                                    <li class="list-group-item bg-light">
+                                        <strong>Approved Produce </strong> <br />
+                                        <ul id="produceInfoList"></ul>
+                                    </li>
+                                    <li class="list-group-item bg-light">
+                                        <strong> Current Registration Status:</strong> <span
+                                            id="farmerRegStatus"></span>
+                                    </li>
+                                    <li class="list-group-item bg-light">
+                                        <strong>Farm Name:</strong> <span id="farmName"></span>
+                                    </li>
                                     <li class="list-group-item bg-light">
                                         <strong>First Name:</strong> <span id="firstName"></span>
                                     </li>
@@ -43,78 +56,118 @@
                                         <strong>Email:</strong> <span id="email"></span>
                                     </li>
                                 </ul>
-                                <!-- <div class="text-center pt-3" >
-                                    <a href="./farmer-update.html" class="btn btn-secondary">Back</a>
-                                </div> -->
                             </div>
+                            <!-- <a href="./farmers.html" class="btn btn-secondary">Back</a> -->
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    
+
 
     <script src="../general/basejs.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="../general/login.js"></script>
+    <!-- <script src="../general/login.js"></script> -->
+
 
     <script>
 
-        const customerId = localStorage.getItem("id");
+        window.onload = function () {
+            ViewDetails();
+        };
 
-        fetch(`${baseUrl}api/Customer/GetCustomerById/${customerId}`)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error("Network response was not ok");
+        function ViewDetails() {
+            const farmerId = localStorage.getItem("id");
+            // console.log('farmerId:', farmerId);
+
+            fetch(`${baseUrl}api/Farmer/GetFarmerAlongWithApprovedProduceType/${farmerId}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("Network response was not ok");
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // console.log('data:', data);
+
+                    displayFarmerData(data.data);
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                    displayError();
+                });
+
+            function displayFarmerData(data) {
+                console.log('Data received:', data);
+                const firstName = document.getElementById("firstName");
+                const farmerRegStatus = document.getElementById("farmerRegStatus");
+                const farmName = document.getElementById("farmName");
+                const lastName = document.getElementById("lastName");
+                const phoneNumber = document.getElementById("phoneNumber");
+                const address = document.getElementById("address");
+                const registrationNumber = document.getElementById("registrationNumber");
+                const email = document.getElementById("email");
+                const profilePicture = document.getElementById("profilePicture");
+
+                // Set the farmer details
+                firstName.textContent = data.farmerDto.firstName;
+                lastName.textContent = data.farmerDto.lastName;
+                phoneNumber.textContent = data.farmerDto.phoneNumber;
+                address.textContent = data.farmerDto.address;
+                registrationNumber.textContent = data.farmerDto.registrationNumber;
+                email.textContent = data.farmerDto.email;
+                farmerRegStatus.textContent = mapFarmerRegStatus(data.farmerDto.farmerRegStatus);
+                farmName.textContent = data.farmerDto.farmName;
+
+                // Select the list element for produce types
+                const produceInfoList = document.getElementById("produceInfoList");
+
+                data.produceTypeDto.forEach(produceType => {
+                    const listItem = document.createElement("li");
+                    listItem.textContent = `Type Name: ${produceType.typeName}, Produce Name: ${produceType.produceName}, Category: ${produceType.nameOfCategory}`;
+                    produceInfoList.appendChild(listItem);
+                });
+
+                if (data.farmerDto.profilePicture && data.farmerDto.profilePicture.trim() !== "") {
+                    const profilePictureUrl = data.farmerDto.profilePicture.trim();
+                    profilePicture.src = `${baseUrl}Upload/images/${profilePictureUrl}`;
+                    profilePicture.alt = "Profile Picture";
+                } else {
+                    profilePicture.src = "../producePictures/farmIcons.jpg";
+                    profilePicture.alt = "Profile Picture";
                 }
-                return response.json();
-            })
-            .then(data => {
-                // Assuming the returned data is an object with customer attributes
-                displayCustomerData(data.data);
-            })
-            .catch(error => {
-                console.error("Error:", error);
-                // Display an error message to the user
-                displayError();
-            });
+            }
 
-        function displayCustomerData(customer) {
-            // Select the elements for customer details
-            const firstName = document.getElementById("firstName");
-            const lastName = document.getElementById("lastName");
-            const phoneNumber = document.getElementById("phoneNumber");
-            const address = document.getElementById("address");
-            const registrationNumber = document.getElementById("registrationNumber");
-            const email = document.getElementById("email");
-            const profilePicture = document.getElementById("profilePicture");
+            function displayError() {
+                console.log('An error occurred while fetching farmer data.');
+                const farmerDetails = document.querySelector(".card-body");
+                farmerDetails.innerHTML = `<p class="text-danger"> You have not been approved as a farmer!</p>`;
+            }
 
-            // Set the customer details
-            firstName.textContent = `${customer.firstName}`;
-            lastName.textContent = `${customer.lastName}`;
-            phoneNumber.textContent = `${customer.phoneNumber}`;
-            address.textContent = `${customer.address}`;
-            registrationNumber.textContent = `${customer.registrationNumber}`;
-            email.textContent = `${customer.email}`;
-
-            // Set the profile picture source
-            profilePicture.src =`${baseUrl}Upload/images/${customer.profilePicture}`;
-            console.log(customer.profilePicture);
-            profilePicture.alt = "Profile Picture";
+            function mapFarmerRegStatus(status) {
+                switch (status) {
+                    case 1:
+                        return "Pending";
+                    case 2:
+                        return "Declined";
+                    case 3:
+                        return "Approved";
+                }
+            }
         }
 
-        function displayError() {
-            const customerDetails = document.querySelector(".card-body");
-            customerDetails.innerHTML = `<p class="text-danger">An error occurred while fetching customer data.</p>`;
-        }
+
+
     </script>
 
 </body>
 
 </html>
-
-
-

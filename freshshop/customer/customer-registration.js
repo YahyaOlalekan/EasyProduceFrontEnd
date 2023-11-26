@@ -18,7 +18,7 @@ document.getElementById('submitButton').addEventListener('click', function (e) {
                     // Handle validation errors
                     showSweetAlertValidationErrors(data)
 
-                } else if (data.status === 200) {
+                } else if (data.status == true) {
                     // Handle success
                     showSweetAlert(data.message);
 

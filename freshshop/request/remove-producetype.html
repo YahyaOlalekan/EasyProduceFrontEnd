@@ -55,7 +55,8 @@
                             </form>
                             <div id="result"></div>
                             <div class="mt-5 pt-4 text-center">
-                                <p>© <script>document.write(new Date().getFullYear())</script> EasyProduce <i
+                                <p>©
+                                    <script>document.write(new Date().getFullYear())</script> EasyProduce <i
                                         class="mdi mdi-heart text-danger"></i>
                                 </p>
                             </div>
@@ -74,8 +75,13 @@
     <!-- <script src="./create.js"></script> -->
 
     <script>
-       function populateProduceTypeDropdown() {
-            fetch(`${baseUrl}api/ProduceType/GetAllProduceType`)
+
+        var farmerId = localStorage.getItem("id");
+
+        function populateProduceTypeDropdown() {
+            // fetch(`${baseUrl}api/ProduceType/GetAllProduceType`)
+
+            fetch(`${baseUrl}api/ProduceType/GetApprovedProduceTypesForAFarmerByUserId/${farmerId}`)
                 .then(response => response.json())
                 .then(data => {
                     const produceTypeDropdown = document.getElementById('produceTypeId');
@@ -97,10 +103,15 @@
             e.preventDefault();
             const formElement = document.getElementById('removeProduceTypeForm');
             const formData = new FormData(formElement);
-            const farmerId = localStorage.getItem("id");
+            // const farmerId = localStorage.getItem("id");
 
             const selectedProduceTypeId = document.getElementById('produceTypeId').value;
+            formData.delete('produceTypeId');
             formData.append('ProduceTypeId', selectedProduceTypeId);
+            // if(selectedProduceTypeId == null)
+            // {
+            //     document.getElementById('selectedProduceTypeIdCantbenull').innerHTML = "No producetype is available to select" 
+            // }
 
             const token = localStorage.getItem("token");
             fetch(`${baseUrl}api/Request/RemoveExistingProduceType/${farmerId}`, {
@@ -141,7 +152,7 @@
                 },
                 background: 'rgb(1, 6, 28)',
             }).then(() => {
-                window.location.replace('../farmer/dashboard.html');
+                window.location.href = '../farmer/dashboard.html';
             });
         }
 

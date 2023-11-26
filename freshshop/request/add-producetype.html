@@ -75,10 +75,16 @@
     <!-- <script src="./create.js"></script> -->
 
     <script>
-        function populateProduceTypeDropdown() {
-            fetch(`${baseUrl}api/ProduceType/GetAllProduceType`)
+       
+       var farmerId = localStorage.getItem("id");
+
+       function populateProduceTypeDropdown() {
+            // fetch(`${baseUrl}api/ProduceType/GetAllProduceType`)
+
+            fetch(`${baseUrl}api/ProduceType/GetUnApprovedProduceTypesForAFarmerByUserId/${farmerId}`)
                 .then(response => response.json())
                 .then(data => {
+                    console.log('data:', data)
                     const produceTypeDropdown = document.getElementById('produceId');
                     data.data.forEach(produceType => {
                         const option = document.createElement('option');
@@ -98,10 +104,11 @@
             e.preventDefault();
             const formElement = document.getElementById('addProduceTypeForm');
             const formData = new FormData(formElement);
-            const farmerId = localStorage.getItem("id");
+            // const farmerId = localStorage.getItem("id");
 
             const selectedProduceId = document.getElementById('produceId').value;
-            formData.append('ProduceId', selectedProduceId);
+            formData.delete('produceTypeId');
+            formData.append('produceTypeId', selectedProduceId);
 
             const token = localStorage.getItem("token");
             fetch(`${baseUrl}api/Request/AddNewProduceType/${farmerId}/${selectedProduceId}`, {

@@ -367,7 +367,7 @@ function approveProduceType(button) {
 //////////////////////////////////////////////////////////////////////////////////////
 
 function fetchAndDisplayApprovedProduceTypes(farmerId) {
-    fetch(`${baseUrl}api/ProduceType/GetApprovedProduceTypesForAFarmer/${farmerId}`)
+    fetch(`${baseUrl}api/ProduceType/GetApprovedProduceTypesForAFarmerByFarmerId/${farmerId}`)
         .then(response => {
             if (!response.ok) {
                 throw new Error("Network response was not ok");
