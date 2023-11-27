@@ -17,7 +17,6 @@
     <link href="../assets/libs/bootstrap/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css">
     <!-- Icons Css -->
     <link href="../assets/css/icons.ico" rel="stylesheet" type="text/css">
-    <link href="../assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css">
 
     <!-- App Css-->
     <link href="../assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css">
@@ -39,20 +38,30 @@
                             <h4 class="font-size-18 mt-2">Remove Produce Type</h4>
                         </div>
                         <div class="card-body">
-                            <form id="removeProduceTypeForm">
-                                <div class="mb-3">
-                                    <label class="form-label" for="ProduceTypeId">Select Produce Type</label>
-                                    <select class="form-control" name="produceTypeId" id="produceTypeId">
-                                        <!-- Produce Type options will be populated dynamically -->
-                                    </select>
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label" for="ReasonForStopSelling">Reason for Removal</label>
-                                    <input type="text" class="form-control" name="reasonForStopSelling"
-                                        id="reasonForStopSelling" required>
-                                </div>
-                                <button type="button" class="btn btn-primary" id="removeButton">Submit Request</button>
-                            </form>
+
+                            <div id="noProduceTypeMessage" class="container">
+                                <!-- Message will be displayed here -->
+                            </div>
+
+                            <div id="removeProduceTypeFormContainer" class="registration-form">
+                                <form id="removeProduceTypeForm">
+                                    <div class="mb-3">
+                                        <label class="form-label" for="ProduceTypeId">Select Produce Type</label>
+                                        <select class="form-control" name="produceTypeId" id="produceTypeId">
+                                            <!-- Produce Type options will be populated dynamically -->
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label" for="ReasonForStopSelling">Reason for Removal</label>
+                                        <input type="text" class="form-control" name="reasonForStopSelling"
+                                            id="reasonForStopSelling" required>
+                                    </div>
+                                    <button type="button" class="btn btn-primary" id="removeButton">Submit
+                                        Request</button>
+                                </form>
+                            </div>
+
+
                             <div id="result"></div>
                             <div class="mt-5 pt-4 text-center">
                                 <p>©
@@ -78,40 +87,47 @@
 
         var farmerId = localStorage.getItem("id");
 
-        function populateProduceTypeDropdown() {
-            // fetch(`${baseUrl}api/ProduceType/GetAllProduceType`)
 
+        function populateProduceTypeDropdown() {
             fetch(`${baseUrl}api/ProduceType/GetApprovedProduceTypesForAFarmerByUserId/${farmerId}`)
                 .then(response => response.json())
                 .then(data => {
                     const produceTypeDropdown = document.getElementById('produceTypeId');
-                    data.data.forEach(produceType => {
-                        const option = document.createElement('option');
-                        option.value = produceType.id;
-                        option.textContent = produceType.typeName;
-                        produceTypeDropdown.appendChild(option);
-                    });
+                    const noProduceTypeMessage = document.getElementById('noProduceTypeMessage');
+                    const removeProduceTypeFormContainer = document.getElementById('removeProduceTypeFormContainer');
+
+                    if (data.data === null || data.data.length === 0) {
+                        noProduceTypeMessage.textContent = "You can't remove produce type since you have not been approved.";
+                        noProduceTypeMessage.style.color = 'red';
+                        removeProduceTypeFormContainer.style.display = 'none';
+                    } else {
+                        data.data.forEach(produceType => {
+                            const option = document.createElement('option');
+                            option.value = produceType.id;
+                            option.textContent = produceType.typeName;
+                            produceTypeDropdown.appendChild(option);
+                        });
+
+                        removeProduceTypeFormContainer.style.display = 'block';
+                    }
                 })
                 .catch(error => {
                     console.error('Error:', error);
                 });
         }
 
+
         window.addEventListener('load', populateProduceTypeDropdown);
+
 
         document.getElementById('removeButton').addEventListener('click', function (e) {
             e.preventDefault();
             const formElement = document.getElementById('removeProduceTypeForm');
             const formData = new FormData(formElement);
-            // const farmerId = localStorage.getItem("id");
 
             const selectedProduceTypeId = document.getElementById('produceTypeId').value;
             formData.delete('produceTypeId');
             formData.append('ProduceTypeId', selectedProduceTypeId);
-            // if(selectedProduceTypeId == null)
-            // {
-            //     document.getElementById('selectedProduceTypeIdCantbenull').innerHTML = "No producetype is available to select" 
-            // }
 
             const token = localStorage.getItem("token");
             fetch(`${baseUrl}api/Request/RemoveExistingProduceType/${farmerId}`, {
@@ -133,6 +149,7 @@
                     console.error('Error:', error);
                 });
         });
+
 
         // Function to show success SweetAlert2 modal
         function showSweetAlertSuccess(data) {

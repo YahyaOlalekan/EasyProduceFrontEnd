@@ -9,11 +9,11 @@
         integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10"> -->
+    <link rel="stylesheet" href="producetypes-requests.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.css">
-    <link rel="stylesheet" href="./producetypes-requests.css">
     <link rel="stylesheet" href="update.css">
     <link rel="stylesheet" href="../general/swal.css">
-    <title>Produce Type List</title>
+    <title>Producetype Requests</title>
 </head>
 
 <body>
@@ -59,10 +59,13 @@
                                 <div class="modal-content">
                                     <span class="close" id="closeModal">&times;</span>
                                     <h2>Enter Rejection Reason</h2>
+                                    <input type="hidden" id="modalRequestId"> 
+                                    <input type="hidden" id="modalFarmerId"> 
                                     <textarea id="rejectionReasonInput" rows="4" cols="50" placeholder="Enter the reason for rejection"></textarea>
                                     <button id="submitReason">Submit</button>
                                 </div>
                             </div>
+                            
 
                         </div>
                     </div>

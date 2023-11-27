@@ -86,20 +86,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
 
-    // .then(data => {
-    //     if (data.status) {
-    //         // alert("Produce type verification successful!");
-    //         showSweetAlert(data.message);
-    //     } else {
-    //         // alert("Produce type verification failed.");
-    //         showSweetAlertError(data.message);
-    //     }
-    // })
-    // .catch(error => {
-    //     console.error("Error:", error);
-    //     alert("An error occurred while verifying the produce type.");
-    // });
-
 
     async function rejectRequest(requestId, farmerId, status, rejectionReason) {
         try {
@@ -147,42 +133,59 @@ document.addEventListener('DOMContentLoaded', function () {
                 const block = document.getElementById('block');
                 block.style.display = 'none';
                 requestList.style.padding = '20px';
+               
+                requestList.innerHTML = ''; 
+
                 if (data.status) {
                     data.data.forEach(request => {
                         const requestItem = document.createElement('div');
                         requestList.classList.add('m-3');
-                        // requestList.classList.add('bg-light');
                         requestItem.innerHTML = `<div class="mb-3 bg-light p-2">
-                                <strong>Request Type:</strong> ${mapFarmerRequestType(request.requestType)}
-                                <hr />
-                                <strong>Request Status:</strong> ${mapFarmerRequestStatus(request.requestStatus)}
-                                <hr />
-                                <strong>Reason for Stop Selling:</strong> ${request.reasonForStopSelling}
-                                <hr />
-                                <strong>Rejection Reason:</strong> ${request.rejectionReason}
-                                <hr />
-                                <strong>Registration Number:</strong> ${request.registrationNumber}
-                                <hr />
-                                <strong>Produce Type:</strong> ${request.typeName}
-                                <hr />
-                                <button class="btn btn-outline-info mx-2" id="fbutton" data-requestId="${request.id}" data-farmerId="${request.farmerId}" data-action="approve" ><i class="fa fa-check-circle" aria-hidden="true"></i>Approve</button>
-                                
-                                <button class="btn btn-outline-danger mx-2" id="lbutton" data-requestId="${request.id}" data-farmerId="${request.farmerId}" data-action="reject" ><i class="fa fa-times-circle" aria-hidden="true"></i>Reject</button>
-                                
-                                </div>
-                                `;
-
+                            <strong>Request Type:</strong> ${mapFarmerRequestType(request.requestType)}
+                            <hr />
+                            <strong>Request Status:</strong> ${mapFarmerRequestStatus(request.requestStatus)}
+                            <hr />
+                            <strong>Reason for Stop Selling:</strong> ${request.reasonForStopSelling}
+                            <hr />
+                            <strong>Rejection Reason:</strong> ${request.rejectionReason}
+                            <hr />
+                            <strong>Registration Number:</strong> ${request.registrationNumber}
+                            <hr />
+                            <strong>Produce Type:</strong> ${request.typeName}
+                            <hr />
+                            ${getActionButtons(request.requestStatus, request.id, request.farmerId)}
+                            </div>
+                            `;
+            
                         requestList.appendChild(requestItem);
                         console.log(request.farmerId + '\n' + request.id);
                     });
                 } else {
                     requestList.textContent = 'No requests found.';
                 }
+
             })
             .catch(error => {
                 console.error('Error:', error);
             });
     }
+
+
+    function getActionButtons(requestStatus, requestId, farmerId) {
+        if (requestStatus === 1) {
+            return `<button class="btn btn-outline-info mx-2" data-requestId="${requestId}" data-farmerId="${farmerId}" data-action="approve" ><i class="fa fa-check-circle" aria-hidden="true"></i>Approve</button>
+                <button class="btn btn-outline-danger mx-2" data-requestId="${requestId}" data-farmerId="${farmerId}" data-action="reject" ><i class="fa fa-times-circle" aria-hidden="true"></i>Reject</button>`;
+        } else if (requestStatus === 2) {
+            return `<button class="btn btn-outline-danger mx-2" data-requestId="${requestId}" data-farmerId="${farmerId}" data-action="reject" ><i class="fa fa-times-circle" aria-hidden="true"></i>Reject</button>`;
+        } else if (requestStatus === 3) {
+            return `<button class="btn btn-outline-info mx-2" data-requestId="${requestId}" data-farmerId="${farmerId}" data-action="approve" ><i class="fa fa-check-circle" aria-hidden="true"></i>Approve</button>`;
+        }
+
+        return ''; 
+    }
+
+
+
 
 
     function mapFarmerRequestType(requestType) {
@@ -256,7 +259,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
-    
+
     // // Function to show success SweetAlert2 modal
     // function showSweetAlert(message) {
     //     Swal.fire({
@@ -285,7 +288,7 @@ document.addEventListener('DOMContentLoaded', function () {
     //             // You can add additional logic here if needed
     //             Swal.close();
     //         }
-    
+
 
     //     });
     // }
@@ -322,7 +325,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
-  
+
 });
 
 
