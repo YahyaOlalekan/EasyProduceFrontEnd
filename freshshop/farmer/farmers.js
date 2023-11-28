@@ -68,7 +68,6 @@ function ViewDetails(id) {
             return response.json();
         })
         .then(data => {
-            // Assuming the returned data is an object with customer attributes
             displayFarmerData(data.data);
             // showSweetAlert(data.message);
         })
@@ -176,7 +175,7 @@ function ViewDetails(id) {
             profilePicture.src = `${baseUrl}Upload/images/${profilePictureUrl}`;
             profilePicture.alt = "Profile Picture";
         } else {
-            profilePicture.src = "../producePictures/farmIcons.jpg"; 
+            profilePicture.src = "../producePictures/farmIcons.jpg";
             profilePicture.alt = "Profile Picture";
         }
     }
@@ -208,7 +207,7 @@ function mapFarmerRegStatus(status) {
 function VerifyFarmer(id, status) {
     const verificationData = {
         Id: id,
-        Status: status 
+        Status: status
     };
 
     fetch(`${baseUrl}api/Farmer/VerifyFarmer`, {
@@ -589,14 +588,13 @@ function showSweetAlert(message) {
         confirmButtonColor: 'hsl(210, 17%, 93%)',
         confirmButtonText: 'CONTINUE',
         customClass: {
-            popup: 'animated fadeIn', // Apply the fadeIn animation
-            title: 'custom-title-class', // Create a custom class for title styling
-            content: 'custom-content-class', // Create a custom class for content styling
-            actions: 'custom-actions-class', // Create a custom class for action button styling
-            // Apply custom classes to specific elements
-            icon: 'swal-icon', // Custom class for the icon container
-            confirmButton: 'swal-button', // Custom class for the confirm button
-            confirmButtonText: 'swal-button-text', // Custom class for the confirm button text
+            popup: 'animated fadeIn',
+            title: 'custom-title-class',
+            content: 'custom-content-class',
+            actions: 'custom-actions-class',
+            icon: 'swal-icon',
+            confirmButton: 'swal-button',
+            confirmButtonText: 'swal-button-text',
         },
         background: 'rgb(1, 6, 28)',
     }).then(() => {
@@ -614,14 +612,13 @@ function showSweetAlertError(message) {
         confirmButtonColor: 'hsl(210, 17%, 93%)',
         confirmButtonText: 'OK',
         customClass: {
-            popup: 'animated fadeIn', // Apply the fadeIn animation
-            title: 'custom-title-class', // Create a custom class for title styling
-            content: 'custom-content-class', // Create a custom class for content styling
-            actions: 'custom-actions-class', // Create a custom class for action button styling
-            // Apply custom classes to specific elements
-            icon: 'swal-icon', // Custom class for the icon container
-            confirmButton: 'swal-button', // Custom class for the confirm button
-            confirmButtonText: 'swal-button-text', // Custom class for the confirm button text
+            popup: 'animated fadeIn',
+            title: 'custom-title-class',
+            content: 'custom-content-class',
+            actions: 'custom-actions-class',
+            icon: 'swal-icon',
+            confirmButton: 'swal-button',
+            confirmButtonText: 'swal-button-text',
         },
         background: 'rgb(1, 6, 28)',
     })
@@ -743,56 +740,56 @@ function displayFarmerData(farmer) {
 
 
 
-// Function to show success SweetAlert2 modal
-function showSweetAlert(message) {
-    Swal.fire({
-        text: message,
-        icon: 'success',
-        confirmButtonColor: 'hsl(210, 17%, 93%)',
-        confirmButtonText: 'OK',
-        customClass: {
-            popup: 'animated fadeIn', // Apply the fadeIn animation
-            title: 'custom-title-class', // Create a custom class for title styling
-            content: 'custom-content-class', // Create a custom class for content styling
-            actions: 'custom-actions-class', // Create a custom class for action button styling
-            // Apply custom classes to specific elements
-            icon: 'swal-icon', // Custom class for the icon container
-            confirmButton: 'swal-button', // Custom class for the confirm button
-            confirmButtonText: 'swal-button-text', // Custom class for the confirm button text
-        },
-        background: 'rgb(1, 6, 28)',
-    }).then(() => {
-        // window.location.href = './getCustomerById.html';
-        window.location.href = './farmers.html';
-        // Handle the "Continue" button click here if needed
-        // For example, you can redirect to another page or perform other actions
-        // window.location.href = 'your_target_url';
-    });
-}
+// // Function to show success SweetAlert2 modal
+// function showSweetAlert(message) {
+//     Swal.fire({
+//         text: message,
+//         icon: 'success',
+//         confirmButtonColor: 'hsl(210, 17%, 93%)',
+//         confirmButtonText: 'OK',
+//         customClass: {
+//             popup: 'animated fadeIn', // Apply the fadeIn animation
+//             title: 'custom-title-class', // Create a custom class for title styling
+//             content: 'custom-content-class', // Create a custom class for content styling
+//             actions: 'custom-actions-class', // Create a custom class for action button styling
+//             // Apply custom classes to specific elements
+//             icon: 'swal-icon', // Custom class for the icon container
+//             confirmButton: 'swal-button', // Custom class for the confirm button
+//             confirmButtonText: 'swal-button-text', // Custom class for the confirm button text
+//         },
+//         background: 'rgb(1, 6, 28)',
+//     }).then(() => {
+//         // window.location.href = './getCustomerById.html';
+//         window.location.href = './farmers.html';
+//         // Handle the "Continue" button click here if needed
+//         // For example, you can redirect to another page or perform other actions
+//         // window.location.href = 'your_target_url';
+//     });
+// }
 
-// Function to show error SweetAlert2 modal
-function showSweetAlertError(message) {
-    Swal.fire({
-        text: message,
-        icon: 'error',
-        confirmButtonColor: 'hsl(210, 17%, 93%)',
-        confirmButtonText: 'OK',
-        customClass: {
-            popup: 'animated fadeIn', // Apply the fadeIn animation
-            title: 'custom-title-class', // Create a custom class for title styling
-            content: 'custom-content-class', // Create a custom class for content styling
-            actions: 'custom-actions-class', // Create a custom class for action button styling
-            // Apply custom classes to specific elements
-            icon: 'swal-icon', // Custom class for the icon container
-            confirmButton: 'swal-button', // Custom class for the confirm button
-            confirmButtonText: 'swal-button-text', // Custom class for the confirm button text
-        },
-        background: 'rgb(1, 6, 28)',
-    })
-        .then(() => {
-            window.location.href = './farmers.html';
+// // Function to show error SweetAlert2 modal
+// function showSweetAlertError(message) {
+//     Swal.fire({
+//         text: message,
+//         icon: 'error',
+//         confirmButtonColor: 'hsl(210, 17%, 93%)',
+//         confirmButtonText: 'OK',
+//         customClass: {
+//             popup: 'animated fadeIn', // Apply the fadeIn animation
+//             title: 'custom-title-class', // Create a custom class for title styling
+//             content: 'custom-content-class', // Create a custom class for content styling
+//             actions: 'custom-actions-class', // Create a custom class for action button styling
+//             // Apply custom classes to specific elements
+//             icon: 'swal-icon', // Custom class for the icon container
+//             confirmButton: 'swal-button', // Custom class for the confirm button
+//             confirmButtonText: 'swal-button-text', // Custom class for the confirm button text
+//         },
+//         background: 'rgb(1, 6, 28)',
+//     })
+//         .then(() => {
+//             window.location.href = './farmers.html';
 
-        });
-}
+//         });
+// }
 
 

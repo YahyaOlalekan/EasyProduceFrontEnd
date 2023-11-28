@@ -203,10 +203,20 @@
                                 </div>
 
 
+                                <div id="loading-status"
+                                    style="display: none; color: #ff5733; font-size: 25px; font-weight: bold;">
+                                    Loading...
+                                </div>
+
+
                                 <div class="row mb-3">
                                     <div class="col-12 text-end">
+
                                         <button class="btn btn-primary w-md waves-effect waves-light" type="submit"
-                                            id="submit-farmer">Register</button>
+                                            id="submit-farmer" onclick="submitForm()">Register</button>
+
+                                        <!-- <button class="btn btn-primary w-md waves-effect waves-light" type="submit"
+                                            id="submit-farmer">Register</button> -->
                                         <p id="error"></p>
                                     </div>
                                 </div>
@@ -214,12 +224,6 @@
                                 <div class="mb-3" id="error">
                                     <!-- This is where the error message will be displayed -->
                                 </div>
-
-                                <div id="loading-spinner" style="display: none;">
-                                    <!-- Replace the following with your loading spinner or icon -->
-                                    Loading...
-                                </div>
-
 
                                 <div class="mt-2 mb-0 row">
                                     <div class="col-12 mt-4">
@@ -265,7 +269,7 @@
                 .then(res => {
                     const selectElement = document.getElementById('produceTypesSelect');
                     res.data.forEach(option => {
-                        // Create an <option> element for each produce type
+
                         const optionElement = document.createElement('option');
                         optionElement.value = option.id;
                         optionElement.textContent = option.typeName;
@@ -279,57 +283,17 @@
         }
 
 
+        function submitForm() {
+            const loadingStatus = document.getElementById('loading-status');
+            loadingStatus.style.display = 'block';
+            // loadingStatus.style.color = '#ff5733';
+            // loadingStatus.style.fontSize = '20px';
 
-        // document.querySelector('#farmer-form').addEventListener('submit', async (e) => {
-        //     e.preventDefault();
-        //     const formElement = document.querySelector('#farmer-form');
-        //     const formData = new FormData(formElement);
-        //     const selectedProduceTypes = $('#produceTypesSelect').val();
-        //     formData.delete('ProduceTypes');
-        //     selectedProduceTypes.forEach((type) => {
-        //         formData.append('ProduceTypes', type);
-        //     });
-
-        //     // // Show loading spinner
-        //     // const loadingSpinner = document.getElementById('loading-spinner');
-        //     // loadingSpinner.style.display = 'inline-block';
-
-        //     try {
-        //         const response = await fetch(`${baseUrl}api/Farmer/RegisterFarmer`, {
-        //             method: 'POST',
-        //             body: formData,
-        //         });
-
-        //         const data = await response.json();
-
-        //         // Show loading spinner
-        //         const loadingSpinner = document.getElementById('loading-spinner');
-        //         loadingSpinner.style.display = 'inline-block';
-
-        //         if (data.status === 400 && data.errors) {
-        //             // Validation errors
-        //             showSweetAlertValidationErrors(data);
-        //         } else if (data.status === 200) {
-        //             // Success
-        //             showSweetAlert(data.message);
-        //         } else {
-        //             // Other errors
-        //             showSweetAlertError(data.message);
-        //         }
-        //     } catch (error) {
-        //         console.error('Error:', error);
-        //     } finally {
-        //         // Hide loading spinner (whether the request was successful or not)
-        //         loadingSpinner.style.display = 'none';
-        //     }
-        // });
+            handleFormSubmission();
+        }
 
 
-
-
-
-
-        document.querySelector('#farmer-form').addEventListener('submit', e => {
+        document.querySelector('#farmer-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             let formElement = document.querySelector('#farmer-form');
             const formData = new FormData(formElement);
@@ -343,27 +307,27 @@
                 body: formData
             })
                 .then(response => response.json())
-
                 .then(data => {
-                    console.log('data:', data)
-                    console.log('dataStaus:', data.status)
+
+                    const loadingStatus = document.getElementById('loading-status');
+                    loadingStatus.style.display = 'none';
+
                     if (data.status === 400 && data.errors) {
-                        //  validation errors
-                        showSweetAlertValidationErrors(data)
-
+                        showSweetAlertValidationErrors(data);
                     } else if (data.status == true) {
-                        // success
                         showSweetAlert(data.message);
-
                     } else {
-                        // other errors
                         showSweetAlertError(data.message);
                     }
                 })
-
                 .catch(error => {
+
+                    const loadingStatus = document.getElementById('loading-status');
+                    loadingStatus.style.display = 'none';
                     console.error('Error:', error);
                 });
+
+            await handleFormSubmission();
         });
 
 
