@@ -26,48 +26,48 @@
                             <h4 class="font-size-18 mt-2" id="titles">Produce Type Requests</h4>
                         </div>
                         <div id="block">
-                        <div class="card-body">
-                            <form id="produceTypeRequestsForm">
-                                <div class="mb-3">
-                                    <label class="form-label" for="requestType">Select Request Type</label>
-                                    <select class="form-control" name="requestType" id="requestType">
-                                        <option value="1">Add New Produce Type</option>
-                                        <option value="2">Remove From Existing Produce Type</option>
-                                    </select>
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label" for="requestStatus">Select Request Status</label>
-                                    <select class="form-control" name="requestStatus" id="requestStatus">
-                                        <option value="">All</option>
-                                        <option value="1">Initialized</option>
-                                        <option value="2">Approved</option>
-                                        <option value="3">Rejected</option>
-                                    </select>
-                                </div>
-                                    <button type="button" class="btn btn-primary" id="filterButton">Filter Requests</button>
-                            
-                            </form>
-                        </div>
-                       </div>
+                            <div class="card-body">
+                                <form id="produceTypeRequestsForm">
+                                    <div class="mb-3">
+                                        <label class="form-label" for="requestType">Select Request Type</label>
+                                        <select class="form-control" name="requestType" id="requestType">
+                                            <option value="1">Add New Produce Type</option>
+                                            <option value="2">Remove From Existing Produce Type</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label" for="requestStatus">Select Request Status</label>
+                                        <select class="form-control" name="requestStatus" id="requestStatus">
+                                            <option value="">All</option>
+                                            <option value="1">Initialized</option>
+                                            <option value="2">Approved</option>
+                                            <option value="3">Rejected</option>
+                                        </select>
+                                    </div>
+                                    <button type="button" class="btn btn-primary" id="filterButton">Filter
+                                        Requests</button>
 
-                      
+                                </form>
+                            </div>
+                        </div>
+
+
 
                         <div id="requestLists">
-                             <!-- Requests will be populated dynamically  -->
-
-                             <div id="myModal" class="modal">
+                            <!-- Requests will be populated dynamically  -->
+                        
+                            <div id="myModal" class="modal" style="display: none;">
                                 <div class="modal-content">
                                     <span class="close" id="closeModal">&times;</span>
                                     <h2>Enter Rejection Reason</h2>
-                                    <input type="hidden" id="modalRequestId"> 
-                                    <input type="hidden" id="modalFarmerId"> 
+                                    <input type="hidden" id="modalRequestId">
+                                    <input type="hidden" id="modalFarmerId">
                                     <textarea id="rejectionReasonInput" rows="4" cols="50" placeholder="Enter the reason for rejection"></textarea>
                                     <button id="submitReason">Submit</button>
                                 </div>
                             </div>
-                            
-
                         </div>
+                        
                     </div>
                 </div>
             </div>
@@ -81,7 +81,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-   
+
 
 </body>
 

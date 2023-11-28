@@ -1,3 +1,4 @@
+
 document.addEventListener('DOMContentLoaded', function () {
     const filterButton = document.getElementById('filterButton');
 
@@ -19,34 +20,11 @@ document.addEventListener('DOMContentLoaded', function () {
             const farmerId = target.getAttribute('data-farmerId');
             openModal(requestId, farmerId);
         }
-    });
 
-    // Define the closeModal function
-    function closeModal() {
-        const modal = document.getElementById('myModal');
-        modal.style.display = 'none';
-    }
-
-    // Define the openModal function
-    function openModal(requestId, farmerId) {
-        const modal = document.getElementById('myModal');
-        modal.style.display = 'block';
-        document.getElementById('modalRequestId').value = requestId;
-        document.getElementById('modalFarmerId').value = farmerId;
-
-        const modalRequestId = document.getElementById('modalRequestId');
-        const modalFarmerId = document.getElementById('modalFarmerId');
-        const rejectionReasonInput = document.getElementById('rejectionReasonInput');
-        const submitReasonButton = document.getElementById('submitReason');
-
-        document.getElementById('closeModal').addEventListener('click', function () {
-            closeModal();
-        });
-
-        submitReasonButton.addEventListener('click', function () {
-            const requestId = modalRequestId.value;
-            const farmerId = modalFarmerId.value;
-            const rejectionReason = rejectionReasonInput.value;
+        if (target.matches('#submitReason')) {
+            const requestId = document.getElementById('modalRequestId').value;
+            const farmerId = document.getElementById('modalFarmerId').value;
+            const rejectionReason = document.getElementById('rejectionReasonInput').value;
 
             if (rejectionReason) {
                 rejectRequest(requestId, farmerId, 3, rejectionReason);
@@ -54,9 +32,74 @@ document.addEventListener('DOMContentLoaded', function () {
             } else {
                 alert('Please enter a rejection reason.');
             }
-        });
+        }
+
+        if (target.matches('#closeModal')) {
+            closeModal();
+        }
+    });
+
+    function openModal(requestId, farmerId) {
+        createModal(requestId, farmerId);
+        const modal = document.getElementById('myModal');
+        modal.style.display = 'block';
     }
 
+    function closeModal() {
+        const modal = document.getElementById('myModal');
+        if (modal) {
+            modal.style.display = 'none';
+        }
+    }
+
+    function createModal(requestId, farmerId) {
+        const modalContainer = document.createElement('div');
+        modalContainer.id = 'myModal';
+        modalContainer.classList.add('modal');
+        modalContainer.innerHTML = `
+            <div class="modal-content">
+                <span class="close" id="closeModal">&times;</span>
+                <h2>Enter Rejection Reason</h2>
+                <input type="hidden" id="modalRequestId">
+                <input type="hidden" id="modalFarmerId">
+                <textarea id="rejectionReasonInput" rows="4" cols="50" placeholder="Enter the reason for rejection"></textarea>
+                <button id="submitReason">Submit</button>
+            </div>
+        `;
+        document.body.appendChild(modalContainer);
+
+        document.getElementById('modalRequestId').value = requestId;
+        document.getElementById('modalFarmerId').value = farmerId;
+        attachModalEventListeners(requestId, farmerId);
+    }
+
+    // function attachModalEventListeners(requestId, farmerId) {
+    function attachModalEventListeners() {
+        const closeModalButton = document.getElementById('closeModal');
+        const submitReasonButton = document.getElementById('submitReason');
+
+        if (closeModalButton && submitReasonButton) {
+            closeModalButton.addEventListener('click', closeModal);
+            submitReasonButton.addEventListener('click', submitReason);
+        } else {
+            console.error('Close or Submit button not found in the modal.');
+        }
+    }
+
+    async function submitReason() {
+        const requestId = document.getElementById('modalRequestId').value;
+        const farmerId = document.getElementById('modalFarmerId').value;
+        const rejectionReason = document.getElementById('rejectionReasonInput').value;
+
+        if (rejectionReason) {
+            rejectRequest(requestId, farmerId, 3, rejectionReason);
+            closeModal();
+        } else {
+            alert('Please enter a rejection reason.');
+        }
+    }
+
+   
     async function approveRequest(requestId, farmerId, status) {
         try {
             const response = await fetch(`${baseUrl}api/Request/VerifyRequest`, {
@@ -72,8 +115,7 @@ document.addEventListener('DOMContentLoaded', function () {
             });
 
             if (response.ok) {
-                // document.getElementById('fbutton').innerHTML = "Approved"
-                document.getElementById('fbutton').setAttribute('disabled', 'true');
+              
                 showSweetAlert('Request Approved Successfully');
 
             } else {
@@ -84,7 +126,6 @@ document.addEventListener('DOMContentLoaded', function () {
             console.error('Error:', error);
         }
     }
-
 
 
     async function rejectRequest(requestId, farmerId, status, rejectionReason) {
@@ -102,6 +143,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 }),
             });
 
+            console.log('Response:', response);
             if (response.ok) {
                 showSweetAlert('Request Rejected Successfully');
             } else {
@@ -133,8 +175,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 const block = document.getElementById('block');
                 block.style.display = 'none';
                 requestList.style.padding = '20px';
-               
-                requestList.innerHTML = ''; 
+
+                requestList.innerHTML = '';
 
                 if (data.status) {
                     data.data.forEach(request => {
@@ -156,7 +198,7 @@ document.addEventListener('DOMContentLoaded', function () {
                             ${getActionButtons(request.requestStatus, request.id, request.farmerId)}
                             </div>
                             `;
-            
+
                         requestList.appendChild(requestItem);
                         console.log(request.farmerId + '\n' + request.id);
                     });
@@ -181,11 +223,8 @@ document.addEventListener('DOMContentLoaded', function () {
             return `<button class="btn btn-outline-info mx-2" data-requestId="${requestId}" data-farmerId="${farmerId}" data-action="approve" ><i class="fa fa-check-circle" aria-hidden="true"></i>Approve</button>`;
         }
 
-        return ''; 
+        return '';
     }
-
-
-
 
 
     function mapFarmerRequestType(requestType) {
@@ -197,6 +236,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         }
     }
+
     function mapFarmerRequestStatus(requestStatus) {
         switch (requestStatus) {
             case 1:
@@ -209,8 +249,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 return "All";
         }
     }
-
-
 
     // Function to show success SweetAlert2 modal
     function showSweetAlert(message) {
