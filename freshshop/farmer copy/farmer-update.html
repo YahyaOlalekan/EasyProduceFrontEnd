@@ -64,6 +64,7 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- <script src="./updateFarmer.js"></script> -->
     <script src="../general/login.js"></script>
 
 
@@ -71,39 +72,36 @@
 
         var form = document.getElementById("updateFarmerForm")
         form.addEventListener("submit", (event) => {
-            event.preventDefault();
-
-            // const farmerId = localStorage.getItem("id");
-
-            // const formData = new FormData(form);
-
-            // fetch(`${baseUrl}api/Farmer/UpdateFarmer/${farmerId}`, {
-            //     method: "PUT",
-            //     body: formData,
-            // })
-            //     .then(response => response.json())
+            event.preventDefault(); // Prevent the default form submission
 
             const farmerId = localStorage.getItem("id");
-            const token = localStorage.getItem("token");
-            const url = `${baseUrl}api/Farmer/UpdateFarmer/${farmerId}`;
+
             const formData = new FormData(form);
-
-
-            putWithAuthorizationFormData(url, token, formData)
+         
+            fetch(`${baseUrl}api/Farmer/UpdateFarmer/${farmerId}`, {
+                method: "PUT",
+                body: formData,
+            })
+                .then(response => response.json())
+               
                 .then((data) => {
                     if (data.status === 400 && data.errors) {
+                        // Handle validation errors
                         showSweetAlertValidationErrors(data)
 
                     } else if (data.status == true) {
+                        // Handle success
                         showSweetAlert(data.message);
 
                     } else {
+                        // Handle other errors
                         showSweetAlertError(data.message);
                     }
-
+                   
                 })
                 .catch((error) => {
                     console.error("Error:", error);
+                    // displayUpdateResult("An error occurred while updating customer data.", true);
                 });
         });
 
@@ -155,7 +153,7 @@
                     confirmButtonText: 'swal-button-text',
                 },
                 background: 'rgb(1, 6, 28)',
-                allowOutsideClick: false,
+                allowOutsideClick: false, // Add this line
             }).then(() => {
                 window.location.href = './dashboard.html';
                 // window.location.replace('../general/login.html');

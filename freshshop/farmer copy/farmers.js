@@ -1,21 +1,18 @@
+// JavaScript for populating farmer data into the table
 
 let count = 1;
 let tableBody = document.getElementById("farmerTableBody");
 
-// fetch(`${baseUrl}api/Farmer/GetAllFarmers`)
-//     .then(response => {
-//         if (!response.ok) {
-//             throw new Error("Network response was not ok");
-//         }
-//         return response.json();
-//     })
-
-const tokenById = localStorage.getItem("token");
-const apiUrlById = `${baseUrl}api/Farmer/GetAllFarmers`;
-
-getWithAuthorization(apiUrlById, tokenById, false)
+fetch(`${baseUrl}api/Farmer/GetAllFarmers`)
+    .then(response => {
+        if (!response.ok) {
+            throw new Error("Network response was not ok");
+        }
+        return response.json();
+    })
     .then(data => {
         data.data.forEach(farmer => {
+            console.log(farmer);
             const row = `
                 <tr>
                     <td>${count}</td>
@@ -33,7 +30,10 @@ getWithAuthorization(apiUrlById, tokenById, false)
     <button class="btn btn-outline-info mx-2" id="${farmer.id}" onclick="VerifyFarmer(this.id, 3)"><i class="fa fa-check-circle" aria-hidden="true"></i> Approve </button>
     <button class="btn btn-outline-danger mx-2" id="${farmer.id}" onclick="VerifyFarmer(this.id, 2)"> <i class="fa fa-times-circle" aria-hidden="true"></i> Decline </button>
      </td>
-                      
+    
+     
+
+              
      <td><button class="btn btn-success mx-2" id="${farmer.id}" onclick="fetchAndDisplayApprovedProduceTypes(this.id)"><i class="fa fa-info" aria-hidden="true"></i> View</button></td>
      <td><button  class="btn btn-success mx-2"  id="${farmer.id}" onclick="AccountDetails(this.id)"> <i class="fa fa-info" aria-hidden="true"></i> View </button> </td> 
                  <td><button  class="btn btn-danger mx-2"  id="${farmer.id}" onclick="DeleteDetails(this.id)">  <i class="fa fa-trash" aria-hidden="true"></i> Deactivate </button> </td> 
@@ -44,7 +44,7 @@ getWithAuthorization(apiUrlById, tokenById, false)
     })
     .catch(error => {
         console.error("Error:", error);
-
+        // Display an error message to the user
         tableBody.innerHTML = `
             <tr>
                 <td colspan="7" class="text-danger">An error occurred while fetching data.</td>
@@ -55,40 +55,33 @@ getWithAuthorization(apiUrlById, tokenById, false)
 
 
 
+
+
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
 function ViewDetails(id) {
-    // fetch(`${baseUrl}api/Farmer/GetFarmerAlongWithRegisteredProduceType/${id}`)
-    //     .then(response => {
-    //         if (!response.ok) {
-    //             throw new Error("Network response was not ok");
-    //         }
-    //         return response.json();
-    //     })
-
-    const token = localStorage.getItem("token");
-    const userId = localStorage.getItem("id");
-    console.log('userId:', userId);
-
-    if (!userId) {
-        console.error("No userId found in local storage.");
-        return;
-    }
-
-    getWithAuthorizationWithNonUserId(`${baseUrl}api/Farmer/GetFarmerAlongWithRegisteredProduceType/${id}`, token, userId)
+    fetch(`${baseUrl}api/Farmer/GetFarmerAlongWithRegisteredProduceType/${id}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Network response was not ok");
+            }
+            return response.json();
+        })
         .then(data => {
             displayFarmerData(data.data);
             // showSweetAlert(data.message);
         })
         .catch(error => {
             console.error("Error:", error);
+            // Display an error message to the user
             displayError();
         });
 
 
     function displayFarmerData(data) {
-
+        // Select the elements for farmer details
         const body = document.querySelector(".body");
+        // <strong>Category Name, Produce Name, Type Name:</strong>
 
         body.innerHTML = `
         <div class="container-fluid p-0">
@@ -147,6 +140,7 @@ function ViewDetails(id) {
 
         const farmerData = data.farmerDto;
 
+        // Select the elements for farmer details
         const firstName = document.getElementById("firstName");
         const farmerRegStatus = document.getElementById("farmerRegStatus");
         const farmName = document.getElementById("farmName");
@@ -157,6 +151,7 @@ function ViewDetails(id) {
         const email = document.getElementById("email");
         const profilePicture = document.getElementById("profilePicture");
 
+        // Set the farmer details
         firstName.textContent = farmerData.firstName;
         lastName.textContent = farmerData.lastName;
         phoneNumber.textContent = farmerData.phoneNumber;
@@ -166,6 +161,7 @@ function ViewDetails(id) {
         farmerRegStatus.textContent = mapFarmerRegStatus(farmerData.farmerRegStatus);
         farmName.textContent = farmerData.farmName;
 
+        // Select the list element for produce types
         const produceInfoList = document.getElementById("produceInfoList");
 
         data.produceTypeDto.forEach(produceType => {
@@ -200,108 +196,47 @@ function mapFarmerRegStatus(status) {
             return "Declined";
         case 3:
             return "Approved";
-
+        // default:
+        //     return "Unknown";
     }
 }
 
 
 //////////////////////////////////////////////////////////////////////////////////////
 
-// function VerifyFarmer(id, status) {
-//     const verificationData = {
-//         Id: id,
-//         Status: status
-//     };
-
-//     fetch(`${baseUrl}api/Farmer/VerifyFarmer`, {
-//         method: 'POST',
-//         headers: {
-//             'Content-Type': 'application/json'
-//         },
-//         body: JSON.stringify(verificationData)
-//     })
-
-//         .then(response => response.json())
-//         .then(data => {
-//             if (data.status) {
-//                 showSweetAlert(data.message);
-//             } else {
-//                 showSweetAlertError(data.message);
-//             }
-//         })
-//         .catch(error => {
-//             console.error("Error:", error);
-//             alert("An error occurred while verifying the farmer.");
-//         });
-
-// }
-
-
-async function VerifyFarmer(id, status) {
+function VerifyFarmer(id, status) {
     const verificationData = {
         Id: id,
         Status: status
     };
-    
-    try {
-       
-        const apiUrl = `${baseUrl}api/Farmer/VerifyFarmer`;
-        const token = localStorage.getItem("token");
 
-        const response = await makeApiRequest(apiUrl, 'POST', verificationData, token);
-
-        if (response.status) {
-            showSweetAlert(response.message);
-        } else {
-            showSweetAlertError(response.message);
-        }
-    } catch (error) {
-        alert(error.message);
-    }
-}
-
-function showSweetAlert(response) {
-    Swal.fire({
-        text: response.message,
-        icon: 'success',
-        confirmButtonColor: 'hsl(210, 17%, 93%)',
-        confirmButtonText: 'CONTINUE',
-        customClass: {
-            popup: 'animated fadeIn',
-            title: 'custom-title-class',
-            content: 'custom-content-class',
-            actions: 'custom-actions-class',
-            icon: 'swal-icon',
-            confirmButton: 'swal-button',
-            confirmButtonText: 'swal-button-text',
+    fetch(`${baseUrl}api/Farmer/VerifyFarmer`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
         },
-        background: 'rgb(1, 6, 28)',
-    }).then(() => {
-        window.location.href = './farmers.html';
-
-    });
-}
-
-function showSweetAlertError(response) {
-    Swal.fire({
-        text: response.message,
-        icon: 'error',
-        confirmButtonColor: 'hsl(210, 17%, 93%)',
-        confirmButtonText: 'OK',
-        customClass: {
-            popup: 'animated fadeIn',
-            title: 'custom-title-class',
-            content: 'custom-content-class',
-            actions: 'custom-actions-class',
-            icon: 'swal-icon',
-            confirmButton: 'swal-button',
-            confirmButtonText: 'swal-button-text',
-        },
-        background: 'rgb(1, 6, 28)',
+        body: JSON.stringify(verificationData)
     })
-        .then(() => {
-            window.location.href = './farmers.html';
-
+        // .then(response => {
+        //     if (!response.ok) {
+        //         throw new Error("Network response was not ok");
+        //     }
+        //     return response.json();
+        // })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status) {
+                // alert("Farmer verification successful!");
+                showSweetAlert(data.message);
+            } else {
+                // alert("Farmer verification failed.");
+                showSweetAlertError(data.message);
+            }
+        })
+        .catch(error => {
+            console.error("Error:", error);
+            // Display an error message to the user
+            alert("An error occurred while verifying the farmer.");
         });
 }
 
@@ -309,8 +244,11 @@ function showSweetAlertError(response) {
 //////////////////////////////////////////////////////////////////////////////////////
 
 
-function ApproveProducetypes(farmerId) {
 
+
+function ApproveProducetypes(farmerId) {
+    // Fetch the list of produce types to be approved
+    console.log("FARMERID", farmerId)
     fetch(`${baseUrl}api/ProduceType/GetProduceTypesToBeApprovedAsync/${farmerId}`, {
         method: 'GET',
         headers: {

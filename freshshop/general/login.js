@@ -41,10 +41,9 @@ function showSweetAlert(data) {
         },
         background: 'rgb(1, 6, 28)',
     }).then(() => {
-        // localStorage.setItem("id", data.id)
+
         localStorage.setItem("id", data.data.id.toString()); 
         localStorage.setItem("token", data.data.token.toString()); 
-
 
         if (data.data.roleName == "customer") {
             window.location.href = "../customer/dashboard.html";

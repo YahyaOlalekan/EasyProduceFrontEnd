@@ -8,7 +8,7 @@ document.getElementById('submitButton').addEventListener('click', function (e) {
 
     // if (formData.get('Password') === formData.get('ConfirmPassword')) {
         // Submit to backend
-        fetch('${baseUrl}api/Customer/CustomerRegistration', {
+        fetch(`${baseUrl}api/Customer/CustomerRegistration`, {
             method: 'POST',
             body: formData
         })
