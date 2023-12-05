@@ -609,3 +609,49 @@ function decodeJwt(token) {
 // });
 
 
+
+// how should i display items from dashboard along with dashboard side bar menu
+
+
+
+// <!DOCTYPE html>
+// <html lang="en">
+
+// <head>
+//     <!-- Your head content goes here -->
+//     <title>Your Dashboard</title>
+// </head>
+
+// <body>
+//     <!-- Sidebar -->
+//     <div class="sidebar">
+//         <!-- Sidebar content goes here -->
+//         <ul>
+//             <li><a href="#section1">Section 1</a></li>
+//             <li><a href="#section2">Section 2</a></li>
+//             <!-- Add more menu items as needed -->
+//         </ul>
+//     </div>
+
+//     <!-- Main Content -->
+//     <div class="main-content">
+//         <!-- Content for each section goes here -->
+//         <section id="section1">
+//             <h2>Section 1</h2>
+//             <!-- Add content for Section 1 -->
+//         </section>
+
+//         <section id="section2">
+//             <h2>Section 2</h2>
+//             <!-- Add content for Section 2 -->
+//         </section>
+//         <!-- Add more sections as needed -->
+
+//         <!-- You can dynamically load content using JavaScript as well -->
+//     </div>
+
+//     <!-- Your JavaScript and other scripts go here -->
+
+// </body>
+
+// </html>

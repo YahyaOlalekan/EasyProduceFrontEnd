@@ -1,0 +1,84 @@
+
+.dashboard-section {
+    display: none;
+}
+
+    .content-page {
+        padding: 20px; 
+        margin: 30px; 
+        border: 1px solid #ddd; 
+    }
+
+    #farmer-profile-section {
+        padding: 20px; 
+        margin: 20px; 
+       
+    }
+
+     
+    #farmer-update-section {
+        padding: 20px;
+        margin: 20px;
+        background-color: #f8f9fa; 
+    }
+     /* //////// */
+    
+    #farmer-update-section .container {
+        margin-top: 50px;
+    }
+    
+    #farmer-update-section .form-container {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    #farmer-update-section h1 {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    
+    #farmer-update-section .form-group {
+        margin-bottom: 15px;
+    }
+    
+    #farmer-update-section label {
+        font-weight: bold;
+    }
+    
+    #farmer-update-section .btn-primary {
+        background-color: #007bff;
+        border: none;
+    }
+    
+    #farmer-update-section .btn-primary:hover {
+        background-color: #0056b3;
+    }
+     /* //////// */
+
+     /* #farmer-update-section .form-group label {
+        font-weight: bold;
+    }
+    
+    #farmer-update-section .form-group input[type="file"] {
+        display: block;
+        width: 100%;
+        padding: 10px;
+        margin-top: 5px;
+        font-size: 14px;
+        line-height: 1.42857143;
+        color: #555;
+        background-color: #fff;
+        background-image: none;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+        transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    }
+    
+    #farmer-update-section .form-group input[type="file"]:focus {
+        border-color: #66afe9;
+        outline: 0;
+    } */
+    

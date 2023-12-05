@@ -2,14 +2,6 @@
 let count = 1;
 let tableBody = document.getElementById("farmerTableBody");
 
-// fetch(`${baseUrl}api/Farmer/GetAllFarmers`)
-//     .then(response => {
-//         if (!response.ok) {
-//             throw new Error("Network response was not ok");
-//         }
-//         return response.json();
-//     })
-
 const tokenById = localStorage.getItem("token");
 const apiUrlById = `${baseUrl}api/Farmer/GetAllFarmers`;
 
@@ -58,13 +50,6 @@ getWithAuthorization(apiUrlById, tokenById, false)
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
 function ViewDetails(id) {
-    // fetch(`${baseUrl}api/Farmer/GetFarmerAlongWithRegisteredProduceType/${id}`)
-    //     .then(response => {
-    //         if (!response.ok) {
-    //             throw new Error("Network response was not ok");
-    //         }
-    //         return response.json();
-    //     })
 
     const token = localStorage.getItem("token");
     const userId = localStorage.getItem("id");
@@ -84,7 +69,6 @@ function ViewDetails(id) {
             console.error("Error:", error);
             displayError();
         });
-
 
     function displayFarmerData(data) {
 
@@ -184,7 +168,6 @@ function ViewDetails(id) {
         }
     }
 
-
     function displayError() {
         const farmerDetails = document.querySelector(".card-body");
         farmerDetails.innerHTML = `<p class="text-danger">An error occurred while fetching farmer data.</p>`;
@@ -207,44 +190,14 @@ function mapFarmerRegStatus(status) {
 
 //////////////////////////////////////////////////////////////////////////////////////
 
-// function VerifyFarmer(id, status) {
-//     const verificationData = {
-//         Id: id,
-//         Status: status
-//     };
-
-//     fetch(`${baseUrl}api/Farmer/VerifyFarmer`, {
-//         method: 'POST',
-//         headers: {
-//             'Content-Type': 'application/json'
-//         },
-//         body: JSON.stringify(verificationData)
-//     })
-
-//         .then(response => response.json())
-//         .then(data => {
-//             if (data.status) {
-//                 showSweetAlert(data.message);
-//             } else {
-//                 showSweetAlertError(data.message);
-//             }
-//         })
-//         .catch(error => {
-//             console.error("Error:", error);
-//             alert("An error occurred while verifying the farmer.");
-//         });
-
-// }
-
-
 async function VerifyFarmer(id, status) {
     const verificationData = {
         Id: id,
         Status: status
     };
-    
+
     try {
-       
+
         const apiUrl = `${baseUrl}api/Farmer/VerifyFarmer`;
         const token = localStorage.getItem("token");
 
@@ -260,72 +213,25 @@ async function VerifyFarmer(id, status) {
     }
 }
 
-function showSweetAlert(response) {
-    Swal.fire({
-        text: response.message,
-        icon: 'success',
-        confirmButtonColor: 'hsl(210, 17%, 93%)',
-        confirmButtonText: 'CONTINUE',
-        customClass: {
-            popup: 'animated fadeIn',
-            title: 'custom-title-class',
-            content: 'custom-content-class',
-            actions: 'custom-actions-class',
-            icon: 'swal-icon',
-            confirmButton: 'swal-button',
-            confirmButtonText: 'swal-button-text',
-        },
-        background: 'rgb(1, 6, 28)',
-    }).then(() => {
-        window.location.href = './farmers.html';
-
-    });
-}
-
-function showSweetAlertError(response) {
-    Swal.fire({
-        text: response.message,
-        icon: 'error',
-        confirmButtonColor: 'hsl(210, 17%, 93%)',
-        confirmButtonText: 'OK',
-        customClass: {
-            popup: 'animated fadeIn',
-            title: 'custom-title-class',
-            content: 'custom-content-class',
-            actions: 'custom-actions-class',
-            icon: 'swal-icon',
-            confirmButton: 'swal-button',
-            confirmButtonText: 'swal-button-text',
-        },
-        background: 'rgb(1, 6, 28)',
-    })
-        .then(() => {
-            window.location.href = './farmers.html';
-
-        });
-}
-
 
 //////////////////////////////////////////////////////////////////////////////////////
 
 
 function ApproveProducetypes(farmerId) {
 
-    fetch(`${baseUrl}api/ProduceType/GetProduceTypesToBeApprovedAsync/${farmerId}`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    })
-        .then(response => {
-            if (!response.ok) {
-                throw Error("Network response was not ok");
-            }
-            return response.json();
-        })
+    const token = localStorage.getItem("token");
+    const userId = localStorage.getItem("id");
+    console.log('userId:', userId);
+
+    if (!userId) {
+        console.error("No userId found in local storage.");
+        return;
+    }
+
+    getWithAuthorizationWithNonUserId(`${baseUrl}api/ProduceType/GetProduceTypesToBeApprovedAsync/${farmerId}`, token, userId)
         .then(data => {
             if (data.status) {
-                // Display the list of produce types to be approved
+
                 displayProduceTypes(data.data, farmerId);
             } else {
                 alert("No produce types to be approved found.");
@@ -339,7 +245,7 @@ function ApproveProducetypes(farmerId) {
 
 
 function displayProduceTypes(produceTypes) {
-    // Select the elements for displaying produce types
+
     const body = document.querySelector(".body");
     console.log(produceTypes)
     body.innerHTML = `
@@ -383,12 +289,11 @@ function displayProduceTypes(produceTypes) {
     `;
 }
 
-function approveProduceType(button) {
+async function approveProduceType(button) {
     const produceTypeId = button.id;
     const farmerId = button.getAttribute("data-farmerid");
     const status = button.getAttribute("data-status");
 
-    // Create an object to send to the server
     const verificationData = {
         produceTypeId: produceTypeId,
         farmerId: farmerId,
@@ -396,45 +301,87 @@ function approveProduceType(button) {
     };
     console.log(JSON.stringify(verificationData))
 
-    // Send a POST request to the server to verify the produce type
-    fetch(`${baseUrl}api/ProduceType/VerifyProduceType`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
+    try {
+
+        const apiUrl = `${baseUrl}api/ProduceType/VerifyProduceType`;
+        const token = localStorage.getItem("token");
+
+        const response = await makeApiRequest(apiUrl, 'POST', verificationData, token);
+        console.log("Response:", response);
+        if (response.status) {
+            showSweetAlert(response.message);
+        } else {
+            showSweetAlertError(response.message);
+        }
+    } catch (error) {
+        alert(error.message);
+    }
+
+}
+
+
+function showSweetAlert(response) {
+    Swal.fire({
+        text: response.message,
+        icon: 'success',
+        confirmButtonColor: 'hsl(210, 17%, 93%)',
+        confirmButtonText: 'CONTINUE',
+        customClass: {
+            popup: 'animated fadeIn',
+            title: 'custom-title-class',
+            content: 'custom-content-class',
+            actions: 'custom-actions-class',
+            icon: 'swal-icon',
+            confirmButton: 'swal-button',
+            confirmButtonText: 'swal-button-text',
         },
-        body: JSON.stringify(verificationData)
+        background: 'rgb(1, 6, 28)',
+    }).then(() => {
+        window.location.href = './farmers.html';
+
+    });
+}
+
+function showSweetAlertError(response) {
+    Swal.fire({
+        text: response.message,
+        // html: `<div>${response.message}</div>`,
+        icon: 'error',
+        confirmButtonColor: 'hsl(210, 17%, 93%)',
+        confirmButtonText: 'OK',
+        customClass: {
+            popup: 'animated fadeIn',
+            title: 'custom-title-class',
+            content: 'custom-content-class',
+            actions: 'custom-actions-class',
+            icon: 'swal-icon',
+            confirmButton: 'swal-button',
+            confirmButtonText: 'swal-button-text',
+        },
+        background: 'rgb(1, 6, 28)',
     })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error("Network response was not ok");
-            }
-            return response.json();
-        })
-        .then(data => {
-            if (data.status) {
-                // alert("Produce type verification successful!");
-                showSweetAlert(data.message);
-            } else {
-                // alert("Produce type verification failed.");
-                showSweetAlertError(data.message);
-            }
-        })
-        .catch(error => {
-            console.error("Error:", error);
-            alert("An error occurred while verifying the produce type.");
+        .then(() => {
+            window.location.href = './farmers.html';
+
         });
 }
+
+
 
 //////////////////////////////////////////////////////////////////////////////////////
 
 function fetchAndDisplayApprovedProduceTypes(farmerId) {
-    fetch(`${baseUrl}api/ProduceType/GetApprovedProduceTypesForAFarmerByFarmerId/${farmerId}`)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error("Network response was not ok");
-            }
-            return response.json();
-        })
+
+    const token = localStorage.getItem("token");
+    const userId = localStorage.getItem("id");
+    console.log('userId:', userId);
+
+    if (!userId) {
+        console.error("No userId found in local storage.");
+        return;
+    }
+
+    getWithAuthorizationWithNonUserId(`${baseUrl}api/ProduceType/GetApprovedProduceTypesForAFarmerByFarmerId/${farmerId}`, token, userId)
         .then(data => {
             if (data.status) {
                 displayApprovedFarmerProducetypes(data.data);
@@ -452,8 +399,7 @@ function fetchAndDisplayApprovedProduceTypes(farmerId) {
 }
 
 function displayApprovedFarmerProducetypes(data) {
-    // const approvedProduceTypesContainer = document.getElementById("approvedProduceTypesContainer");
-    // approvedProduceTypesContainer.innerHTML = `
+
     const body = document.querySelector(".body");
     body.innerHTML = `
     <div class="container mt-3">
@@ -491,17 +437,20 @@ function displayError() {
 //////////////////////////////////////////////////////////////////////////////////////
 
 function AccountDetails(id) {
-    // Fetch the farmer's account details
-    fetch(`${baseUrl}api/Farmer/GetFarmerAccountDetails/${id}`)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error("Network response was not ok");
-            }
-            return response.json();
-        })
+
+    const token = localStorage.getItem("token");
+    const userId = localStorage.getItem("id");
+    console.log('userId:', userId);
+
+    if (!userId) {
+        console.error("No userId found in local storage.");
+        return;
+    }
+
+    getWithAuthorizationWithNonUserId(`${baseUrl}api/Farmer/GetFarmerAccountDetails/${id}`, token, userId)
         .then(data => {
             if (data.status) {
-                // Display the account details
+
                 displayFarmerAccountDetails(data);
             } else {
                 alert("Farmer account details not found.");
@@ -513,7 +462,7 @@ function AccountDetails(id) {
         });
 
     function displayFarmerAccountDetails(data) {
-        // Select the elements for farmer details
+
         const body = document.querySelector(".body");
         body.innerHTML = `
             <div class="container mt-3">
@@ -548,16 +497,10 @@ function AccountDetails(id) {
 }
 
 
-
-
-
-
-
-
 //////////////////////////////////////////////////////////////////////////////////////
 
 function displayUpdateForm(id) {
-    // Select the elements for farmer details
+
     const body = document.querySelector(".body");
     body.innerHTML = `  <div class="container">
         <div class="row justify-content-center">
@@ -593,16 +536,13 @@ function displayUpdateForm(id) {
         `
         ;
 
-    // Add event listener to the form
     const form = document.getElementById("updateFarmerForm");
 
-    // Remove any previous event listeners to avoid stacking
     form.removeEventListener("submit", handleFormSubmit);
 
     form.addEventListener("submit", function (event) {
-        handleFormSubmit(event, id); // Pass the id as an argument to handleFormSubmit
+        handleFormSubmit(event, id);
     });
-    // Rest of your code
 }
 
 
@@ -611,14 +551,13 @@ function handleFormSubmit(event, id) {
 
     const form = event.target;
     const formData = new FormData(form);
-    // const id = /* Get the customer ID here */;
 
     fetch(`${baseUrl}api/Farmer/UpdateFarmer/${id}`, {
         method: "PUT",
         body: formData,
     })
         .then((response) => {
-            // Handle the response here
+
             if (!response.ok) {
                 throw new Error("Network response was not ok");
             }
@@ -636,56 +575,6 @@ function handleFormSubmit(event, id) {
         })
         .catch((error) => {
             console.error("Error:", error);
-            // Handle the error here
-        });
-}
-
-
-
-// Function to show success SweetAlert2 modal
-function showSweetAlert(message) {
-    Swal.fire({
-        text: message,
-        icon: 'success',
-        confirmButtonColor: 'hsl(210, 17%, 93%)',
-        confirmButtonText: 'CONTINUE',
-        customClass: {
-            popup: 'animated fadeIn',
-            title: 'custom-title-class',
-            content: 'custom-content-class',
-            actions: 'custom-actions-class',
-            icon: 'swal-icon',
-            confirmButton: 'swal-button',
-            confirmButtonText: 'swal-button-text',
-        },
-        background: 'rgb(1, 6, 28)',
-    }).then(() => {
-        // window.location.href = './getCustomerById.html';
-        window.location.href = './farmers.html';
-
-    });
-}
-
-// Function to show error SweetAlert2 modal
-function showSweetAlertError(message) {
-    Swal.fire({
-        text: message,
-        icon: 'error',
-        confirmButtonColor: 'hsl(210, 17%, 93%)',
-        confirmButtonText: 'OK',
-        customClass: {
-            popup: 'animated fadeIn',
-            title: 'custom-title-class',
-            content: 'custom-content-class',
-            actions: 'custom-actions-class',
-            icon: 'swal-icon',
-            confirmButton: 'swal-button',
-            confirmButtonText: 'swal-button-text',
-        },
-        background: 'rgb(1, 6, 28)',
-    })
-        .then(() => {
-            window.location.href = './farmers.html';
 
         });
 }
@@ -695,43 +584,43 @@ function showSweetAlertError(message) {
 
 
 
-// Function to delete a farmer
+// Function to Deactivate a farmer
 function DeleteDetails(id) {
     Swal.fire({
-        title: 'Confirm Deletion',
-        text: 'Are you sure you want to delete this farmer?',
+       
+        title: 'Confirm Deactivation',
+        text: 'Are you sure you want to deactivate this farmer?',
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: 'hsl(210, 17%, 93%)',
         cancelButtonColor: 'hsl(0, 100%, 60%)',
-        confirmButtonText: 'Yes, delete it!',
-        cancelButtonText: 'Cancel'
+        confirmButtonText: 'Yes, deactivate him!',
+        cancelButtonText: 'Cancel',
+        customClass: {
+            title: 'delete-swal-title',
+            content: 'delete-swal-content',
+            actions: 'delete-swal-actions',
+            confirmButton: 'delete-swal-confirm-button',
+            cancelButton: 'delete-swal-cancel-button',
+        },
+        iconHtml: '<i class="fas fa-exclamation-circle" style="color:#FF8C00"></i>', 
+
+
     }).then((result) => {
         if (result.isConfirmed) {
-            // User confirmed, proceed with deletion
-            // Make a DELETE request to the API
-            fetch(`${baseUrl}api/Farmer/DeleteFarmer/${id}`, {
-                method: 'DELETE',
-            })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error("Network response was not ok");
-                    }
-                    return response.json();
-                })
+
+            const url = `${baseUrl}api/Farmer/DeleteFarmer/${id}`
+            const token = localStorage.getItem("token");
+            deleteWithAuthorization(url, token)
                 .then(data => {
-                    // Check if the request was successful
                     if (data.status) {
-                        // Show success SweetAlert2 modal
                         showSweetAlert(data.message);
                     } else {
-                        // Handle error and show error SweetAlert2 modal
                         showSweetAlertError(data.message);
                     }
                 })
                 .catch(error => {
                     console.error("Error:", error);
-                    // Handle network errors or other errors that may occur during the delete operation.
                 });
         }
     });
@@ -759,19 +648,14 @@ function displayFarmerData(farmer) {
 </div>
     `
 
-    // Display Profile Picture
     const profilePicture = document.getElementById("profilePicture");
     // profilePicture.src = farmer.profilePicture;
     profilePicture.src = `${baseUrl}Upload/images/${farmer.profilePicture}`;
 
-
-
     const tableBody = document.getElementById("farmerTableBody");
 
-    // Clear any previous data in the table body
     tableBody.innerHTML = "";
 
-    // Create rows for the other properties
     const properties = [
         { label: "First Name", value: farmer.firstName },
         { label: "Last Name", value: farmer.lastName },
@@ -790,68 +674,60 @@ function displayFarmerData(farmer) {
         tableBody.innerHTML += row;
     });
 
-    // Add a Delete button row
     const deleteButtonRow = `
         <tr>
             <td colspan="2">
-                <button class="btn btn-danger" onclick="deleteFarmer('${farmer.id}')">Delete</button>
+                <button class="btn btn-danger" onclick="deleteFarmer('${farmer.id}')">Deactivate</button>
             </td>
         </tr>`;
     tableBody.innerHTML += deleteButtonRow;
 }
 
 
+function showSweetAlert(message) {
+    Swal.fire({
+        text: message,
+        icon: 'success',
+        confirmButtonColor: 'hsl(210, 17%, 93%)',
+        confirmButtonText: 'CONTINUE',
+        customClass: {
+            popup: 'animated fadeIn',
+            title: 'custom-title-class',
+            content: 'custom-content-class',
+            actions: 'custom-actions-class',
+            icon: 'swal-icon',
+            confirmButton: 'swal-button',
+            confirmButtonText: 'swal-button-text',
+        },
+        background: 'rgb(1, 6, 28)',
+    }).then(() => {
+        window.location.href = './farmers.html';
 
-// // Function to show success SweetAlert2 modal
-// function showSweetAlert(message) {
-//     Swal.fire({
-//         text: message,
-//         icon: 'success',
-//         confirmButtonColor: 'hsl(210, 17%, 93%)',
-//         confirmButtonText: 'OK',
-//         customClass: {
-//             popup: 'animated fadeIn', // Apply the fadeIn animation
-//             title: 'custom-title-class', // Create a custom class for title styling
-//             content: 'custom-content-class', // Create a custom class for content styling
-//             actions: 'custom-actions-class', // Create a custom class for action button styling
-//             // Apply custom classes to specific elements
-//             icon: 'swal-icon', // Custom class for the icon container
-//             confirmButton: 'swal-button', // Custom class for the confirm button
-//             confirmButtonText: 'swal-button-text', // Custom class for the confirm button text
-//         },
-//         background: 'rgb(1, 6, 28)',
-//     }).then(() => {
-//         // window.location.href = './getCustomerById.html';
-//         window.location.href = './farmers.html';
-//         // Handle the "Continue" button click here if needed
-//         // For example, you can redirect to another page or perform other actions
-//         // window.location.href = 'your_target_url';
-//     });
-// }
+    });
+}
 
-// // Function to show error SweetAlert2 modal
-// function showSweetAlertError(message) {
-//     Swal.fire({
-//         text: message,
-//         icon: 'error',
-//         confirmButtonColor: 'hsl(210, 17%, 93%)',
-//         confirmButtonText: 'OK',
-//         customClass: {
-//             popup: 'animated fadeIn', // Apply the fadeIn animation
-//             title: 'custom-title-class', // Create a custom class for title styling
-//             content: 'custom-content-class', // Create a custom class for content styling
-//             actions: 'custom-actions-class', // Create a custom class for action button styling
-//             // Apply custom classes to specific elements
-//             icon: 'swal-icon', // Custom class for the icon container
-//             confirmButton: 'swal-button', // Custom class for the confirm button
-//             confirmButtonText: 'swal-button-text', // Custom class for the confirm button text
-//         },
-//         background: 'rgb(1, 6, 28)',
-//     })
-//         .then(() => {
-//             window.location.href = './farmers.html';
+function showSweetAlertError(message) {
+    Swal.fire({
+        text: message,
+        icon: 'error',
+        confirmButtonColor: 'hsl(210, 17%, 93%)',
+        confirmButtonText: 'OK',
+        customClass: {
+            popup: 'animated fadeIn',
+            title: 'custom-title-class',
+            content: 'custom-content-class',
+            actions: 'custom-actions-class',
+            icon: 'swal-icon',
+            confirmButton: 'swal-button',
+            confirmButtonText: 'swal-button-text',
+        },
+        background: 'rgb(1, 6, 28)',
+    })
+        .then(() => {
+            window.location.href = './farmers.html';
 
-//         });
-// }
+        });
+}
+
 
 

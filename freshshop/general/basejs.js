@@ -81,16 +81,30 @@ async function getWithAuthorizationWithNonUserId(url, token, userId, getById = f
 
 /////////////////////////
 
-//Post and put
+// //Post and put
 async function makeApiRequest(url, method, data, token) {
     try {
+        let headers = {
+            'Authorization': `Bearer ${token}`
+        };
+        let body;
+
+        if (method.toUpperCase() === 'GET') {
+
+            body = undefined;
+        } else if (data instanceof FormData) {
+
+            body = data;
+        } else {
+
+            headers['Content-Type'] = 'application/json';
+            body = JSON.stringify(data);
+        }
+
         const response = await fetch(url, {
             method,
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            },
-            body: JSON.stringify(data)
+            headers,
+            body
         });
 
         const responseData = await response.json();
@@ -102,10 +116,67 @@ async function makeApiRequest(url, method, data, token) {
     }
 }
 
+// async function makeApiRequest(url, method, data, token) {
+//     try {
+//         const response = await fetch(url, {
+//             method,
+//             headers: {
+//                 'Content-Type': 'application/json',
+//                 'Authorization': `Bearer ${token}`
+//             },
+//             body: JSON.stringify(data)
+//         });
+
+//         const responseData = await response.json();
+//         console.log('responseData:', responseData);
+//         return responseData;
+//     } catch (error) {
+//         console.error("Error:", error);
+//         throw new Error("An error occurred while making the API request.");
+//     }
+// }
 
 
+///////////////////////////
 
 
+async function deleteWithAuthorization(url, token) {
+    try {
+        if (!token) {
+            console.error("No token found.");
+            return null;
+        }
+
+        const userId = localStorage.getItem("id");
+
+        if (!userId) {
+            console.error("No userId found in local storage.");
+            return null;
+        }
+
+        const headers = {
+            'Authorization': `Bearer ${token}`,
+        };
+
+        const response = await fetch(url, {
+            method: 'DELETE',
+            headers: headers,
+        });
+
+        if (!response.ok) {
+            throw new Error("Network response was not ok");
+        }
+
+        const responseData = await response.json();
+        return responseData;
+    } catch (error) {
+        console.error("Error:", error);
+        return null;
+    }
+}
+
+
+/////////////////////////
 ///////////////////////////
 
 async function postFormDataWithAuthorization(url, token, formData) {
@@ -231,39 +302,5 @@ async function putWithAuthorization(url, token, data) {
     }
 }
 
-///////////////////////////////
 
-async function deleteWithAuthorization(url, token) {
-    try {
-        if (!token) {
-            console.error("No token found.");
-            return null;
-        }
 
-        const userId = localStorage.getItem("id");
-
-        if (!userId) {
-            console.error("No userId found in local storage.");
-            return null;
-        }
-
-        const headers = {
-            'Authorization': `Bearer ${token}`,
-        };
-
-        const response = await fetch(url, {
-            method: 'DELETE',
-            headers: headers,
-        });
-
-        if (!response.ok) {
-            throw new Error("Network response was not ok");
-        }
-
-        const responseData = await response.json();
-        return responseData;
-    } catch (error) {
-        console.error("Error:", error);
-        return null;
-    }
-}

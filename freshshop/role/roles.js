@@ -1,15 +1,11 @@
-// JavaScript for populating category data into the table
 
 let count = 1;
 let tableBody = document.getElementById("roleTableBody");
 
-fetch(`${baseUrl}api/Role/GetAllRoles`)
-    .then(response => {
-        if (!response.ok) {
-            throw new Error("Network response was not ok");
-        }
-        return response.json();
-    })
+const tokenById = localStorage.getItem("token");
+const apiUrlById = `${baseUrl}api/Role/GetAllRoles`;
+
+getWithAuthorization(apiUrlById, tokenById, false)
     .then(data => {
         data.data.forEach(role => {
             const row = `
@@ -26,7 +22,7 @@ fetch(`${baseUrl}api/Role/GetAllRoles`)
     })
     .catch(error => {
         console.error("Error:", error);
-        // Display an error message to the user
+
         tableBody.innerHTML = `
             <tr>
                 <td colspan="2" class="text-danger">An error occurred while fetching data.</td>
@@ -38,7 +34,7 @@ fetch(`${baseUrl}api/Role/GetAllRoles`)
 //////////////////////////
 
 function displayUpdateForm(id) {
-    // Select the elements for role details
+
     const body = document.querySelector(".body");
     body.innerHTML = `  <div class="container">
         <div class="row justify-content-center">
@@ -73,98 +69,76 @@ function displayUpdateForm(id) {
         `
         ;
 
-    // Add event listener to the form
     const form = document.getElementById("updateRoleForm");
 
-    // Remove any previous event listeners to avoid stacking
     form.removeEventListener("submit", handleFormSubmit);
 
     form.addEventListener("submit", function (event) {
-        handleFormSubmit(event, id); // Pass the id as an argument to handleFormSubmit
+        handleFormSubmit(event, id);
     });
-    // Rest of your code
 }
 
 
-function handleFormSubmit(event, id) {
+async function handleFormSubmit(event, id) {
     event.preventDefault();
 
     const form = event.target;
     const formData = new FormData(form);
 
-    fetch(`${baseUrl}api/Role/UpdateRole/${id}`, {
-        method: "PUT",
-        body: formData,
-    })
-        .then((response) => {
-            // Handle the response here
-            if (!response.ok) {
-                throw new Error("Network response was not ok");
-            }
-            return response.json();
-        })
-        .then((data) => {
+    try {
 
-            displayUpdateForm(data.data);
+        const apiUrl = `${baseUrl}api/Role/UpdateRole/${id}`;
+        const token = localStorage.getItem("token");
 
-            // Check if the request was successful
-            if (data.status) {
-                // Show SweetAlert2 modal
-                showSweetAlert(data.message);
-            } else {
-                // Handle error and show SweetAlert2 modal
-                showSweetAlertError(data.message);
-            }
-        })
-        .catch((error) => {
-            console.error("Error:", error);
-            // Handle the error here
-        });
+        const response = await makeApiRequest(apiUrl, 'PUT', formData, token);
+
+        if (response.status) {
+            showSweetAlert(response.message);
+        } else {
+            showSweetAlertError(response.message);
+        }
+    } catch (error) {
+        alert(error.message);
+    }
 }
 
 
 
-// Function to show success SweetAlert2 modal
-function showSweetAlert(message) {
+function showSweetAlert(response) {
     Swal.fire({
-        text: message,
+        text: response.message,
         icon: 'success',
         confirmButtonColor: 'hsl(210, 17%, 93%)',
         confirmButtonText: 'CONTINUE',
         customClass: {
-            popup: 'animated fadeIn', // Apply the fadeIn animation
-            title: 'custom-title-class', // Create a custom class for title styling
-            content: 'custom-content-class', // Create a custom class for content styling
-            actions: 'custom-actions-class', // Create a custom class for action button styling
-            // Apply custom classes to specific elements
-            icon: 'swal-icon', // Custom class for the icon container
-            confirmButton: 'swal-button', // Custom class for the confirm button
-            confirmButtonText: 'swal-button-text', // Custom class for the confirm button text
+            popup: 'animated fadeIn',
+            title: 'custom-title-class',
+            content: 'custom-content-class',
+            actions: 'custom-actions-class',
+            icon: 'swal-icon',
+            confirmButton: 'swal-button',
+            confirmButtonText: 'swal-button-text',
         },
         background: 'rgb(1, 6, 28)',
     }).then(() => {
-        // window.location.href = './getCustomerById.html';
-        window.location.href = '../admin/dashboard.html';
-       
+        window.location.replace('../admin/dashboard.html');
     });
 }
 
-// Function to show error SweetAlert2 modal
-function showSweetAlertError(message) {
+function showSweetAlertError(response) {
     Swal.fire({
-        text: message,
+        text: response.message,
         icon: 'error',
         confirmButtonColor: 'hsl(210, 17%, 93%)',
         confirmButtonText: 'OK',
         customClass: {
-            popup: 'animated fadeIn', // Apply the fadeIn animation
-            title: 'custom-title-class', // Create a custom class for title styling
-            content: 'custom-content-class', // Create a custom class for content styling
-            actions: 'custom-actions-class', // Create a custom class for action button styling
-            // Apply custom classes to specific elements
-            icon: 'swal-icon', // Custom class for the icon container
-            confirmButton: 'swal-button', // Custom class for the confirm button
-            confirmButtonText: 'swal-button-text', // Custom class for the confirm button text
+            popup: 'animated fadeIn',
+            title: 'custom-title-class',
+            content: 'custom-content-class',
+            actions: 'custom-actions-class',
+            icon: 'swal-icon',
+            confirmButton: 'swal-button',
+            confirmButtonText: 'swal-button-text',
         },
         background: 'rgb(1, 6, 28)',
     })
@@ -175,50 +149,53 @@ function showSweetAlertError(message) {
 }
 
 
+
 ////////////////////////////////
 
 
 
 // Function to delete a role
 function DeleteDetails(id) {
+
     Swal.fire({
-        title: 'Confirm Deletion',
+
+        title: 'Confirm deletion',
         text: 'Are you sure you want to delete this role?',
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: 'hsl(210, 17%, 93%)',
         cancelButtonColor: 'hsl(0, 100%, 60%)',
         confirmButtonText: 'Yes, delete it!',
-        cancelButtonText: 'Cancel'
+        cancelButtonText: 'Cancel',
+        customClass: {
+            title: 'delete-swal-title',
+            content: 'delete-swal-content',
+            actions: 'delete-swal-actions',
+            confirmButton: 'delete-swal-confirm-button',
+            cancelButton: 'delete-swal-cancel-button',
+        },
+        iconHtml: '<i class="fas fa-exclamation-circle" style="color:#FF8C00"></i>',
+
+
     }).then((result) => {
         if (result.isConfirmed) {
-            // User confirmed, proceed with deletion
-            // Make a DELETE request to the API
-            fetch(`${baseUrl}api/Role/DeleteRole/${id}`, {
-                method: 'DELETE',
-            })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error("Network response was not ok");
-                    }
-                    return response.json();
-                })
+
+            const url = `${baseUrl}api/Role/DeleteRole/${id}`
+            const token = localStorage.getItem("token");
+            deleteWithAuthorization(url, token)
                 .then(data => {
-                    // Check if the request was successful
                     if (data.status) {
-                        // Show success SweetAlert2 modal
                         showSweetAlert(data.message);
                     } else {
-                        // Handle error and show error SweetAlert2 modal
                         showSweetAlertError(data.message);
                     }
                 })
                 .catch(error => {
                     console.error("Error:", error);
-                    // Handle network errors or other errors that may occur during the delete operation.
                 });
         }
     });
+
 }
 
 function displayCustomerData(role) {
@@ -242,14 +219,12 @@ function displayCustomerData(role) {
 
     const tableBody = document.getElementById("roleTableBody");
 
-    // Clear any previous data in the table body
     tableBody.innerHTML = "";
 
-    // Create rows for the other properties
     const properties = [
-        { label: "Role Name", value: role.roleName},
-        { label: "Role Description", value: role.roleDescription},
-       
+        { label: "Role Name", value: role.roleName },
+        { label: "Role Description", value: role.roleDescription },
+
     ];
 
     properties.forEach(property => {
@@ -261,7 +236,6 @@ function displayCustomerData(role) {
         tableBody.innerHTML += row;
     });
 
-    // Add a Delete button row
     const deleteButtonRow = `
         <tr>
             <td colspan="2">
@@ -273,22 +247,20 @@ function displayCustomerData(role) {
 
 
 
-// Function to show success SweetAlert2 modal
 function showSweetAlert(message) {
     Swal.fire({
         text: message,
         icon: 'success',
         confirmButtonColor: 'hsl(210, 17%, 93%)',
-        confirmButtonText: 'OK',
+        confirmButtonText: 'CONTINUE',
         customClass: {
-            popup: 'animated fadeIn', // Apply the fadeIn animation
-            title: 'custom-title-class', // Create a custom class for title styling
-            content: 'custom-content-class', // Create a custom class for content styling
-            actions: 'custom-actions-class', // Create a custom class for action button styling
-            // Apply custom classes to specific elements
-            icon: 'swal-icon', // Custom class for the icon container
-            confirmButton: 'swal-button', // Custom class for the confirm button
-            confirmButtonText: 'swal-button-text', // Custom class for the confirm button text
+            popup: 'animated fadeIn',
+            title: 'custom-title-class',
+            content: 'custom-content-class',
+            actions: 'custom-actions-class',
+            icon: 'swal-icon',
+            confirmButton: 'swal-button',
+            confirmButtonText: 'swal-button-text',
         },
         background: 'rgb(1, 6, 28)',
     }).then(() => {
@@ -297,7 +269,6 @@ function showSweetAlert(message) {
     });
 }
 
-// Function to show error SweetAlert2 modal
 function showSweetAlertError(message) {
     Swal.fire({
         text: message,
@@ -305,14 +276,13 @@ function showSweetAlertError(message) {
         confirmButtonColor: 'hsl(210, 17%, 93%)',
         confirmButtonText: 'OK',
         customClass: {
-            popup: 'animated fadeIn', // Apply the fadeIn animation
-            title: 'custom-title-class', // Create a custom class for title styling
-            content: 'custom-content-class', // Create a custom class for content styling
-            actions: 'custom-actions-class', // Create a custom class for action button styling
-            // Apply custom classes to specific elements
-            icon: 'swal-icon', // Custom class for the icon container
-            confirmButton: 'swal-button', // Custom class for the confirm button
-            confirmButtonText: 'swal-button-text', // Custom class for the confirm button text
+            popup: 'animated fadeIn',
+            title: 'custom-title-class',
+            content: 'custom-content-class',
+            actions: 'custom-actions-class',
+            icon: 'swal-icon',
+            confirmButton: 'swal-button',
+            confirmButtonText: 'swal-button-text',
         },
         background: 'rgb(1, 6, 28)',
     })

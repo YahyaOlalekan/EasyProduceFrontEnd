@@ -66,11 +66,11 @@
     </div>
 
 
+
     <script src="../general/basejs.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <!-- <script src="../general/login.js"></script> -->
 
 
     <script>
@@ -80,21 +80,30 @@
         };
 
         function ViewDetails() {
-            const farmerId = localStorage.getItem("id");
-            // console.log('farmerId:', farmerId);
+            // const farmerId = localStorage.getItem("id");
+            // // console.log('farmerId:', farmerId);
+            // const token = localStorage.getItem("token");
 
-            fetch(`${baseUrl}api/Farmer/GetFarmerAlongWithApprovedProduceType/${farmerId}`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error("Network response was not ok");
-                    }
-                    return response.json();
-                })
+            // fetch(`${baseUrl}api/Farmer/GetFarmerAlongWithApprovedProduceType/${farmerId}`, {
+            //     method: 'GET',
+            //     headers: {
+            //         'Content-Type': 'application/json',
+            //         'Authorization': `Bearer ${token}`,
+            //     },
+            // })
+            //     .then(response => {
+            //         if (!response.ok) {
+            //             throw new Error("Network response was not ok");
+            //         }
+            //         return response.json();
+            //     })
+
+
+            const tokenById = localStorage.getItem("token");
+            const apiUrlById = `${baseUrl}api/Farmer/GetFarmerAlongWithApprovedProduceType`;
+            console.log('Token:', tokenById);
+
+            getWithAuthorization(apiUrlById, tokenById, true)
                 .then(data => {
                     // console.log('data:', data);
 
@@ -117,7 +126,6 @@
                 const email = document.getElementById("email");
                 const profilePicture = document.getElementById("profilePicture");
 
-                // Set the farmer details
                 firstName.textContent = data.farmerDto.firstName;
                 lastName.textContent = data.farmerDto.lastName;
                 phoneNumber.textContent = data.farmerDto.phoneNumber;
@@ -127,7 +135,6 @@
                 farmerRegStatus.textContent = mapFarmerRegStatus(data.farmerDto.farmerRegStatus);
                 farmName.textContent = data.farmerDto.farmName;
 
-                // Select the list element for produce types
                 const produceInfoList = document.getElementById("produceInfoList");
 
                 data.produceTypeDto.forEach(produceType => {

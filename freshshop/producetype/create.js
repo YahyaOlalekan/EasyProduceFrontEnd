@@ -1,68 +1,67 @@
-        // Function to populate the category dropdown dynamically
-        function populateCategoryDropdown() {
-            // Make an API request to get the list of categories dynamically
-            fetch(`${baseUrl}api/Produce/GetAllProduce`)
-                .then(response => response.json())
-                .then(data => {
-                    const categoryDropdown = document.querySelector('select[name="ProduceId"]');
-                    // Clear any existing options
-                    categoryDropdown.innerHTML = '';
-                    data.data.forEach(produce => {
-                        const option = document.createElement('option');
-                        option.value = produce.id; 
-                        option.textContent = produce.produceName; 
-                        categoryDropdown.appendChild(option);
-                    });
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
-        }
 
-        window.addEventListener('load', populateCategoryDropdown);
+function populateCategoryDropdown() {
+   
+    const tokenById = localStorage.getItem("token");
+    const apiUrlById = `${baseUrl}api/Produce/GetAllProduce`;
+    getWithAuthorization(apiUrlById, tokenById, false)
+    .then(data => {
+            console.log("All produce:", data )
+            const categoryDropdown = document.querySelector('select[name="ProduceId"]');
 
-        // Modify the submit event listener to include the selected category
-        document.getElementById('submitButton').addEventListener('click', function (e) {
-            e.preventDefault();
-            const formElement = document.getElementById('myForm');
-            const formData = new FormData(formElement);
-
-            // Add the selected category to the form data
-            const selectedCategory = document.querySelector('select[name="ProduceId"]').value;
-            formData.append('ProduceId', selectedCategory);
-
-            fetch(`${baseUrl}api/ProduceType/CreateProduceType`, {
-                method: 'POST',
-                body: formData
-            })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.status) {
-                        showSweetAlert(data);
-                    } else {
-                        showSweetAlertError(data);
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
+            categoryDropdown.innerHTML = '';
+            data.data.forEach(produce => {
+                const option = document.createElement('option');
+                option.value = produce.id;
+                option.textContent = produce.produceName;
+                categoryDropdown.appendChild(option);
+            });
+        })
+        .catch(error => {
+            console.error('Error:', error);
         });
+}
 
-        // Function to show success SweetAlert2 modal
-function showSweetAlert(data) {
+window.addEventListener('load', populateCategoryDropdown);
+
+document.getElementById('submitButton').addEventListener('click',async function (e) {
+    e.preventDefault();
+    const formElement = document.getElementById('myForm');
+    const formData = new FormData(formElement);
+
+    const selectedCategory = document.querySelector('select[name="ProduceId"]').value;
+   
+    try {
+
+        const apiUrl = `${baseUrl}api/ProduceType/CreateProduceType`;
+        const token = localStorage.getItem("token");
+
+        const response = await makeApiRequest(apiUrl, 'POST', formData, token);
+
+        if (response.status) {
+            showSweetAlert(response);
+        } else {
+            showSweetAlertError(response);
+        }
+    } catch (error) {
+        alert(error.message);
+    }
+
+});
+
+function showSweetAlert(response) {
     Swal.fire({
-        text: data.message,
+        text: response.message,
         icon: 'success',
         confirmButtonColor: 'hsl(210, 17%, 93%)',
         confirmButtonText: 'CONTINUE',
         customClass: {
-            popup: 'animated fadeIn', 
-            title: 'custom-title-class', 
-            content: 'custom-content-class', 
-            actions: 'custom-actions-class', 
-            icon: 'swal-icon', 
-            confirmButton: 'swal-button', 
-            confirmButtonText: 'swal-button-text', 
+            popup: 'animated fadeIn',
+            title: 'custom-title-class',
+            content: 'custom-content-class',
+            actions: 'custom-actions-class',
+            icon: 'swal-icon',
+            confirmButton: 'swal-button',
+            confirmButtonText: 'swal-button-text',
         },
         background: 'rgb(1, 6, 28)',
     }).then(() => {
@@ -70,21 +69,20 @@ function showSweetAlert(data) {
     });
 }
 
-// Function to show error SweetAlert2 modal
-function showSweetAlertError(data) {
+function showSweetAlertError(response) {
     Swal.fire({
-        text: data.message,
+        text: response.message,
         icon: 'error',
         confirmButtonColor: 'hsl(210, 17%, 93%)',
         confirmButtonText: 'OK',
         customClass: {
-            popup: 'animated fadeIn', 
-            title: 'custom-title-class', 
-            content: 'custom-content-class', 
-            actions: 'custom-actions-class', 
-            icon: 'swal-icon', 
-            confirmButton: 'swal-button', 
-            confirmButtonText: 'swal-button-text', 
+            popup: 'animated fadeIn',
+            title: 'custom-title-class',
+            content: 'custom-content-class',
+            actions: 'custom-actions-class',
+            icon: 'swal-icon',
+            confirmButton: 'swal-button',
+            confirmButtonText: 'swal-button-text',
         },
         background: 'rgb(1, 6, 28)',
     })
