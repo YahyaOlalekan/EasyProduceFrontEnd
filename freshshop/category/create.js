@@ -1,30 +1,9 @@
-document.getElementById('submitButton').addEventListener('click', async function (e) {
+document.getElementById('submitButton-category').addEventListener('click', async function (e) {
     e.preventDefault();
-    const formElement = document.getElementById('myForm');
+    const formElement = document.getElementById('myForm-category-reg');
     const formData = new FormData(formElement);
    
-        // fetch(`${baseUrl}api/Category/CreateCategory`, {
-        //     method: 'POST',
-        //     body: formData
-        // })
-        //     .then(response => response.json())
-        //     .then(data => {
-        //         // console.log(data);
-        //         if (data.status) {
-        //             // console.log(data.status);
-        //             // window.alert(data.message)
-        //             showSweetAlert(data);
-
-        //         } else {
-        //             // document.getElementById('error').innerHTML = data.message;
-        //             showSweetAlertError(data);
-        //         }
-        //     })
-        //     .catch(error => {
-        //         console.error('Error:', error);
-        //     });
-
-            
+                 
             try {
 
                 const apiUrl = `${baseUrl}api/Category/CreateCategory`;
@@ -33,16 +12,16 @@ document.getElementById('submitButton').addEventListener('click', async function
                 const response = await makeApiRequest(apiUrl, 'POST', formData, token);
         
                 if (response.status) {
-                    showSweetAlert(response);
+                    showSweetAlertAddCategory(response);
                 } else {
-                    showSweetAlertError(response);
+                    showSweetAlertErrorAddCategory(response);
                 }
             } catch (error) {
                 alert(error.message);
             }
 });
 
-function showSweetAlert(response) {
+function showSweetAlertAddCategory(response) {
     Swal.fire({
         text: response.message,
         icon: 'success',
@@ -63,7 +42,7 @@ function showSweetAlert(response) {
     });
 }
 
-function showSweetAlertError(response) {
+function showSweetAlertErrorAddCategory(response) {
     Swal.fire({
         text: response.message,
         icon: 'error',

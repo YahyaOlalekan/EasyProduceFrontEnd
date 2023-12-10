@@ -5,26 +5,7 @@ document.getElementById('submitButton').addEventListener('click', async function
 
     if (formData.get('password') === formData.get('confirmpassword')) {
         console.log("Password match");
-
-        // fetch(`${baseUrl}api/Manager/RegisterManager`, {
-        //     method: 'POST',
-        //     body: formData
-        // })
-        //     .then(response => response.json())
-        //     .then(data => {
-        //         if (data.status) {
-                   
-        //             showSweetAlert(data);
-
-        //         } else {
-        //             showSweetAlertError(data);
-        //         }
-        //     })
-        //     .catch(error => {
-        //         console.error('Error:', error);
-        //     });
-
-
+      
         try {
 
             const apiUrl = `${baseUrl}api/Manager/RegisterManager`;
@@ -33,9 +14,9 @@ document.getElementById('submitButton').addEventListener('click', async function
             const response = await makeApiRequest(apiUrl, 'POST', formData, token);
     
             if (response.status) {
-                showSweetAlert(response);
+                showSweetAlertForManagerReg(response);
             } else {
-                showSweetAlertError(response);
+                showSweetAlertErrorForManagerReg(response);
             }
         } catch (error) {
             alert(error.message);
@@ -49,7 +30,7 @@ document.getElementById('submitButton').addEventListener('click', async function
 });
 
 
-function showSweetAlert(response) {
+function showSweetAlertForManagerReg(response) {
     Swal.fire({
         text: response.message,
         icon: 'success',
@@ -70,7 +51,7 @@ function showSweetAlert(response) {
     });
 }
 
-function showSweetAlertError(response) {
+function showSweetAlertErrorForManagerReg(response) {
     Swal.fire({
         text: response.message,
         icon: 'error',

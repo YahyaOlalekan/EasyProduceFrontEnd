@@ -1,4 +1,4 @@
-
+(function(){
 let count = 1;
 let tableBody = document.getElementById("categoryTableBody");
 
@@ -13,8 +13,8 @@ getWithAuthorization(apiUrlById, tokenById, false)
                     <td>${count}</td>
                     <td>${category.nameOfCategory}</td>
                     <td>${category.descriptionOfCategory}</td>
-                 <td><button  class="btn btn-primary mx-2"  id="${category.id}" onclick="displayUpdateForm(this.id)"> <i class="fa-solid fa-pen-to-square"></i> Edit </button> </td> 
-                 <td><button  class="btn btn-danger mx-2"  id="${category.id}" onclick="DeleteDetails(this.id)">  <i class="fa fa-trash" aria-hidden="true"></i> Remove </button> </td> 
+                 <td><button  class="btn btn-primary mx-2"  id="${category.id}" onclick="displayUpdateFormForCategory(this.id)"> <i class="fa-solid fa-pen-to-square"></i> Edit </button> </td> 
+                 <td><button  class="btn btn-danger mx-2"  id="${category.id}" onclick="DeleteDetailsForCategory(this.id)">  <i class="fa fa-trash" aria-hidden="true"></i> Remove </button> </td> 
                 </tr>`;
             tableBody.innerHTML += row;
             count++;
@@ -27,14 +27,14 @@ getWithAuthorization(apiUrlById, tokenById, false)
                 <td colspan="2" class="text-danger">An error occurred while fetching data.</td>
             </tr>`;
     });
-
+})();
 
 
 //////////////////////////
 
-function displayUpdateForm(id) {
+function displayUpdateFormForCategory(id) {
 
-    const body = document.querySelector(".body");
+    const body = document.querySelector(".body-category");
     body.innerHTML = `  <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-6 form-container">
@@ -70,15 +70,15 @@ function displayUpdateForm(id) {
 
     const form = document.getElementById("updateCategoryForm");
 
-    form.removeEventListener("submit", handleFormSubmit);
+    form.removeEventListener("submit", handleFormSubmitForCategoryUpdate);
 
     form.addEventListener("submit", function (event) {
-        handleFormSubmit(event, id); 
+        handleFormSubmitForCategoryUpdate(event, id); 
     });
 }
 
 
-async function handleFormSubmit(event, id) {
+async function handleFormSubmitForCategoryUpdate(event, id) {
     event.preventDefault();
 
     const form = event.target;
@@ -92,9 +92,9 @@ async function handleFormSubmit(event, id) {
         const response = await makeApiRequest(apiUrl, 'PUT', formData, token);
 
         if (response.status) {
-            showSweetAlert(response.message);
+            showSweetAlertForCategoryUpdate(response);
         } else {
-            showSweetAlertError(response.message);
+            showSweetAlertErrorForCategoryUpdate(response);
         }
     } catch (error) {
         alert(error.message);
@@ -103,7 +103,7 @@ async function handleFormSubmit(event, id) {
 
 
 
-function showSweetAlert(response) {
+function showSweetAlertForCategoryUpdate(response) {
     Swal.fire({
         text: response.message,
         icon: 'success',
@@ -124,7 +124,7 @@ function showSweetAlert(response) {
     });
 }
 
-function showSweetAlertError(response) {
+function showSweetAlertErrorForCategoryUpdate(response) {
     Swal.fire({
         text: response.message,
         icon: 'error',
@@ -153,7 +153,7 @@ function showSweetAlertError(response) {
 
 
 // Function to delete a category
-function DeleteDetails(id) {
+function DeleteDetailsForCategory(id) {
     Swal.fire({
 
         title: 'Confirm deletion',
@@ -182,9 +182,9 @@ function DeleteDetails(id) {
             deleteWithAuthorization(url, token)
                 .then(data => {
                     if (data.status) {
-                        showSweetAlert(data.message);
+                        showSweetAlertCategoryRemoval(data);
                     } else {
-                        showSweetAlertError(data.message);
+                        showSweetAlertErrorCategoryRemoval(data);
                     }
                 })
                 .catch(error => {
@@ -196,58 +196,9 @@ function DeleteDetails(id) {
 
 }
 
-function displayCustomerData(category) {
-
-    const body = document.querySelector(".body");
-    body.innerHTML = `
-    <div class="container mt-5">
-    <h1 class="text-center mb-4">Category Details</h1>
-    <div class="row">
-       
-        <div class="col-md-8">
-            <table class="table table-striped">
-                <tbody id="categoryTableBody">
-                    <!-- Category data will be inserted here dynamically -->
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div>
-    `
-
-    const tableBody = document.getElementById("categoryTableBody");
-
-    tableBody.innerHTML = "";
-
-    const properties = [
-        { label: "Category Name", value: category.nameOfCategory },
-        { label: "Category Description", value: category.descriptionOfCategory },
-
-    ];
-
-    properties.forEach(property => {
-        const row = `
-            <tr>
-                <td>${property.label}</td>
-                <td>${property.value}</td>
-            </tr>`;
-        tableBody.innerHTML += row;
-    });
-
-    const deleteButtonRow = `
-        <tr>
-            <td colspan="2">
-                <button class="btn btn-danger" onclick="deleteCategory('${category.id}')">Delete</button>
-            </td>
-        </tr>`;
-    tableBody.innerHTML += deleteButtonRow;
-}
-
-
-
-function showSweetAlert(message) {
+function showSweetAlertCategoryRemoval(data) {
     Swal.fire({
-        text: message,
+        text: data.message,
         icon: 'success',
         confirmButtonColor: 'hsl(210, 17%, 93%)',
         confirmButtonText: 'CONTINUE',
@@ -267,9 +218,9 @@ function showSweetAlert(message) {
     });
 }
 
-function showSweetAlertError(message) {
+function showSweetAlertErrorCategoryRemoval(data) {
     Swal.fire({
-        text: message,
+        text: data.message,
         icon: 'error',
         confirmButtonColor: 'hsl(210, 17%, 93%)',
         confirmButtonText: 'OK',

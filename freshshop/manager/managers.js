@@ -18,9 +18,9 @@ getWithAuthorization(apiUrlById, tokenById, false)
                     <td>${manager.address}</td>
                     <td>${manager.registrationNumber}</td>
                     <td>${manager.email}</td>
-                 <td><button  class="btn btn-success mx-2"  id="${manager.id}" onclick="ViewDetails(this.id)"> <i class="fa fa-info" aria-hidden="true"></i> View </button> </td> 
-                 <td><button  class="btn btn-primary mx-2"  id="${manager.id}" onclick="displayUpdateForm(this.id)"> <i class="fa-solid fa-pen-to-square"></i> Edit </button> </td> 
-                 <td><button  class="btn btn-danger mx-2"  id="${manager.id}" onclick="DeleteDetails(this.id)">  <i class="fa fa-trash" aria-hidden="true"></i> Deactivate </button> </td> 
+                 <td><button  class="btn btn-success mx-2"  id="${manager.id}" onclick="ViewDetailsForManager(this.id)"> <i class="fa fa-info" aria-hidden="true"></i> View </button> </td> 
+                 <td><button  class="btn btn-primary mx-2"  id="${manager.id}" onclick="displayUpdateFormForManager(this.id)"> <i class="fa-solid fa-pen-to-square"></i> Edit </button> </td> 
+                 <td><button  class="btn btn-danger mx-2"  id="${manager.id}" onclick="DeleteDetailsForManager(this.id)">  <i class="fa fa-trash" aria-hidden="true"></i> Deactivate </button> </td> 
                 </tr>`;
             managerTableBody.innerHTML += row;
             countNumber++;
@@ -39,7 +39,7 @@ getWithAuthorization(apiUrlById, tokenById, false)
 
 //////////////////////////
 
-function ViewDetails(id) {
+function ViewDetailsForManager(id) {
     const token = localStorage.getItem("token");
     const userId = localStorage.getItem("id");
 
@@ -123,17 +123,13 @@ function ViewDetails(id) {
         console.log(manager.profilePicture);
         profilePicture.alt = "Profile Picture";
     }
-
-    // function displayError() {
-    //     const managerDetails = document.querySelector(".card-body");
-    //     managerDetails.innerHTML = `<p class="text-danger">An error occurred while fetching manager data.</p>`;
-    // }
+ 
 
 }
 
 //////////////////////////////////////////////
 
-function displayUpdateForm(id) {
+function displayUpdateFormForManager(id) {
 
     const body = document.querySelector(".body-manager");
     body.innerHTML = `  <div class="container">
@@ -158,7 +154,7 @@ function displayUpdateForm(id) {
                         <input type="file" class="form-control-file" id="profilePicture" name="ProfilePicture">
                     </div>
                     <div class="text-center">
-                    <a href="./managers.html" class="btn btn-secondary">Back</a>
+                    <a href="../admin/dashboard.html" class="btn btn-secondary">Back</a>
                     <button type="submit" id="update-button" class="btn btn-primary">Update</button>
                 </div>
                 
@@ -172,15 +168,15 @@ function displayUpdateForm(id) {
 
     const form = document.getElementById("updateManagerForm");
 
-    form.removeEventListener("submit", handleFormSubmit);
+    form.removeEventListener("submit", handleFormSubmitForManager);
 
     form.addEventListener("submit", function (event) {
-        handleFormSubmit(event, id);
+        handleFormSubmitForManager(event, id);
     });
 }
 
 
-async function handleFormSubmit(event, id) {
+async function handleFormSubmitForManager(event, id) {
     event.preventDefault();
 
     const form = event.target;
@@ -255,7 +251,7 @@ function showSweetAlertErrorForManagerUpdate(response) {
 
 
 // Function to Deactivate a manager
-function DeleteDetails(id) {
+function DeleteDetailsForManager(id) {
     Swal.fire({
 
         title: 'Confirm Deactivation',
@@ -298,62 +294,6 @@ function DeleteDetails(id) {
 
 }
 
-function displayManagerData(manager) {
-
-    const body = document.querySelector(".body-manager");
-    body.innerHTML = `
-    <div class="container mt-5">
-    <h1 class="text-center mb-4">manager Details</h1>
-    <div class="row">
-        <div class="col-md-4">
-            <!-- Display Profile Picture Here -->
-            <img id="profilePicture" src="" alt="Profile Picture" class="img-fluid rounded">
-        </div>
-        <div class="col-md-8">
-            <table class="table table-striped">
-                <tbody id="managerTableBody">
-                    
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div>
-    `
-
-    const profilePicture = document.getElementById("profilePicture");
-
-    profilePicture.src = `${baseUrl}Upload/images/${manager.profilePicture}`;
-
-    const tableBodyy = document.getElementById("managerTableBody");
-
-    tableBodyy.innerHTML = "";
-
-    const properties = [
-        { label: "First Name", value: manager.firstName },
-        { label: "Last Name", value: manager.lastName },
-        { label: "Phone Number", value: manager.phoneNumber },
-        { label: "Address", value: manager.address },
-        { label: "Registration Number", value: manager.registrationNumber },
-        { label: "Email", value: manager.email },
-    ];
-
-    properties.forEach(property => {
-        const row = `
-            <tr>
-                <td>${property.label}</td>
-                <td>${property.value}</td>
-            </tr>`;
-        tableBodyy.innerHTML += row;
-    });
-
-    const deleteButtonRow = `
-        <tr>
-            <td colspan="2">
-                <button class="btn btn-danger" onclick="deleteManager('${manager.id}')">Delete</button>
-            </td>
-        </tr>`;
-    tableBodyy.innerHTML += deleteButtonRow;
-}
 
 
 function showSweetAlertForManagerDeactivation(message) {
@@ -373,7 +313,7 @@ function showSweetAlertForManagerDeactivation(message) {
         },
         background: 'rgb(1, 6, 28)',
     }).then(() => {
-        window.location.href = './dashboard.html';
+        window.location.href = '../admin/dashboard.html';
 
     });
 }
@@ -396,10 +336,72 @@ function showSweetAlertErrorForManagerDeactivation(message) {
         background: 'rgb(1, 6, 28)',
     })
         .then(() => {
-            window.location.href = './dashboard.html';
+            window.location.href = '../admin/dashboard.html';
 
         });
 }
+
+
+
+
+
+
+// function displayManagerData(manager) {
+
+//     const body = document.querySelector(".body-manager");
+//     body.innerHTML = `
+//     <div class="container mt-5">
+//     <h1 class="text-center mb-4">manager Details</h1>
+//     <div class="row">
+//         <div class="col-md-4">
+//             <!-- Display Profile Picture Here -->
+//             <img id="profilePicture" src="" alt="Profile Picture" class="img-fluid rounded">
+//         </div>
+//         <div class="col-md-8">
+//             <table class="table table-striped">
+//                 <tbody id="managerTableBody">
+                    
+//                 </tbody>
+//             </table>
+//         </div>
+//     </div>
+// </div>
+//     `
+
+//     const profilePicture = document.getElementById("profilePicture");
+
+//     profilePicture.src = `${baseUrl}Upload/images/${manager.profilePicture}`;
+
+//     const tableBodyy = document.getElementById("managerTableBody");
+
+//     tableBodyy.innerHTML = "";
+
+//     const properties = [
+//         { label: "First Name", value: manager.firstName },
+//         { label: "Last Name", value: manager.lastName },
+//         { label: "Phone Number", value: manager.phoneNumber },
+//         { label: "Address", value: manager.address },
+//         { label: "Registration Number", value: manager.registrationNumber },
+//         { label: "Email", value: manager.email },
+//     ];
+
+//     properties.forEach(property => {
+//         const row = `
+//             <tr>
+//                 <td>${property.label}</td>
+//                 <td>${property.value}</td>
+//             </tr>`;
+//         tableBodyy.innerHTML += row;
+//     });
+
+//     const deleteButtonRow = `
+//         <tr>
+//             <td colspan="2">
+//                 <button class="btn btn-danger" onclick="deleteManager('${manager.id}')">Delete</button>
+//             </td>
+//         </tr>`;
+//     tableBodyy.innerHTML += deleteButtonRow;
+// }
 
 
 

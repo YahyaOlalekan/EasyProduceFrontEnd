@@ -1,75 +1,51 @@
-        function populateCategoryDropdown() {
-            // Make an API request to get the list of categories dynamically
-            // fetch(`${baseUrl}api/Category/GetAllCategories`)
-            //     .then(response => response.json())
+function populateCategoryDropdown() {
 
-                const tokenById = localStorage.getItem("token");
-                const apiUrlById = `${baseUrl}api/Category/GetAllCategories`;
-                getWithAuthorization(apiUrlById, tokenById, false)
-                .then(data => {
-                    const categoryDropdown = document.querySelector('select[name="CategoryId"]');
-                    categoryDropdown.innerHTML = '';
+    const tokenById = localStorage.getItem("token");
+    const apiUrlById = `${baseUrl}api/Category/GetAllCategories`;
+    getWithAuthorization(apiUrlById, tokenById, false)
+        .then(data => {
+            const categoryDropdown = document.querySelector('select[name="CategoryId"]');
+            categoryDropdown.innerHTML = '';
 
-                    data.data.forEach(category => {
-                        const option = document.createElement('option');
-                        option.value = category.id; 
-                        option.textContent = category.nameOfCategory; 
-                        categoryDropdown.appendChild(option);
-                    });
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
-        }
-
-        window.addEventListener('load', populateCategoryDropdown);
-
-        document.getElementById('submitButton').addEventListener('click', async function (e) {
-            e.preventDefault();
-            const formElement = document.getElementById('myForm');
-            const formData = new FormData(formElement);
-
-            // Add the selected category to the form data
-            // const selectedCategory = document.querySelector('select[name="CategoryId"]').value;
-            // formData.append('CategoryId', selectedCategory);
-            
-            // fetch(`${baseUrl}api/Produce/CreateProduce`, {
-            //     method: 'POST',
-            //     body: formData
-            // })
-            //     .then(response => response.json())
-            //     .then(data => {
-            //         if (data.status) {
-            //             showSweetAlert(data);
-            //         } else {
-            //             showSweetAlertError(data);
-            //         }
-            //     })
-            //     .catch(error => {
-            //         console.error('Error:', error);
-            //     });
-
-
-                try {
-
-                    const apiUrl = `${baseUrl}api/Produce/CreateProduce`;
-                    const token = localStorage.getItem("token");
-            
-                    const response = await makeApiRequest(apiUrl, 'POST', formData, token);
-            
-                    if (response.status) {
-                        showSweetAlert(response);
-                    } else {
-                        showSweetAlertError(response);
-                    }
-                } catch (error) {
-                    alert(error.message);
-                }
-            
+            data.data.forEach(category => {
+                const option = document.createElement('option');
+                option.value = category.id;
+                option.textContent = category.nameOfCategory;
+                categoryDropdown.appendChild(option);
+            });
+        })
+        .catch(error => {
+            console.error('Error:', error);
         });
+}
 
-      
-function showSweetAlert(response) {
+window.addEventListener('load', populateCategoryDropdown);
+
+document.getElementById('submitButton-produce-add').addEventListener('click', async function (e) {
+    e.preventDefault();
+    const formElement = document.getElementById('myForm-produce-add');
+    const formData = new FormData(formElement);
+
+    try {
+
+        const apiUrl = `${baseUrl}api/Produce/CreateProduce`;
+        const token = localStorage.getItem("token");
+
+        const response = await makeApiRequest(apiUrl, 'POST', formData, token);
+
+        if (response.status) {
+            showSweetAlertForProduceAdd(response);
+        } else {
+            showSweetAlertErrorForProduceAdd(response);
+        }
+    } catch (error) {
+        alert(error.message);
+    }
+
+});
+
+
+function showSweetAlertForProduceAdd(response) {
     Swal.fire({
         text: response.message,
         icon: 'success',
@@ -90,7 +66,7 @@ function showSweetAlert(response) {
     });
 }
 
-function showSweetAlertError(response) {
+function showSweetAlertErrorForProduceAdd(response) {
     Swal.fire({
         text: response.message,
         icon: 'error',

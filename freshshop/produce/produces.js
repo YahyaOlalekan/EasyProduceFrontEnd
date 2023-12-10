@@ -1,4 +1,4 @@
-
+(function(){
 let count = 1;
 let tableBody = document.getElementById("produceTableBody");
 
@@ -13,8 +13,8 @@ getWithAuthorization(apiUrlById, tokenById, false)
                     <td>${count}</td>
                     <td>${produce.produceName}</td>
                     <td>${produce.descriptionOfProduce}</td>
-                 <td><button  class="btn btn-primary mx-2"  id="${produce.id}" onclick="displayUpdateForm(this.id)"> <i class="fa-solid fa-pen-to-square"></i> Edit </button> </td> 
-                 <td><button  class="btn btn-danger mx-2"  id="${produce.id}" onclick="DeleteDetails(this.id)">  <i class="fa fa-trash" aria-hidden="true"></i> Remove </button> </td> 
+                 <td><button  class="btn btn-primary mx-2"  id="${produce.id}" onclick="displayUpdateFormForProduce(this.id)"> <i class="fa-solid fa-pen-to-square"></i> Edit </button> </td> 
+                 <td><button  class="btn btn-danger mx-2"  id="${produce.id}" onclick="DeleteDetailsForProduce(this.id)">  <i class="fa fa-trash" aria-hidden="true"></i> Remove </button> </td> 
                 </tr>`;
             tableBody.innerHTML += row;
             count++;
@@ -28,14 +28,14 @@ getWithAuthorization(apiUrlById, tokenById, false)
                 <td colspan="2" class="text-danger">An error occurred while fetching data.</td>
             </tr>`;
     });
-
+})();
 
 
 //////////////////////////
 
-function displayUpdateForm(id) {
+function displayUpdateFormForProduce(id) {
 
-    const body = document.querySelector(".body");
+    const body = document.querySelector(".body-produce");
     body.innerHTML = `  <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-6 form-container">
@@ -71,15 +71,15 @@ function displayUpdateForm(id) {
 
     const form = document.getElementById("updateProduceForm");
 
-    form.removeEventListener("submit", handleFormSubmit);
+    form.removeEventListener("submit", handleFormSubmitForProduce);
 
     form.addEventListener("submit", function (event) {
-        handleFormSubmit(event, id);
+        handleFormSubmitForProduce(event, id);
     });
 }
 
 
-async function handleFormSubmit(event, id) {
+async function handleFormSubmitForProduce(event, id) {
     event.preventDefault();
 
     const form = event.target;
@@ -93,9 +93,9 @@ async function handleFormSubmit(event, id) {
         const response = await makeApiRequest(apiUrl, 'PUT', formData, token);
 
         if (response.status) {
-            showSweetAlert(response.message);
+            showSweetAlertForProduce(response);
         } else {
-            showSweetAlertError(response.message);
+            showSweetAlertErrorForProduce(response);
         }
     } catch (error) {
         alert(error.message);
@@ -104,7 +104,7 @@ async function handleFormSubmit(event, id) {
 
 
 
-function showSweetAlert(response) {
+function showSweetAlertForProduce(response) {
     Swal.fire({
         text: response.message,
         icon: 'success',
@@ -125,7 +125,7 @@ function showSweetAlert(response) {
     });
 }
 
-function showSweetAlertError(response) {
+function showSweetAlertErrorForProduce(response) {
     Swal.fire({
         text: response.message,
         icon: 'error',
@@ -155,7 +155,7 @@ function showSweetAlertError(response) {
 
 
 // Function to delete a produce
-function DeleteDetails(id) {
+function DeleteDetailsForProduce(id) {
     Swal.fire({
 
         title: 'Confirm deletion',
@@ -184,9 +184,9 @@ function DeleteDetails(id) {
             deleteWithAuthorization(url, token)
                 .then(data => {
                     if (data.status) {
-                        showSweetAlert(data.message);
+                        showSweetAlertForProduceRemoval(data);
                     } else {
-                        showSweetAlertError(data.message);
+                        showSweetAlertErrorForProduceRemoval(data);
                     }
                 })
                 .catch(error => {
@@ -197,57 +197,11 @@ function DeleteDetails(id) {
 
 }
 
-function displayCustomerData(produce) {
-
-    const body = document.querySelector(".body");
-    body.innerHTML = `
-    <div class="container mt-5">
-    <h1 class="text-center mb-4">Produce Details</h1>
-    <div class="row">
-       
-        <div class="col-md-8">
-            <table class="table table-striped">
-                <tbody id="produceTableBody">
-                    <!-- produce data will be inserted here dynamically -->
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div>
-    `
-
-    const tableBody = document.getElementById("produceTableBody");
-
-    tableBody.innerHTML = "";
-
-    const properties = [
-        { label: "Produce Name", value: produce.produceName },
-        { label: "Category Description", value: produce.descriptionOfProduce },
-
-    ];
-
-    properties.forEach(property => {
-        const row = `
-            <tr>
-                <td>${property.label}</td>
-                <td>${property.value}</td>
-            </tr>`;
-        tableBody.innerHTML += row;
-    });
-
-    const deleteButtonRow = `
-        <tr>
-            <td colspan="2">
-                <button class="btn btn-danger" onclick="deleteProduce('${produce.id}')">Delete</button>
-            </td>
-        </tr>`;
-    tableBody.innerHTML += deleteButtonRow;
-}
 
 
-function showSweetAlert(message) {
+function showSweetAlertForProduceRemoval(data) {
     Swal.fire({
-        text: message,
+        text: data.message,
         icon: 'success',
         confirmButtonColor: 'hsl(210, 17%, 93%)',
         confirmButtonText: 'CONTINUE',
@@ -267,9 +221,9 @@ function showSweetAlert(message) {
     });
 }
 
-function showSweetAlertError(message) {
+function showSweetAlertErrorForProduceRemoval(data) {
     Swal.fire({
-        text: message,
+        text: data.message,
         icon: 'error',
         confirmButtonColor: 'hsl(210, 17%, 93%)',
         confirmButtonText: 'OK',

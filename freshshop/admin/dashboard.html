@@ -12,7 +12,7 @@
     <link href="../assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css">
     <link href="../assets/css/icons.min.css" rel="stylesheet" type="text/css">
     <link href="../assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css">
-    
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.css">
     <link href="../general/logout.html">
     <link rel="stylesheet" href="./dashboard.css">
@@ -189,13 +189,13 @@
                         <ul class="sub-menu" aria-expanded="false">
 
                             <li>
-                                <a href="../category/create.html" class=" waves-effect">
+                                <a href="#create-category-section" class=" waves-effect">
                                     <span>Create Category</span>
                                 </a>
                             </li>
 
                             <li>
-                                <a href="../category/categories.html" class=" waves-effect">
+                                <a href="#categories-section" class=" waves-effect">
                                     <span>View Categories</span>
                                 </a>
                             </li>
@@ -211,13 +211,13 @@
                         <ul class="sub-menu" aria-expanded="false">
 
                             <li>
-                                <a href="../produce/create.html" class=" waves-effect">
+                                <a href="#create-produce-section" class=" waves-effect">
                                     <span>Create Produce</span>
                                 </a>
                             </li>
 
                             <li>
-                                <a href="../produce/produces.html" class=" waves-effect">
+                                <a href="#produces-section" class=" waves-effect">
                                     <span>View All Produce</span>
                                 </a>
                             </li>
@@ -361,7 +361,7 @@
                                 <div class="card-box shadow-none p-4">
                                     <div class="p-2">
 
-                                       
+
                                         <h4 class="font-size-18 mt-5 text-center">Manager Registration</h4>
 
                                         <form class="mt-4" id="myManagerForm">
@@ -435,7 +435,7 @@
 
                                         </form>
 
-                                       
+
                                         <div class="mt-5 pt-4 text-center">
                                             <p>Already have an account ? <a href="../general/login.html"
                                                     class="fw-medium text-primary"> Login </a> </p>
@@ -485,6 +485,153 @@
             </div>
         </section>
 
+        <section id="create-category-section" class="dashboard-section">
+            <div id="category-creation" class="registration-form">
+                <div class="accountbg"
+                    style="background: url('../producePictures/woman.jpg');background-size: cover;background-position: center;">
+                </div>
+
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header bg-primary text-white text-center">
+                                    <h4 class="font-size-18 mt-2">Category Creation</h4>
+                                </div>
+                                <div class="card-body">
+                                    <form id="myForm-category-reg">
+                                        <div class="mb-3">
+                                            <input type="text" class="form-control" name="NameOfCategory"
+                                                placeholder="Category Name">
+                                        </div>
+                                        <div class="mb-3">
+                                            <input type="text" class="form-control" name="DescriptionOfCategory"
+                                                placeholder="Category Description">
+                                        </div>
+                                        <div class="mb-3 text-end">
+                                            <button class="btn btn-primary w-md waves-effect waves-light" type="submit"
+                                                id="submitButton-category">Create</button>
+                                        </div>
+                                    </form>
+                                    <div class="mt-5 pt-4 text-center">
+                                        <p>©
+                                            <script>document.write(new Date().getFullYear())</script> EasyProduce <i
+                                                class="mdi mdi-heart text-danger"></i>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section id="categories-section" class="dashboard-section">
+        <div class="body-category">
+            <div class="container mt-5" id="categories-at-middle">
+                <h1>Categories List</h1>
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>S/N</th>
+                            <th>Category Name</th>
+                            <th>Category Description</th>
+                            <th>Update</th>
+                            <th>Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody id="categoryTableBody">
+
+                         <!-- categories -->
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        </section>
+
+        <section id="create-produce-section" class="dashboard-section">
+        <div id="produce-creation" class="registration-form">
+
+            <div class="accountbg"
+                style="background: url('../producePictures/woman.jpg');background-size: cover;background-position: center;">
+            </div>
+
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header bg-primary text-white text-center">
+                                <h4 class="font-size-18 mt-2">Produce Creation</h4>
+                            </div>
+                            <div class="card-body">
+                                <form id="myForm-produce-add">
+                                    <div class="mb-3">
+                                        <label class="form-label" for="CategoryId">Select Category</label>
+                                        <select class="form-control" name="CategoryId">
+
+                                            <!-- Produce options-->
+
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label" for="ProduceName">Produce Name</label>
+                                        <input type="text" class="form-control" name="ProduceName">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label" for="DescriptionOfProduce">Produce Description</label>
+                                        <input type="text" class="form-control" name="DescriptionOfProduce">
+                                    </div>
+
+                                    <div class="mb-3 text-end">
+                                        <button class="btn btn-primary w-md waves-effect waves-light" type="submit"
+                                            id="submitButton-produce-add">Create</button>
+                                    </div>
+                                </form>
+                                <div class="mt-5 pt-4 text-center">
+                                    <p>©
+                                        <script>document.write(new Date().getFullYear())</script> EasyProduce <i
+                                            class="mdi mdi-heart text-danger"></i>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </section>
+
+        <section id="produces-section" class="dashboard-section">
+            <div class="body-produce">
+                <div class="container mt-5">
+                    <h1>Produce List</h1>
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>S/N</th>
+                                <th>Produce Name</th>
+                                <th>Produce Description</th>
+                                <th>Update</th>
+                                <th>Delete</th>
+                            </tr>
+                        </thead>
+                        <tbody id="produceTableBody">
+                            <!-- Produce data will be inserted here dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+                </div>
+        </section>
+
+
+
+
+
+
+
 
 
 
@@ -500,11 +647,15 @@
     <script src="../assets/libs/node-waves/waves.min.js"></script>
     <script src="../assets/js/app.js"></script>
 
-      <!-- <script type="module" src="../manager/managers.js"></script> -->
+    <!-- <script type="module" src="../manager/managers.js"></script> -->
     <script src="../role/create.js"></script>
     <script src="../role/roles.js"></script>
     <script src="../manager/manager-registration.js"></script>
     <script src="../manager/managers.js"></script>
+    <script src="../category/create.js"></script>
+    <script src="../category/categories.js"></script>
+    <script src="../produce/create.js"></script>
+    <script src="../produce/produces.js"></script>
     <script src="../general/logout.js"></script>
 
 

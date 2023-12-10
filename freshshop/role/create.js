@@ -11,9 +11,9 @@ document.getElementById('submitButton-role').addEventListener('click', async fun
         const response = await makeApiRequest(apiUrl, 'POST', formData, token);
 
         if (response.status) {
-            showSweetAlert(response);
+            showSweetAlertForAddRole(response);
         } else {
-            showSweetAlertError(response);
+            showSweetAlertErrorForAddRole(response);
         }
     } catch (error) {
         alert(error.message);
@@ -21,7 +21,7 @@ document.getElementById('submitButton-role').addEventListener('click', async fun
 });
 
 
-function showSweetAlert(response) {
+function showSweetAlertForAddRole(response) {
     Swal.fire({
         text: response.message,
         icon: 'success',
@@ -42,7 +42,7 @@ function showSweetAlert(response) {
     });
 }
 
-function showSweetAlertError(response) {
+function showSweetAlertErrorForAddRole(response) {
     Swal.fire({
         text: response.message,
         icon: 'error',

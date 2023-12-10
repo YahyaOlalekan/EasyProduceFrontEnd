@@ -57,3 +57,22 @@
     padding: 20px;
     margin: 50px;
 }
+
+#categories-at-middle {
+  
+    margin-left: 230px;
+    padding-left: 30px;
+}
+
+/* #produce-creation {
+  
+    margin-left: 2px;
+    padding-left: 3px;
+    border-top: -100px;
+} */
+.body-produce {
+  
+    margin-left: 200px;
+    padding-left: 3px;
+    /* border-top: -100px; */
+}
