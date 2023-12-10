@@ -1,58 +1,60 @@
 <!doctype html>
 <html lang="en">
 
-    <head>
+<head>
+
+    <meta charset="utf-8">
+    <title>Admin Dashboard | EasyProduce </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="Premium Multipurpose Admin & Dashboard Template" name="description">
+    <meta content="Themesbrand" name="author">
+    <link rel="shortcut icon" href="assets/images/favicon.ico">
+    <link href="../assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css">
+    <link href="../assets/css/icons.min.css" rel="stylesheet" type="text/css">
+    <link href="../assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css">
     
-        <meta charset="utf-8">
-        <title>Admin Dashboard | EasyProduce </title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta content="Premium Multipurpose Admin & Dashboard Template" name="description">
-        <meta content="Themesbrand" name="author">
-        <!-- App favicon -->
-        <link rel="shortcut icon" href="assets/images/favicon.ico">
-    
-        <!-- Bootstrap Css -->
-        <link href="../assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css">
-        <!-- Icons Css -->
-        <link href="../assets/css/icons.min.css" rel="stylesheet" type="text/css">
-        <!-- App Css-->
-        <link href="../assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css">
-        <link href="../general/logout.html">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.css">
+    <link href="../general/logout.html">
+    <link rel="stylesheet" href="./dashboard.css">
+    <link rel="stylesheet" href="../role/update.css">
+    <link rel="stylesheet" href="../manager/update.css">
+    <link rel="stylesheet" href="../general/swal.css">
 
-    
-    </head>
 
-    <body data-sidebar="dark">
 
-        <!-- Begin page -->
-        <div id="layout-wrapper">
+</head>
 
-            
-            <header id="page-topbar">
-                <div class="navbar-header">
-                    <div class="d-flex">
-                        <!-- LOGO -->
-                        <div class="navbar-brand-box">
-                            <a href="index.html" class="logo logo-dark">
-                                <span class="logo-sm">
-                                    <img src="assets/images/logo-sm.png" alt="" height="22">
-                                </span>
-                                <span class="logo-lg">
-                                    <img src="assets/images/logo-dark.png" alt="" height="17">
-                                </span>
-                            </a>
+<body data-sidebar="dark">
 
-                            <a href="index.html" class="logo logo-light">
-                                <span class="logo-sm">
-                                    <img src="assets/images/logo-sm.png" alt="" height="22">
-                                </span>
-                                <span class="logo-lg">
-                                    <img src="assets/images/logo-light.png" alt="" height="18">
-                                </span>
-                            </a>
-                        </div> 
+    <!-- Begin page -->
+    <div id="layout-wrapper">
 
-                         <!-- <button type="button" class="btn btn-sm px-3 font-size-24 header-item waves-effect" id="vertical-menu-btn">
+
+        <header id="page-topbar">
+            <div class="navbar-header">
+                <div class="d-flex">
+                    <!-- LOGO -->
+                    <div class="navbar-brand-box">
+                        <a href="index.html" class="logo logo-dark">
+                            <span class="logo-sm">
+                                <img src="assets/images/logo-sm.png" alt="" height="22">
+                            </span>
+                            <span class="logo-lg">
+                                <img src="assets/images/logo-dark.png" alt="" height="17">
+                            </span>
+                        </a>
+
+                        <a href="index.html" class="logo logo-light">
+                            <span class="logo-sm">
+                                <img src="assets/images/logo-sm.png" alt="" height="22">
+                            </span>
+                            <span class="logo-lg">
+                                <img src="assets/images/logo-light.png" alt="" height="18">
+                            </span>
+                        </a>
+                    </div>
+
+                    <!-- <button type="button" class="btn btn-sm px-3 font-size-24 header-item waves-effect" id="vertical-menu-btn">
                             <i class="mdi mdi-menu"></i>
                         </button>
 
@@ -71,236 +73,464 @@
                                 </div>
                             </div>
                         </div> -->
-                    </div>
-                    <div> <button class="btn btn-danger"  id="logoutButton">Logout</button>  </div>
-
-                  
-                    </div>
- 
                 </div>
-            </header>
+                <div> <button class="btn btn-danger" id="logoutButton">Logout</button> </div>
 
-            <!-- ========== Left Sidebar Start ========== -->
-            <div class="vertical-menu">
 
-                <div data-simplebar class="h-100">
+            </div>
 
-                    <!--- Sidemenu -->
-                    <div id="sidebar-menu">
-                        <!-- Left Menu Start -->
-                        <ul class="metismenu list-unstyled" id="side-menu">
-                            <li class="menu-title">Main</li>
+    </div>
+    </header>
+
+    <!-- ========== Left Sidebar Start ========== -->
+    <div class="vertical-menu">
+
+        <div data-simplebar class="h-100">
+
+            <!--- Sidemenu -->
+            <div id="sidebar-menu">
+                <!-- Left Menu Start -->
+                <ul class="metismenu list-unstyled" id="side-menu">
+                    <li class="menu-title">Main</li>
+
+                    <li>
+                        <a href="" class="waves-effect">
+                            <i class="ti-home"></i><span class="badge rounded-pill bg-primary float-end"> </span>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="javascript: void(0);" class="has-arrow waves-effect">
+                            <!-- <i class="ti-email"></i> -->
+                            <span>Role</span>
+                        </a>
+                        <ul class="sub-menu" aria-expanded="false">
 
                             <li>
-                                <a href="" class="waves-effect">
-                                    <i class="ti-home"></i><span class="badge rounded-pill bg-primary float-end"> </span>
-                                    <span>Dashboard</span>
+                                <a href="#create-role-section" class=" waves-effect">
+                                    <span>Add Role</span>
                                 </a>
                             </li>
 
                             <li>
-                                <a href="javascript: void(0);" class="has-arrow waves-effect">
-                                    <!-- <i class="ti-email"></i> -->
-                                    <span>Role</span>
+                                <a href="#view-roles-section" class=" waves-effect">
+                                    <span>View Roles</span>
                                 </a>
-                                <ul class="sub-menu" aria-expanded="false">
-                                    
-                                    <li>
-                                        <a href="../role/create.html" class=" waves-effect">
-                                            <span>Add Role</span>
-                                        </a>
-                                    </li>
-                                                                       
-                                    <li>
-                                        <a href="../role/roles.html" class=" waves-effect">
-                                            <span>View Roles</span>
-                                        </a>
-                                    </li>
-
-                                </ul>
                             </li>
-
-                            <li>
-                                <a href="javascript: void(0);" class="has-arrow waves-effect">
-                                    <!-- <i class="ti-email"></i> -->
-                                    <span>Manager</span>
-                                </a>
-                                <ul class="sub-menu" aria-expanded="false">
-
-                                    <li>
-                                        <a href="../manager/manager-registration.html" class=" waves-effect">
-                                            <span>Register Manager</span>
-                                        </a>
-                                    </li>
-                                                                       
-                                    <li>
-                                        <a href="../manager/managers.html" class=" waves-effect">
-                                            <span>View Managers</span>
-                                        </a>
-                                    </li>
-
-                                </ul>
-                            </li>
-
-                            <li>
-                                <a href="javascript: void(0);" class="has-arrow waves-effect">
-                                    <!-- <i class="ti-email"></i> -->
-                                    <span>Farmer</span>
-                                </a>
-                                <ul class="sub-menu" aria-expanded="false">
-
-                                    <li>
-                                        <a href="../farmer/farmers.html" class=" waves-effect">
-                                            <span>View Farmers</span>
-                                        </a>
-                                    </li>
-                                                                       
-                                  
-
-                                </ul>
-                            </li>
-
-                            <li>
-                                <a href="javascript: void(0);" class="has-arrow waves-effect">
-                                    <!-- <i class="ti-email"></i> -->
-                                    <span>Customer</span>
-                                </a>
-                                <ul class="sub-menu" aria-expanded="false">
-
-                                    <li>
-                                        <a href="../customer/customers.html" class=" waves-effect">
-                                            <span>View Customers</span>
-                                        </a>
-                                    </li>
-                                                                       
-                                  
-
-                                </ul>
-                            </li>
-
-                          
-                            <li>
-                                <a href="javascript: void(0);" class="has-arrow waves-effect">
-                                    <!-- <i class="ti-email"></i> -->
-                                    <span>Category</span>
-                                </a>
-                                <ul class="sub-menu" aria-expanded="false">
-
-                                    <li>
-                                        <a href="../category/create.html" class=" waves-effect">
-                                            <span>Create Category</span>
-                                        </a>
-                                    </li>
-                                                                       
-                                    <li>
-                                        <a href="../category/categories.html" class=" waves-effect">
-                                            <span>View Categories</span>
-                                        </a>
-                                    </li>
-
-                                </ul>
-                            </li>
-
-                            <li>
-                                <a href="javascript: void(0);" class="has-arrow waves-effect">
-                                    <!-- <i class="ti-email"></i> -->
-                                    <span>Produce</span>
-                                </a>
-                                <ul class="sub-menu" aria-expanded="false">
-
-                                    <li>
-                                        <a href="../produce/create.html" class=" waves-effect">
-                                            <span>Create Produce</span>
-                                        </a>
-                                    </li>
-                                                                       
-                                    <li>
-                                        <a href="../produce/produces.html" class=" waves-effect">
-                                            <span>View All Produce</span>
-                                        </a>
-                                    </li>
-
-                                </ul>
-                            </li>
-
-                            <li>
-                                <a href="javascript: void(0);" class="has-arrow waves-effect">
-                                    <!-- <i class="ti-email"></i> -->
-                                    <span>Produce Type</span>
-                                </a>
-                                <ul class="sub-menu" aria-expanded="false">
-
-                                    <li>
-                                        <a href="../producetype/create.html" class=" waves-effect">
-                                            <span>Create Producetype</span>
-                                        </a>
-                                    </li>
-                                                                       
-                                    <li>
-                                        <a href="../producetype/producetypes.html" class=" waves-effect">
-                                            <span>View Producetypes</span>
-                                        </a>
-                                    </li>
-
-                                </ul>
-                            </li>
-
-
-                            <li>
-                                <a href="javascript: void(0);" class="has-arrow waves-effect">
-                                    <!-- <i class="ti-email"></i> -->
-                                    <span>Farmers Requests</span>
-                                </a>
-                                <ul class="sub-menu" aria-expanded="false">
-
-                                    <li>
-                                        <a href="../request/producetypes-requests.html" class=" waves-effect">
-                                            <span>Producetype requests</span>
-                                        </a>
-                                    </li>
-                                                                       
-                                   
-                                </ul>
-                            </li>
-
-
-                           
-                           
-                            
-
-                           
-
-                           
-
-                           
-                           
-
-
-
-                          
 
                         </ul>
+                    </li>
+
+                    <li>
+                        <a href="javascript: void(0);" class="has-arrow waves-effect">
+                            <!-- <i class="ti-email"></i> -->
+                            <span>Manager</span>
+                        </a>
+                        <ul class="sub-menu" aria-expanded="false">
+
+                            <li>
+                                <a href="#manager-registration-section" class=" waves-effect">
+                                    <span>Register Manager</span>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="#view-managers-section" class=" waves-effect">
+                                    <span>View Managers</span>
+                                </a>
+                            </li>
+
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a href="javascript: void(0);" class="has-arrow waves-effect">
+                            <!-- <i class="ti-email"></i> -->
+                            <span>Farmer</span>
+                        </a>
+                        <ul class="sub-menu" aria-expanded="false">
+
+                            <li>
+                                <a href="../farmer/farmers.html" class=" waves-effect">
+                                    <span>View Farmers</span>
+                                </a>
+                            </li>
+
+
+
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a href="javascript: void(0);" class="has-arrow waves-effect">
+                            <!-- <i class="ti-email"></i> -->
+                            <span>Customer</span>
+                        </a>
+                        <ul class="sub-menu" aria-expanded="false">
+
+                            <li>
+                                <a href="../customer/customers.html" class=" waves-effect">
+                                    <span>View Customers</span>
+                                </a>
+                            </li>
+
+
+
+                        </ul>
+                    </li>
+
+
+                    <li>
+                        <a href="javascript: void(0);" class="has-arrow waves-effect">
+                            <!-- <i class="ti-email"></i> -->
+                            <span>Category</span>
+                        </a>
+                        <ul class="sub-menu" aria-expanded="false">
+
+                            <li>
+                                <a href="../category/create.html" class=" waves-effect">
+                                    <span>Create Category</span>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="../category/categories.html" class=" waves-effect">
+                                    <span>View Categories</span>
+                                </a>
+                            </li>
+
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a href="javascript: void(0);" class="has-arrow waves-effect">
+                            <!-- <i class="ti-email"></i> -->
+                            <span>Produce</span>
+                        </a>
+                        <ul class="sub-menu" aria-expanded="false">
+
+                            <li>
+                                <a href="../produce/create.html" class=" waves-effect">
+                                    <span>Create Produce</span>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="../produce/produces.html" class=" waves-effect">
+                                    <span>View All Produce</span>
+                                </a>
+                            </li>
+
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a href="javascript: void(0);" class="has-arrow waves-effect">
+                            <!-- <i class="ti-email"></i> -->
+                            <span>Produce Type</span>
+                        </a>
+                        <ul class="sub-menu" aria-expanded="false">
+
+                            <li>
+                                <a href="../producetype/create.html" class=" waves-effect">
+                                    <span>Create Producetype</span>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="../producetype/producetypes.html" class=" waves-effect">
+                                    <span>View Producetypes</span>
+                                </a>
+                            </li>
+
+                        </ul>
+                    </li>
+
+
+                    <li>
+                        <a href="javascript: void(0);" class="has-arrow waves-effect">
+                            <!-- <i class="ti-email"></i> -->
+                            <span>Farmers Requests</span>
+                        </a>
+                        <ul class="sub-menu" aria-expanded="false">
+
+                            <li>
+                                <a href="../request/producetypes-requests.html" class=" waves-effect">
+                                    <span>Producetype requests</span>
+                                </a>
+                            </li>
+
+
+                        </ul>
+                    </li>
+
+
+
+
+                </ul>
+            </div>
+            <!-- Sidebar -->
+        </div>
+    </div> <!-- Left Sidebar End -->
+
+
+    <div class="content-page"> <!-- Start of main Content here -->
+        <!-- ============================================================== -->
+        <section id="create-role-section" class="dashboard-section">
+            <div id="role-creation" class="registration-form">
+
+                <div class="accountbg"
+                    style="background: url('../producePictures/woman.jpg');background-size: cover;background-position: center;">
+                </div>
+
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header bg-primary text-white text-center">
+                                    <h4 class="font-size-18 mt-2">Role Creation</h4>
+                                </div>
+                                <div class="card-body">
+                                    <form id="myRoleForm">
+                                        <div class="mb-3">
+                                            <input type="text" class="form-control" name="RoleName"
+                                                placeholder="Role Name">
+                                        </div>
+                                        <div class="mb-3">
+                                            <input type="text" class="form-control" name="RoleDescription"
+                                                placeholder="Role Description">
+                                        </div>
+                                        <div class="mb-3 text-end">
+                                            <button class="btn btn-primary w-md waves-effect waves-light" type="submit"
+                                                id="submitButton-role">Create</button>
+                                        </div>
+                                    </form>
+                                    <div class="mt-5 pt-4 text-center">
+                                        <p>©
+                                            <script>document.write(new Date().getFullYear())</script> EasyProduce <i
+                                                class="mdi mdi-heart text-danger"></i>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <!-- Sidebar -->
                 </div>
             </div>
-            <!-- Left Sidebar End -->
+        </section>
 
-            <!-- ============================================================== -->
-            <!-- Start right Content here -->
-            
-                            
-                           
-                             <!-- JAVASCRIPT -->
-        <script src="../assets/libs/jquery/jquery.min.js"></script>
-        <script src="../assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
-        <script src="../assets/libs/metismenu/metisMenu.min.js"></script>
-        <script src="../assets/libs/simplebar/simplebar.min.js"></script>
-        <script src="../assets/libs/node-waves/waves.min.js"></script>
+        <section id="view-roles-section" class="dashboard-section">
+            <div class="body-role roles-style">
 
-        <script src="../general/logout.js"></script>
+                <div class="container mt-5">
+                    <h1>Roles List</h1>
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>S/N</th>
+                                <th>Role Name</th>
+                                <th>Role Description</th>
+                                <th>Update</th>
+                                <th>Delete</th>
+                            </tr>
+                        </thead>
+                        <tbody id="roleTableBody">
+                            <!-- Roles -->
+                        </tbody>
+                    </table>
+                </div>
 
-        <script src="../assets/js/app.js"></script>
+            </div>
+        </section>
 
-    </body>
+        <section id="manager-registration-section" class="dashboard-section">
+            <div id="manager-registration" class="registration-form" style="margin-left: 98px;">
+
+                <div class="accountbg"
+                    style="background: url('../producePictures/woman.jpg');background-size: cover;background-position: center;">
+                </div>
+
+                <div class="wrapper-page account-page-full manager-registration">
+
+                    <div class="card shadow-none">
+                        <div class="card-block">
+
+                            <div class="account-box" style="border: none;">
+
+                                <div class="card-box shadow-none p-4">
+                                    <div class="p-2">
+
+                                       
+                                        <h4 class="font-size-18 mt-5 text-center">Manager Registration</h4>
+
+                                        <form class="mt-4" id="myManagerForm">
+
+                                            <div class="mb-3">
+                                                <!-- <label class="form-label" for="first-name">First Name</label> -->
+                                                <input type="text" class="form-control" name="FirstName"
+                                                    placeholder="First Name">
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <!-- <label class="form-label" for="last-name">Last Name</label> -->
+                                                <input type="text" class="form-control" name="LastName"
+                                                    placeholder="Last Name">
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <!-- <label class="form-label" for="email">Email</label> -->
+                                                <input type="email" class="form-control" id="email" value=""
+                                                    name="Email" placeholder="Email">
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <!-- <label class="form-label" for="username">Phone Number</label> -->
+                                                <input type="text" class="form-control" name="PhoneNumber"
+                                                    placeholder="Phone Number">
+                                            </div>
+
+
+                                            <div class="mb-3">
+                                                <!-- <label class="form-label" for="password">Password</label> -->
+                                                <input type="password" class="form-control" name="Password"
+                                                    placeholder="Password">
+
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <!-- <label class="form-label" for="password">Confirm Password</label> -->
+                                                <input type="password" class="form-control" name="ConfirmPassword"
+                                                    placeholder="Confirm Password">
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <!-- <label class="form-label" for="last-name">Address</label> -->
+                                                <input type="text" class="form-control" name="Address"
+                                                    placeholder="Address">
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <!-- <label class="form-label" for="picture">Picture</label> -->
+                                                <input type="file" class="form-control" name="ProfilePicture"
+                                                    placeholder="choose profile picture ">
+                                            </div>
+                                            <div class="row mb-3">
+                                                <label class="col-sm-2 col-form-label">Gender</label>
+                                                <div class="col-sm-10">
+                                                    <select class="form-select" aria-label="Default select example"
+                                                        name="gender">
+                                                        <option value="1">Male</option>
+                                                        <option value="2">Female</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="mb-3 row">
+                                                <div class="col-12 text-end">
+                                                    <button class="btn btn-primary w-md waves-effect waves-light"
+                                                        type="submit" id="submitButton">Register</button>
+                                                </div>
+                                            </div>
+
+                                        </form>
+
+                                       
+                                        <div class="mt-5 pt-4 text-center">
+                                            <p>Already have an account ? <a href="../general/login.html"
+                                                    class="fw-medium text-primary"> Login </a> </p>
+
+                                            <p>©
+                                                <script>document.write(new Date().getFullYear())</script> EasyProduce
+                                                <i class="mdi mdi-heart text-danger"></i>
+                                            </p>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+        <section id="view-managers-section" class="dashboard-section">
+            <div class="body-manager">
+                <div class="container mt-5">
+                    <h1>Managers List</h1>
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>S/N</th>
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                                <th>Phone Number</th>
+                                <th>Address</th>
+                                <th>Registration Number</th>
+                                <th>Email</th>
+                                <th>Details</th>
+                                <th>Update</th>
+                                <th>Deactivate</th>
+                            </tr>
+                        </thead>
+                        <tbody id="managerTableBody">
+                            <!-- managers -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+
+
+
+
+    </div>
+
+    <script src="../general/basejs.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="../assets/libs/jquery/jquery.min.js"></script>
+    <script src="../assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/libs/metismenu/metisMenu.min.js"></script>
+    <script src="../assets/libs/simplebar/simplebar.min.js"></script>
+    <script src="../assets/libs/node-waves/waves.min.js"></script>
+    <script src="../assets/js/app.js"></script>
+
+      <!-- <script type="module" src="../manager/managers.js"></script> -->
+    <script src="../role/create.js"></script>
+    <script src="../role/roles.js"></script>
+    <script src="../manager/manager-registration.js"></script>
+    <script src="../manager/managers.js"></script>
+    <script src="../general/logout.js"></script>
+
+
+
+    <script>
+        function toggleSections(sectionId) {
+            const allSections = document.querySelectorAll('.dashboard-section');
+            allSections.forEach(section => {
+                if (section.id === sectionId) {
+                    section.style.display = "block";
+                } else {
+                    section.style.display = "none";
+                }
+            });
+        }
+
+        const sideMenuLinks = document.querySelectorAll('.metismenu a');
+        sideMenuLinks.forEach(link => {
+            link.addEventListener('click', function (event) {
+                event.preventDefault();
+                const sectionId = link.getAttribute('href').substring(1);
+                toggleSections(sectionId);
+            });
+        });
+    </script>
+
+</body>
+
 </html>

@@ -57,28 +57,15 @@
     }
      /* //////// */
 
-     /* #farmer-update-section .form-group label {
-        font-weight: bold;
+     #add-producetype-request-section {
+        padding: 20px; 
+        margin: 20px; 
+       
     }
     
-    #farmer-update-section .form-group input[type="file"] {
-        display: block;
-        width: 100%;
-        padding: 10px;
-        margin-top: 5px;
-        font-size: 14px;
-        line-height: 1.42857143;
-        color: #555;
-        background-color: #fff;
-        background-image: none;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
-        transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    #remove-producetype-request-section {
+        padding: 20px; 
+        margin: 20px; 
+       
     }
-    
-    #farmer-update-section .form-group input[type="file"]:focus {
-        border-color: #66afe9;
-        outline: 0;
-    } */
     

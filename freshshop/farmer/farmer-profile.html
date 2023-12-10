@@ -4,7 +4,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Add Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
     <title>Farmer Details</title>
@@ -80,25 +79,7 @@
         };
 
         function ViewDetails() {
-            // const farmerId = localStorage.getItem("id");
-            // // console.log('farmerId:', farmerId);
-            // const token = localStorage.getItem("token");
-
-            // fetch(`${baseUrl}api/Farmer/GetFarmerAlongWithApprovedProduceType/${farmerId}`, {
-            //     method: 'GET',
-            //     headers: {
-            //         'Content-Type': 'application/json',
-            //         'Authorization': `Bearer ${token}`,
-            //     },
-            // })
-            //     .then(response => {
-            //         if (!response.ok) {
-            //             throw new Error("Network response was not ok");
-            //         }
-            //         return response.json();
-            //     })
-
-
+           
             const tokenById = localStorage.getItem("token");
             const apiUrlById = `${baseUrl}api/Farmer/GetFarmerAlongWithApprovedProduceType`;
             console.log('Token:', tokenById);

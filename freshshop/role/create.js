@@ -1,6 +1,6 @@
-document.getElementById('submitButton').addEventListener('click', async function (e) {
+document.getElementById('submitButton-role').addEventListener('click', async function (e) {
     e.preventDefault();
-    const formElement = document.getElementById('myForm');
+    const formElement = document.getElementById('myRoleForm');
     const formData = new FormData(formElement);
 
     try {

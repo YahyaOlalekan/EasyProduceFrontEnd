@@ -12,9 +12,13 @@
     <link href="../assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css">
     <link href="../assets/css/icons.min.css" rel="stylesheet" type="text/css">
     <link href="../assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.css">
 
     <link href="./dashboard.css" rel="stylesheet">
+    <link href="../transaction/initiateSale.css" rel="stylesheet">
     <link href="../general/logout.css" rel="stylesheet">
+    <link rel="stylesheet" href="../general/swal.css">
+
 
 
 </head>
@@ -117,9 +121,6 @@
                                 </li>
 
                                 <li>
-                                    <!-- <a href="./farmer-update.html" class=" waves-effect">
-                                        <span>Edit Profile</span>
-                                    </a> -->
                                     <a href="#farmer-update-section" class=" waves-effect">
                                         <span>Edit Profile</span>
                                     </a>
@@ -130,25 +131,19 @@
 
                         <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
-                                <!-- <i class="ti-email"></i> -->
                                 <span>Producetype Requests</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="false">
 
                                 <li>
-                                    <a href="../request/add-producetype.html" class=" waves-effect">
+                                    <a href="#add-producetype-request-section" class=" waves-effect">
                                         <span>Add New </span>
                                     </a>
                                 </li>
 
-                                <!-- <li>
-                                    <a href="../request/remove-producetypeInitial.html" class=" waves-effect">
-                                        <span>Remove From </span>
-                                    </a>
-                                </li> -->
 
                                 <li>
-                                    <a href="../request/remove-producetype.html" class=" waves-effect">
+                                    <a href="#remove-producetype-request-section" class=" waves-effect">
                                         <span>Remove </span>
                                     </a>
                                 </li>
@@ -159,29 +154,22 @@
 
                         <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
-                                <!-- <i class="ti-email"></i> -->
                                 <span>Transaction</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="false">
 
                                 <li>
-                                    <a href="../transaction/initiateSale.html" class=" waves-effect">
+                                    <a href="#initiateProducetypeSales-section" class=" waves-effect">
                                         <span>Initiate Produce Sales</span>
                                     </a>
                                 </li>
 
-                                <!-- <li>
-                                    <a href="../request/remove-producetype.html" class=" waves-effect">
-                                        <span>Remove From Producetype</span>
-                                    </a>
-                                </li> -->
 
                             </ul>
                         </li>
 
                         <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
-                                <!-- <i class="ti-email"></i> -->
                                 <span>Chat</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="false">
@@ -208,10 +196,8 @@
 
                     </ul>
                 </div>
-                <!-- Sidebar -->
             </div>
         </div>
-        <!-- Left Sidebar End -->
 
         <div class="content-page"> <!-- Start of main Content here -->
             <!-- ============================================================== -->
@@ -323,34 +309,184 @@
             </section>
 
             <!-- ============================================================== -->
+            <section id="add-producetype-request-section" class="dashboard-section">
+                <div id="producetype-creation" class="registration-form">
+
+                    <div class="accountbg"
+                        style="background: url('../producePictures/woman.jpg');background-size: cover;background-position: center;">
+                    </div>
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <div class="card-header bg-primary text-white text-center">
+                                        <h4 class="font-size-18 mt-2"> Add Producetype Request </h4>
+                                    </div>
+                                    <div class="card-body">
+                                        <form id="addProduceTypeForm">
+                                            <div class="mb-3">
+                                                <label class="form-label" for="ProduceTypeId">Select Produce</label>
+                                                <select class="form-control" name="produceTypeId" id="produceId">
+                                                    <!-- Produce options -->
+                                                </select>
+                                            </div>
+                                            <button type="button" class="btn btn-primary" id="submitButton">Submit
+                                                Request</button>
+                                        </form>
+                                        <div id="result"></div>
+                                        <div class="mt-5 pt-4 text-center">
+                                            <p>©
+                                                <script>document.write(new Date().getFullYear())</script> EasyProduce <i
+                                                    class="mdi mdi-heart text-danger"></i>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- ============================================================== -->
+            <section id="remove-producetype-request-section" class="dashboard-section">
+                <div id="removeProduceType" class="registration-form">
+
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <div class="card-header bg-primary text-white text-center">
+                                        <h4 class="font-size-18 mt-2">Request For Producetype Removal</h4>
+                                    </div>
+                                    <div class="card-body">
+
+                                        <div id="noProduceTypeMessage" class="container">
+                                            <!-- Message -->
+                                        </div>
+
+                                        <div id="removeProduceTypeFormContainer" class="registration-form">
+                                            <form id="removeProduceTypeForm">
+                                                <div class="mb-3">
+                                                    <label class="form-label" for="ProduceTypeId">Select Produce
+                                                        Type</label>
+                                                    <select class="form-control" name="produceTypeId"
+                                                        id="produceTypeId">
+                                                        <!-- Produce Type options  -->
+                                                    </select>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label" for="ReasonForStopSelling">Reason for
+                                                        Removal</label>
+                                                    <input type="text" class="form-control" name="reasonForStopSelling"
+                                                        id="reasonForStopSelling" required>
+                                                </div>
+                                                <button type="button" class="btn btn-primary" id="removeButton">Submit
+                                                    Request</button>
+                                            </form>
+                                        </div>
 
 
+                                        <div id="result"></div>
+                                        <div class="mt-5 pt-4 text-center">
+                                            <p>©
+                                                <script>document.write(new Date().getFullYear())</script> EasyProduce <i
+                                                    class="mdi mdi-heart text-danger"></i>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+            <!-- ============================================================== -->
+            <section id = "initiateProducetypeSales-section" class="dashboard-section">
+                <div id="producetype-creation" class="registration-form">
+
+                    <div class="accountbg"
+                        style="background: url('../producePictures/woman.jpg');background-size: cover;background-position: center;">
+                    </div>
+            
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <div class="card-header bg-primary text-white text-center">
+                                        <h4 class="font-size-18 mt-2">Initialize producetype Sales</h4>
+                                    </div>
+                                    <div class="card-body">
+                                        <form id="initiateSalesForm">
+                                            <div class="form-group">
+                                                <label for="produceType">Select Approved Produce Type</label>
+                                                <select id="produceType" class="form-control">
+                                                    <!-- Populate this dropdown  -->
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="price">Selling Price</label>
+                                                <input type="number" id="price" class="form-control" required />
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="quantity">Available Quantity</label>
+                                                <input type="number" id="quantity" class="form-control" required />
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="unitOfMeasurement">Unit Of Measurement</label>
+                                                <input type="text" id="unitOfMeasurement" class="form-control" required />
+                                            </div>
+                                            <button type="submit" class="btn btn-primary">Initiate Sales</button>
+                                        </form>
+            
+                                        <div class="mt-5 pt-4 text-center">
+                                            <p>©
+                                                <script>document.write(new Date().getFullYear())</script> EasyProduce <i
+                                                    class="mdi mdi-heart text-danger"></i>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            
+            
+            
+            
+                </div>
+            </section>
+            <!-- ============================================================== -->
+            <!-- ============================================================== -->
+            <!-- ============================================================== -->
+            <!-- ============================================================== -->
             <!-- ============================================================== -->
         </div> <!-- End of main Content here -->
 
 
     </div> <!-- Close the layout-wrapper div -->
 
-
+    
+    <script src="../general/basejs.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="../assets/libs/jquery/jquery.min.js"></script>
     <script src="../assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="../assets/libs/metismenu/metisMenu.min.js"></script>
     <script src="../assets/libs/simplebar/simplebar.min.js"></script>
     <script src="../assets/libs/node-waves/waves.min.js"></script>
     <script src="../assets/js/app.js"></script>
-
-    <script src="../general/basejs.js"></script>
+    
+    <script src="./farmer-profile.js"></script>
+    <script src="./farmer-update.js"></script>
+    <script src="../request/add-producetype.js"></script>
+    <script src="../request/remove-producetype.js"></script>
+    <script src="../transaction/initiateSale.js"></script>
     <script src="../general/logout.js"></script>
 
 
-
     <script>
-
-        window.onload = function () {
-            ViewDetails();
-        };
-
-
         function toggleSections(sectionId) {
             const allSections = document.querySelectorAll('.dashboard-section');
             allSections.forEach(section => {
@@ -362,7 +498,6 @@
             });
         }
 
-
         const sideMenuLinks = document.querySelectorAll('.metismenu a');
         sideMenuLinks.forEach(link => {
             link.addEventListener('click', function (event) {
@@ -371,207 +506,9 @@
                 toggleSections(sectionId);
             });
         });
-
-
-        function ViewDetails() {
-
-            const tokenById = localStorage.getItem("token");
-            const apiUrlById = `${baseUrl}api/Farmer/GetFarmerAlongWithApprovedProduceType`;
-            console.log('Token:', tokenById);
-
-            getWithAuthorization(apiUrlById, tokenById, true)
-                .then(data => {
-
-                    displayFarmerData(data.data);
-                })
-                .catch(error => {
-                    console.error("Error:", error);
-                    displayError();
-                });
-
-            function displayFarmerData(data) {
-                console.log('Data received:', data);
-                const firstName = document.getElementById("firstName");
-                const farmerRegStatus = document.getElementById("farmerRegStatus");
-                const farmName = document.getElementById("farmName");
-                const lastName = document.getElementById("lastName");
-                const phoneNumber = document.getElementById("phoneNumber");
-                const address = document.getElementById("address");
-                const registrationNumber = document.getElementById("registrationNumber");
-                const email = document.getElementById("email");
-                const profilePicture = document.getElementById("profilePicture");
-
-                firstName.textContent = data.farmerDto.firstName;
-                lastName.textContent = data.farmerDto.lastName;
-                phoneNumber.textContent = data.farmerDto.phoneNumber;
-                address.textContent = data.farmerDto.address;
-                registrationNumber.textContent = data.farmerDto.registrationNumber;
-                email.textContent = data.farmerDto.email;
-                farmerRegStatus.textContent = mapFarmerRegStatus(data.farmerDto.farmerRegStatus);
-                farmName.textContent = data.farmerDto.farmName;
-
-                const produceInfoList = document.getElementById("produceInfoList");
-
-                data.produceTypeDto.forEach(produceType => {
-                    const listItem = document.createElement("li");
-                    listItem.textContent = `Type Name: ${produceType.typeName}, Produce Name: ${produceType.produceName}, Category: ${produceType.nameOfCategory}`;
-                    produceInfoList.appendChild(listItem);
-                });
-
-                if (data.farmerDto.profilePicture && data.farmerDto.profilePicture.trim() !== "") {
-                    const profilePictureUrl = data.farmerDto.profilePicture.trim();
-                    profilePicture.src = `${baseUrl}Upload/images/${profilePictureUrl}`;
-                    profilePicture.alt = "Profile Picture";
-                } else {
-                    profilePicture.src = "../producePictures/farmIcons.jpg";
-                    profilePicture.alt = "Profile Picture";
-                }
-            }
-
-            function displayError() {
-                console.log('An error occurred while fetching farmer data.');
-                const farmerDetails = document.querySelector(".card-body");
-                farmerDetails.innerHTML = `<p class="text-danger"> You have not been approved as a farmer!</p>`;
-            }
-
-            function mapFarmerRegStatus(status) {
-                switch (status) {
-                    case 1:
-                        return "Pending";
-                    case 2:
-                        return "Declined";
-                    case 3:
-                        return "Approved";
-                }
-            }
-        }
-
     </script>
 
-    <!-- /////////////////// -->
-
-    <script>
-        var form = document.getElementById("updateFarmerForm")
-        form.addEventListener("submit", (event) => {
-            event.preventDefault();
-
-            const farmerId = localStorage.getItem("id");
-            const token = localStorage.getItem("token");
-            const url = `${baseUrl}api/Farmer/UpdateFarmer/${farmerId}`;
-            const formData = new FormData(form);
-
-            putWithAuthorizationFormData(url, token, formData)
-                .then((data) => {
-                    if (data.status === 400 && data.errors) {
-                        showSweetAlertValidationErrors(data)
-
-                    } else if (data.status == true) {
-                        showSweetAlert(data.message);
-
-                    } else {
-                        showSweetAlertError(data.message);
-                    }
-
-                })
-                .catch((error) => {
-                    console.error("Error:", error);
-                });
-        });
-
-
-        function showSweetAlertValidationErrors(data) {
-            let errorMessage = "Validation errors occurred:<br><ul>";
-            for (const field in data.errors) {
-                errorMessage += `<li>${field}: ${data.errors[field]}</li>`;
-            }
-            errorMessage += "</ul>";
-
-            Swal.fire({
-                html: errorMessage,
-                icon: 'error',
-                confirmButtonColor: 'hsl(210, 17%, 93%)',
-                confirmButtonText: 'OK',
-                customClass: {
-                    popup: 'animated fadeIn',
-                    title: 'custom-title-class',
-                    content: 'custom-content-class',
-                    actions: 'custom-actions-class',
-                    icon: 'swal-icon',
-                    confirmButton: 'swal-button',
-                    confirmButtonText: 'swal-button-text',
-                },
-                background: 'rgb(1, 6, 28)',
-            }).then(() => {
-                window.location.href = './dashboard.html';
-
-            });
-        }
-
-
-        function showSweetAlert(message) {
-            Swal.fire({
-                text: message,
-                icon: 'success',
-                confirmButtonColor: 'hsl(210, 17%, 93%)',
-                confirmButtonText: 'CONTINUE',
-                customClass: {
-                    popup: 'animated fadeIn',
-                    title: 'custom-title-class',
-                    content: 'custom-content-class',
-                    actions: 'custom-actions-class',
-                    icon: 'swal-icon',
-                    confirmButton: 'swal-button',
-                    confirmButtonText: 'swal-button-text',
-                },
-                background: 'rgb(1, 6, 28)',
-                allowOutsideClick: false,
-            }).then(() => {
-                window.location.href = './dashboard.html';
-
-            });
-        }
-
-
-        function showSweetAlertError(errorMessage) {
-            Swal.fire({
-                text: errorMessage,
-                icon: 'error',
-                confirmButtonColor: 'hsl(210, 17%, 93%)',
-                confirmButtonText: 'OK',
-                customClass: {
-                    popup: 'animated fadeIn',
-                    title: 'custom-title-class',
-                    content: 'custom-content-class',
-                    actions: 'custom-actions-class',
-                    icon: 'swal-icon',
-                    confirmButton: 'swal-button',
-                    confirmButtonText: 'swal-button-text',
-                },
-                background: 'rgb(1, 6, 28)',
-            }).then((result) => {
-
-                if (result.value) {
-                    window.location.href = './dashboard.html';
-                }
-
-            });
-        }
-
-        function validateInput(inputElement, errorElementId) {
-            var inputValue = inputElement.value;
-            var errorElement = document.getElementById(errorElementId);
-
-            if (inputValue.length < 3) {
-                errorElement.textContent = "Input must be at least 3 characters long";
-                inputElement.focus();
-            } else {
-                errorElement.textContent = "";
-            }
-        }
-    </script>
-
-
-
+   
 </body>
 
 </html>

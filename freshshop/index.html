@@ -711,12 +711,10 @@
 
 
 
-    <!-- JavaScript for toggling registration forms and customer registration -->
     <script>
 
         var userTypeSelect = document.getElementById("user-type");
 
-        // Listen for changes in the select element
         userTypeSelect.addEventListener("change", function () {
             var selectedOption = userTypeSelect.value;
 
@@ -733,9 +731,8 @@
 
         var signinButton = document.getElementById("signin-button");
 
-        // Listen for clicks on the button
         signinButton.addEventListener("click", function () {
-            // Redirect to the login page
+
             location.href = "./general/login.html";
         });
 

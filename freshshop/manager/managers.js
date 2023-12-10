@@ -1,20 +1,17 @@
-// JavaScript for populating manager data into the table
+(function() {
+let countNumber = 1;
+let managerTableBody = document.getElementById("managerTableBody");
 
-let count = 1;
-let tableBody = document.getElementById("managerTableBody");
+const tokenById = getItemFromLocalStorage("token");
+// const tokenById = localStorage.getItem("token");
+const apiUrlById = `${baseUrl}api/Manager/GetAllManagers`;
 
-fetch(`${baseUrl}api/Manager/GetAllManagers`)
-    .then(response => {
-        if (!response.ok) {
-            throw new Error("Network response was not ok");
-        }
-        return response.json();
-    })
+getWithAuthorization(apiUrlById, tokenById, false)
     .then(data => {
         data.data.forEach(manager => {
             const row = `
                 <tr>
-                    <td>${count}</td>
+                    <td>${countNumber}</td>
                     <td>${manager.firstName}</td>
                     <td>${manager.lastName}</td>
                     <td>${manager.phoneNumber}</td>
@@ -25,46 +22,44 @@ fetch(`${baseUrl}api/Manager/GetAllManagers`)
                  <td><button  class="btn btn-primary mx-2"  id="${manager.id}" onclick="displayUpdateForm(this.id)"> <i class="fa-solid fa-pen-to-square"></i> Edit </button> </td> 
                  <td><button  class="btn btn-danger mx-2"  id="${manager.id}" onclick="DeleteDetails(this.id)">  <i class="fa fa-trash" aria-hidden="true"></i> Deactivate </button> </td> 
                 </tr>`;
-            tableBody.innerHTML += row;
-            count++;
+            managerTableBody.innerHTML += row;
+            countNumber++;
         });
     })
     .catch(error => {
         console.error("Error:", error);
-        // Display an error message to the user
-        tableBody.innerHTML = `
+
+        managerTableBody.innerHTML = `
             <tr>
                 <td colspan="7" class="text-danger">An error occurred while fetching data.</td>
             </tr>`;
     });
 
-
+}) ();
 
 //////////////////////////
 
 function ViewDetails(id) {
-    // fetch(`${baseUrl}api/Customer/GetCustomerById/${id}`)
-    fetch(`${baseUrl}api/Manager/GetManagerById/${id}`)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error("Network response was not ok");
-            }
-            return response.json();
-        })
+    const token = localStorage.getItem("token");
+    const userId = localStorage.getItem("id");
+
+    if (!userId) {
+        console.error("No userId found in local storage.");
+        return;
+    }
+
+    getWithAuthorizationWithNonUserId(`${baseUrl}api/Manager/GetManagerById/${id}`, token, userId)
         .then(data => {
-            // Assuming the returned data is an object with manager attributes
             displayManagerData(data.data);
         })
         .catch(error => {
             console.error("Error:", error);
-            // Display an error message to the user
             displayError();
         });
 
     function displayManagerData(manager) {
 
-        // Select the elements for manager details
-        const body = document.querySelector(".body");
+        const body = document.querySelector(".body-manager");
         body.innerHTML = `  <div class="container-fluid p-0">
             <div class="row justify-content-center">
                 <div class="col-md-8">
@@ -98,7 +93,7 @@ function ViewDetails(id) {
                                     </ul>
                                 </div>
                                
-                                <a href="./managers.html" class="btn btn-secondary">Back</a>
+                                <a href="../admin/dashboard.html" class="btn btn-secondary">Back</a>
 
                             </div>
 
@@ -117,7 +112,6 @@ function ViewDetails(id) {
         const email = document.getElementById("email");
         const profilePicture = document.getElementById("profilePicture");
 
-        // Set the manager details
         firstName.textContent = `${manager.firstName}`;
         lastName.textContent = `${manager.lastName}`;
         phoneNumber.textContent = `${manager.phoneNumber}`;
@@ -125,25 +119,23 @@ function ViewDetails(id) {
         registrationNumber.textContent = `${manager.registrationNumber}`;
         email.textContent = `${manager.email}`;
 
-        // Set the profile picture source
-        // var baseUrl = "http://localhost:5195/"
         profilePicture.src = `${baseUrl}Upload/images/${manager.profilePicture}`;
         console.log(manager.profilePicture);
         profilePicture.alt = "Profile Picture";
     }
 
-    function displayError() {
-        const managerDetails = document.querySelector(".card-body");
-        managerDetails.innerHTML = `<p class="text-danger">An error occurred while fetching manager data.</p>`;
-    }
+    // function displayError() {
+    //     const managerDetails = document.querySelector(".card-body");
+    //     managerDetails.innerHTML = `<p class="text-danger">An error occurred while fetching manager data.</p>`;
+    // }
 
 }
 
 //////////////////////////////////////////////
 
 function displayUpdateForm(id) {
-    // Select the elements for manager details
-    const body = document.querySelector(".body");
+
+    const body = document.querySelector(".body-manager");
     body.innerHTML = `  <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-6 form-container">
@@ -178,103 +170,81 @@ function displayUpdateForm(id) {
         `
         ;
 
-    // Add event listener to the form
     const form = document.getElementById("updateManagerForm");
 
-    // Remove any previous event listeners to avoid stacking
     form.removeEventListener("submit", handleFormSubmit);
 
     form.addEventListener("submit", function (event) {
-        handleFormSubmit(event, id); // Pass the id as an argument to handleFormSubmit
+        handleFormSubmit(event, id);
     });
-    // Rest of your code
 }
 
 
-function handleFormSubmit(event, id) {
+async function handleFormSubmit(event, id) {
     event.preventDefault();
 
     const form = event.target;
     const formData = new FormData(form);
 
-    fetch(`${baseUrl}api/Manager/UpdateManager/${id}`, {
-        method: "PUT",
-        body: formData,
-    })
-        .then((response) => {
-            // Handle the response here
-            if (!response.ok) {
-                throw new Error("Network response was not ok");
-            }
-            return response.json();
-        })
-        .then((data) => {
+    try {
 
-            displayUpdateForm(data.data);
+        const apiUrl = `${baseUrl}api/Manager/UpdateManager/${id}`;
+        const token = localStorage.getItem("token");
 
-            // Check if the request was successful
-            if (data.status) {
-                // Show SweetAlert2 modal
-                showSweetAlert(data.message);
-            } else {
-                // Handle error and show SweetAlert2 modal
-                showSweetAlertError(data.message);
-            }
-        })
-        .catch((error) => {
-            console.error("Error:", error);
-            // Handle the error here
-        });
+        const response = await makeApiRequest(apiUrl, 'PUT', formData, token);
+
+        if (response.status) {
+            showSweetAlertForManagerUpdate(response);
+        } else {
+            showSweetAlertErrorForManagerUpdate(response);
+        }
+    } catch (error) {
+        alert(error.message);
+    }
+
 }
 
 
-
-// Function to show success SweetAlert2 modal
-function showSweetAlert(message) {
+function showSweetAlertForManagerUpdate(response) {
     Swal.fire({
-        text: message,
+        text: response.message,
         icon: 'success',
         confirmButtonColor: 'hsl(210, 17%, 93%)',
         confirmButtonText: 'CONTINUE',
         customClass: {
-            popup: 'animated fadeIn', // Apply the fadeIn animation
-            title: 'custom-title-class', // Create a custom class for title styling
-            content: 'custom-content-class', // Create a custom class for content styling
-            actions: 'custom-actions-class', // Create a custom class for action button styling
-            // Apply custom classes to specific elements
-            icon: 'swal-icon', // Custom class for the icon container
-            confirmButton: 'swal-button', // Custom class for the confirm button
-            confirmButtonText: 'swal-button-text', // Custom class for the confirm button text
+            popup: 'animated fadeIn',
+            title: 'custom-title-class',
+            content: 'custom-content-class',
+            actions: 'custom-actions-class',
+            icon: 'swal-icon',
+            confirmButton: 'swal-button',
+            confirmButtonText: 'swal-button-text',
         },
         background: 'rgb(1, 6, 28)',
     }).then(() => {
-        // window.location.href = './getCustomerById.html';
-        window.location.href = './managers.html';
-       
+        window.location.replace('../admin/dashboard.html');
     });
 }
 
-// Function to show error SweetAlert2 modal
-function showSweetAlertError(message) {
+function showSweetAlertErrorForManagerUpdate(response) {
     Swal.fire({
-        text: message,
+        text: response.message,
         icon: 'error',
         confirmButtonColor: 'hsl(210, 17%, 93%)',
         confirmButtonText: 'OK',
         customClass: {
-            popup: 'animated fadeIn', // Apply the fadeIn animation
-            title: 'custom-title-class', // Create a custom class for title styling
-            content: 'custom-content-class', // Create a custom class for content styling
-            actions: 'custom-actions-class', // Create a custom class for action button styling
-            // Apply custom classes to specific elements
-            icon: 'swal-icon', // Custom class for the icon container
-            confirmButton: 'swal-button', // Custom class for the confirm button
-            confirmButtonText: 'swal-button-text', // Custom class for the confirm button text
+            popup: 'animated fadeIn',
+            title: 'custom-title-class',
+            content: 'custom-content-class',
+            actions: 'custom-actions-class',
+            icon: 'swal-icon',
+            confirmButton: 'swal-button',
+            confirmButtonText: 'swal-button-text',
         },
         background: 'rgb(1, 6, 28)',
     })
         .then(() => {
-            window.location.href = './managers.html';
+            window.location.href = '../admin/dashboard.html';
 
         });
 }
@@ -284,51 +254,53 @@ function showSweetAlertError(message) {
 
 
 
-// Function to delete a customer
+// Function to Deactivate a manager
 function DeleteDetails(id) {
     Swal.fire({
-        title: 'Confirm Deletion',
-        text: 'Are you sure you want to delete this manager?',
+
+        title: 'Confirm Deactivation',
+        text: 'Are you sure you want to deactivate this manager?',
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: 'hsl(210, 17%, 93%)',
         cancelButtonColor: 'hsl(0, 100%, 60%)',
-        confirmButtonText: 'Yes, delete it!',
-        cancelButtonText: 'Cancel'
+        confirmButtonText: 'Yes, deactivate him!',
+        cancelButtonText: 'Cancel',
+        customClass: {
+            title: 'delete-swal-title',
+            content: 'delete-swal-content',
+            actions: 'delete-swal-actions',
+            confirmButton: 'delete-swal-confirm-button',
+            cancelButton: 'delete-swal-cancel-button',
+        },
+        iconHtml: '<i class="fas fa-exclamation-circle" style="color:#FF8C00"></i>',
+
+
     }).then((result) => {
         if (result.isConfirmed) {
-            // User confirmed, proceed with deletion
-            // Make a DELETE request to the API
-            fetch(`${baseUrl}api/Manager/DeleteManager/${id}`, {
-                method: 'DELETE',
-            })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error("Network response was not ok");
-                    }
-                    return response.json();
-                })
+
+            const url = `${baseUrl}api/Manager/DeleteManager/${id}`
+            const token = localStorage.getItem("token");
+            deleteWithAuthorization(url, token)
                 .then(data => {
-                    // Check if the request was successful
                     if (data.status) {
-                        // Show success SweetAlert2 modal
-                        showSweetAlert(data.message);
+                        showSweetAlertForManagerDeactivation(data.message);
                     } else {
-                        // Handle error and show error SweetAlert2 modal
-                        showSweetAlertError(data.message);
+                        showSweetAlertErrorForManagerDeactivation(data.message);
                     }
                 })
                 .catch(error => {
                     console.error("Error:", error);
-                    // Handle network errors or other errors that may occur during the delete operation.
                 });
         }
     });
+
+
 }
 
 function displayManagerData(manager) {
 
-    const body = document.querySelector(".body");
+    const body = document.querySelector(".body-manager");
     body.innerHTML = `
     <div class="container mt-5">
     <h1 class="text-center mb-4">manager Details</h1>
@@ -340,7 +312,7 @@ function displayManagerData(manager) {
         <div class="col-md-8">
             <table class="table table-striped">
                 <tbody id="managerTableBody">
-                    <!-- manager data will be inserted here dynamically -->
+                    
                 </tbody>
             </table>
         </div>
@@ -348,19 +320,14 @@ function displayManagerData(manager) {
 </div>
     `
 
-    // Display Profile Picture
     const profilePicture = document.getElementById("profilePicture");
-    // profilePicture.src = manager.profilePicture;
+
     profilePicture.src = `${baseUrl}Upload/images/${manager.profilePicture}`;
 
+    const tableBodyy = document.getElementById("managerTableBody");
 
+    tableBodyy.innerHTML = "";
 
-    const tableBody = document.getElementById("managerTableBody");
-
-    // Clear any previous data in the table body
-    tableBody.innerHTML = "";
-
-    // Create rows for the other properties
     const properties = [
         { label: "First Name", value: manager.firstName },
         { label: "Last Name", value: manager.lastName },
@@ -376,69 +343,63 @@ function displayManagerData(manager) {
                 <td>${property.label}</td>
                 <td>${property.value}</td>
             </tr>`;
-        tableBody.innerHTML += row;
+        tableBodyy.innerHTML += row;
     });
 
-    // Add a Delete button row
     const deleteButtonRow = `
         <tr>
             <td colspan="2">
                 <button class="btn btn-danger" onclick="deleteManager('${manager.id}')">Delete</button>
             </td>
         </tr>`;
-    tableBody.innerHTML += deleteButtonRow;
+    tableBodyy.innerHTML += deleteButtonRow;
 }
 
 
-
-// Function to show success SweetAlert2 modal
-function showSweetAlert(message) {
+function showSweetAlertForManagerDeactivation(message) {
     Swal.fire({
         text: message,
         icon: 'success',
         confirmButtonColor: 'hsl(210, 17%, 93%)',
-        confirmButtonText: 'OK',
+        confirmButtonText: 'CONTINUE',
         customClass: {
-            popup: 'animated fadeIn', // Apply the fadeIn animation
-            title: 'custom-title-class', // Create a custom class for title styling
-            content: 'custom-content-class', // Create a custom class for content styling
-            actions: 'custom-actions-class', // Create a custom class for action button styling
-            // Apply custom classes to specific elements
-            icon: 'swal-icon', // Custom class for the icon container
-            confirmButton: 'swal-button', // Custom class for the confirm button
-            confirmButtonText: 'swal-button-text', // Custom class for the confirm button text
+            popup: 'animated fadeIn',
+            title: 'custom-title-class',
+            content: 'custom-content-class',
+            actions: 'custom-actions-class',
+            icon: 'swal-icon',
+            confirmButton: 'swal-button',
+            confirmButtonText: 'swal-button-text',
         },
         background: 'rgb(1, 6, 28)',
     }).then(() => {
-        // window.location.href = './getCustomerById.html';
-        window.location.href = './managers.html';
-       
+        window.location.href = './dashboard.html';
+
     });
 }
 
-// Function to show error SweetAlert2 modal
-function showSweetAlertError(message) {
+function showSweetAlertErrorForManagerDeactivation(message) {
     Swal.fire({
         text: message,
         icon: 'error',
         confirmButtonColor: 'hsl(210, 17%, 93%)',
         confirmButtonText: 'OK',
         customClass: {
-            popup: 'animated fadeIn', // Apply the fadeIn animation
-            title: 'custom-title-class', // Create a custom class for title styling
-            content: 'custom-content-class', // Create a custom class for content styling
-            actions: 'custom-actions-class', // Create a custom class for action button styling
-            // Apply custom classes to specific elements
-            icon: 'swal-icon', // Custom class for the icon container
-            confirmButton: 'swal-button', // Custom class for the confirm button
-            confirmButtonText: 'swal-button-text', // Custom class for the confirm button text
+            popup: 'animated fadeIn',
+            title: 'custom-title-class',
+            content: 'custom-content-class',
+            actions: 'custom-actions-class',
+            icon: 'swal-icon',
+            confirmButton: 'swal-button',
+            confirmButtonText: 'swal-button-text',
         },
         background: 'rgb(1, 6, 28)',
     })
         .then(() => {
-            window.location.href = './managers.html';
+            window.location.href = './dashboard.html';
 
         });
 }
+
 
 

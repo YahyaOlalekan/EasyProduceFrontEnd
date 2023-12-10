@@ -273,11 +273,10 @@
                         const optionElement = document.createElement('option');
                         optionElement.value = option.id;
                         optionElement.textContent = option.typeName;
-                        // Append the option to the select element
+
                         selectElement.appendChild(optionElement);
                     });
 
-                    // Initialize Select2 for the dropdown
                     $('#produceTypesSelect').select2();
                 });
         }
@@ -289,7 +288,6 @@
             // loadingStatus.style.color = '#ff5733';
             // loadingStatus.style.fontSize = '20px';
 
-            handleFormSubmission();
         }
 
 
@@ -302,6 +300,7 @@
             selectedProduceTypes.forEach(type => {
                 formData.append('ProduceTypes', type);
             });
+
             fetch(`${baseUrl}api/Farmer/RegisterFarmer`, {
                 method: 'POST',
                 body: formData
@@ -327,7 +326,6 @@
                     console.error('Error:', error);
                 });
 
-            await handleFormSubmission();
         });
 
 
@@ -378,14 +376,13 @@
                         bankSelect.appendChild(option);
                     });
 
-                    // Add an event listener to update the hidden input with the selected bank name
                     bankSelect.addEventListener('change', function () {
                         const selectedIndex = bankSelect.selectedIndex;
-                        const selectedBank = data.data[selectedIndex - 1]; // Subtract 1 because of the "All" option
+                        const selectedBank = data.data[selectedIndex - 1]; 
                         if (selectedBank) {
                             selectedBankNameInput.value = selectedBank.name;
                         } else {
-                            selectedBankNameInput.value = ''; // No bank selected
+                            selectedBankNameInput.value = ''; 
                         }
                     });
                 })
@@ -445,10 +442,10 @@
                 const result = await response.json();
 
                 if (result.status === true) {
-                    // Set the value of the "accountName" input field to the obtained name
+
                     accountNameInput.value = result.data.account_name;
-                    accountNameInput.removeAttribute('disabled'); // Enable the input field
-                    accountNameInput.blur(); // Trigger the onblur event to validate the input
+                    accountNameInput.removeAttribute('disabled'); 
+                    accountNameInput.blur(); 
                     alert('Account details verified successfully.');
                 } else {
                     alert('Account verification failed. Please check the account number and bank code.');
@@ -493,7 +490,6 @@
         }
 
 
-        // Function to show success SweetAlert2 modal
         function showSweetAlert(message) {
             Swal.fire({
                 text: message,
@@ -519,7 +515,6 @@
         }
 
 
-        // Function to show error SweetAlert2 modal with status message
         function showSweetAlertError(errorMessage) {
             Swal.fire({
                 text: errorMessage,
@@ -548,15 +543,15 @@
         };
 
         function validateInput(inputElement, errorElementId) {
-            // Get the input value
+
             var inputValue = inputElement.value;
             var errorElement = document.getElementById(errorElementId);
 
             if (inputValue.length < 3) {
                 errorElement.textContent = "Input must be at least 3 characters long";
-                inputElement.focus(); // Keep focus on the input field
+                inputElement.focus(); 
             } else {
-                errorElement.textContent = ""; // Clear any previous error message
+                errorElement.textContent = ""; 
             }
         }
 

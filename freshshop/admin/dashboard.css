@@ -1,0 +1,59 @@
+.dashboard-section {
+    display: none;
+}
+
+.content-page {
+    padding: 20px;
+    margin: 30px;
+    border: 1px solid #ddd;
+}
+
+#create-role-section {
+    padding: 20px;
+    margin: 20px;
+
+}
+
+.roles-style {
+
+    margin-left: 200px;
+    padding-left: 30px;
+}
+
+
+#view-roles-section {
+    margin-left: 400px;
+    padding-left: 400px;
+
+    margin-left: 200px;
+    padding-left: 30px;
+}
+
+#manager-registration-section {
+
+    /* padding: 1px; */
+    margin: 60px;
+    margin-right: 40px;
+    margin-left: 20px;
+    margin-bottom: 20px;
+    /* z-index: 999; */
+}
+
+.manager-registration {
+    margin-left: 650px;
+    padding-left: 30px;
+
+}
+
+#view-managers-section {
+    /* padding: 20px;
+    margin: 20px; */
+
+    margin-left: 200px;
+    padding-left: 30px;
+}
+
+#view-roles-section {
+    padding: 20px;
+    margin: 50px;
+}

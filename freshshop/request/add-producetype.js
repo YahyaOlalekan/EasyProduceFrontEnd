@@ -1,70 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="utf-8">
-    <title>Producetype Creation || EasyProduce</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta content="Premium Multipurpose Admin & Dashboard Template" name="description">
-    <meta content="Themesbrand" name="author">
-    <link rel="shortcut icon" href="../producePictures/4905.jpg">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-        integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link href="../assets/libs/bootstrap/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css">
-    <link href="../assets/css/icons.ico" rel="stylesheet" type="text/css">
-    <link href="../assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css">
-    <link href="../assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.css">
-    <link rel="stylesheet" href="../general/swal.css">
-
-</head>
-
-<body>
-    <div id="producetype-creation" class="registration-form">
-
-        <div class="accountbg"
-            style="background: url('../producePictures/woman.jpg');background-size: cover;background-position: center;">
-        </div>
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-md-6">
-                    <div class="card">
-                        <div class="card-header bg-primary text-white text-center">
-                            <h4 class="font-size-18 mt-2"> Add Producetype Request</h4>
-                        </div>
-                        <div class="card-body">
-                            <form id="addProduceTypeForm">
-                                <div class="mb-3">
-                                    <label class="form-label" for="ProduceTypeId">Select Produce</label>
-                                    <select class="form-control" name="produceTypeId" id="produceId">
-                                        <!-- Produce options  -->
-                                    </select>
-                                </div>
-                                <button type="button" class="btn btn-primary" id="submitButton">Submit Request</button>
-                            </form>
-                            <div id="result"></div>
-                            <div class="mt-5 pt-4 text-center">
-                                <p>©
-                                    <script>document.write(new Date().getFullYear())</script> EasyProduce <i
-                                        class="mdi mdi-heart text-danger"></i>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    </div>
-
-    <script src="../general/basejs.js"></script>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-    
-    <script>
 
         function populateProduceTypeDropdown() {
           
@@ -106,9 +39,9 @@
                 const response = await makeApiRequest(apiUrl, 'POST', formData, token);
                 console.log('Response.....:', response)
                 if (response.status) {
-                    showSweetAlert(response.message);
+                    showSweetAlert(response);
                 } else {
-                    showSweetAlertError(response.message);
+                    showSweetAlertError(response);
                 }
             } catch (error) {
                 alert(error.message);
@@ -162,10 +95,3 @@
                 });
         }
 
-
-    </script>
-
-
-</body>
-
-</html>

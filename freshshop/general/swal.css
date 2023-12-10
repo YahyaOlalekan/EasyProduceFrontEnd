@@ -8,50 +8,36 @@
     color: cornsilk; 
     
 }
+
 .swal2-success-line-tip{
     color: cornsilk; 
 }
+
 .swal2-success-ring {
-    /* Customize the container styles */
-    border: 2px solid rgba(245, 161, 5, 0.916); /* Change the border color */
-    background-color: rgba(245, 161, 5, 0.916); /* Change the background color of the container */
-    border-radius: 50%; /* Make the container a circle */
-    width: 60px; /* Adjust the width and height to control the circle size */
+    border: 2px solid rgba(245, 161, 5, 0.916); 
+    background-color: rgba(245, 161, 5, 0.916); 
+    border-radius: 50%; 
+    width: 60px; 
     height: 60px;
 }
 
-
-
-/* Customize the SweetAlert2 confirm button and its variants */
 .swal2-confirm.swal-button.swal2-styled {
-    background-color: cornsilk; /* Change the background color */
-    color: rgb(1, 6, 28); /* Change the text color */
-    border-radius: 25%; /* Keep the container shape */
-    padding: 15px 160px; /* Adjust padding to control button size */
+    background-color: cornsilk; 
+    color: rgb(1, 6, 28); 
+    border-radius: 25%; 
+    padding: 15px 160px; 
     font-size: 20px;
-    /* Add any other styles you want to customize */
 }
 
-/* Customize the SweetAlert2 confirm button text */
 .swal2-confirm.swal-button.swal2-styled .swal-button-text {
-    font-size: 10px; /* Increase the font size of the text */
-    /* Add any other text-related styles if needed */
+    font-size: 10px; 
 }
 
 
-
-/* .swal2-actions.custom-actions-class{
-   background-color: cornsilk;
-}  */
-
-
-
-/* Apply the fadeIn animation to the SweetAlert popup */
 .animated.fadeIn {
     animation: fadeIn 0.3s ease-in-out forwards;
 }
 
-/* Define the fadeIn animation */
 @keyframes fadeIn {
     to {
         opacity: 1;

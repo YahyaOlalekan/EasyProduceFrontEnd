@@ -6,33 +6,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
     <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
-    <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="css/bootstrap.min.css">
-    <!-- Site CSS -->
     <link rel="stylesheet" href="css/style.css">
-    <!-- Responsive CSS -->
     <link rel="stylesheet" href="css/responsive.css">
-    <!-- Custom CSS -->
     <link rel="stylesheet" href="css/custom.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.css">
     <link rel="stylesheet" href="../general/swal.css">
-
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="Premium Multipurpose Admin & Dashboard Template" name="description">
     <meta content="Themesbrand" name="author">
-    <!-- App favicon -->
-    <!-- <link rel="shortcut icon" href="../assets/images/favicon.ico"> -->
     <link rel="shortcut icon" href="../producePictures/4905.jpg">
-
-    <!-- Bootstrap Css -->
-    <!-- <link href="/assets/libs/bootstrap/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css"> -->
     <link href="../assets/libs/bootstrap/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css">
-    <!-- Icons Css -->
     <link href="../assets/css/icons.ico" rel="stylesheet" type="text/css">
     <link href="../assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css">
-
-    <!-- App Css-->
     <link href="../assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="../transaction/initiateSale.css">
 
@@ -42,10 +27,7 @@
 
 <body>
     <div id="producetype-creation" class="registration-form">
-        <!-- Customer registration form fields and content -->
 
-        <!-- <body class="account-pages"> -->
-        <!-- Begin page -->
         <div class="accountbg"
             style="background: url('../producePictures/woman.jpg');background-size: cover;background-position: center;">
         </div>
@@ -62,7 +44,7 @@
                                 <div class="form-group">
                                     <label for="produceType">Select Approved Produce Type</label>
                                     <select id="produceType" class="form-control">
-                                        <!-- Populate this dropdown with the approved produce types from the server -->
+                                        <!-- Populate this dropdown  -->
                                     </select>
                                 </div>
                                 <div class="form-group">
@@ -120,7 +102,7 @@
             });
 
 
-        document.getElementById('initiateSalesForm').addEventListener('submit', function (e) {
+        document.getElementById('initiateSalesForm').addEventListener('submit', async function (e) {
             e.preventDefault();
             const farmerId = localStorage.getItem("id");
             const produceTypeId = document.getElementById('produceType').value;
@@ -135,30 +117,46 @@
                 UnitOfMeasurement: unitOfMeasurement
             };
 
-            fetch(`${baseUrl}api/Transaction/InitiateProducetypeSales/${farmerId}`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            })
-                .then(response => response.json())
-                .then(result => {
-                    if (result.status) {
-                        // alert(result.message);
-                        showSweetAlert(result)
-                    } else {
-                        // alert(result.message);
-                        showSweetAlertError(result)
-                    }
-                });
+            // fetch(`${baseUrl}api/Transaction/InitiateProducetypeSales/${farmerId}`, {
+            //     method: 'PUT',
+            //     headers: {
+            //         'Content-Type': 'application/json'
+            //     },
+            //     body: JSON.stringify(data)
+            // })
+            //     .then(response => response.json())
+            //     .then(result => {
+            //         if (result.status) {
+            //             // alert(result.message);
+            //             showSweetAlert(result)
+            //         } else {
+            //             // alert(result.message);
+            //             showSweetAlertError(result)
+            //         }
+            //     });
+
+
+            try {
+
+                const apiUrl = `${baseUrl}api/Transaction/InitiateProducetypeSales/${farmerId}`;
+                const token = localStorage.getItem("token");
+
+                const response = await makeApiRequest(apiUrl, 'PUT', data, token);
+
+                if (response.status) {
+                    showSweetAlert(response);
+                } else {
+                    showSweetAlertError(response);
+                }
+            } catch (error) {
+                alert(error.message);
+            }
         });
 
 
-        // Function to show success SweetAlert2 modal
-        function showSweetAlert(result) {
+        function showSweetAlert(response) {
             Swal.fire({
-                text: result.message,
+                text: response.message,
                 icon: 'success',
                 confirmButtonColor: 'hsl(210, 17%, 93%)',
                 confirmButtonText: 'CONTINUE',
@@ -177,10 +175,9 @@
             });
         }
 
-        // Function to show error SweetAlert2 modal
-        function showSweetAlertError(result) {
+        function showSweetAlertError(response) {
             Swal.fire({
-                text: result.message,
+                text: response.message,
                 icon: 'error',
                 confirmButtonColor: 'hsl(210, 17%, 93%)',
                 confirmButtonText: 'OK',
@@ -196,7 +193,7 @@
                 background: 'rgb(1, 6, 28)',
             })
                 .then(() => {
-                    window.location.href ='../farmer/dashboard.html';
+                    window.location.href = '../farmer/dashboard.html';
 
                 });
         }

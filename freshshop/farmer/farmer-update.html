@@ -72,17 +72,7 @@
         var form = document.getElementById("updateFarmerForm")
         form.addEventListener("submit", (event) => {
             event.preventDefault();
-
-            // const farmerId = localStorage.getItem("id");
-
-            // const formData = new FormData(form);
-
-            // fetch(`${baseUrl}api/Farmer/UpdateFarmer/${farmerId}`, {
-            //     method: "PUT",
-            //     body: formData,
-            // })
-            //     .then(response => response.json())
-
+           
             const farmerId = localStorage.getItem("id");
             const token = localStorage.getItem("token");
             const url = `${baseUrl}api/Farmer/UpdateFarmer/${farmerId}`;
@@ -108,7 +98,6 @@
         });
 
 
-        // Function to show validation errors
         function showSweetAlertValidationErrors(data) {
             let errorMessage = "Validation errors occurred:<br><ul>";
             for (const field in data.errors) {
@@ -138,7 +127,6 @@
         }
 
 
-        // Function to show success SweetAlert2 modal
         function showSweetAlert(message) {
             Swal.fire({
                 text: message,
@@ -164,7 +152,6 @@
         }
 
 
-        // Function to show error SweetAlert2 modal with status message
         function showSweetAlertError(errorMessage) {
             Swal.fire({
                 text: errorMessage,
@@ -191,15 +178,15 @@
         }
 
         function validateInput(inputElement, errorElementId) {
-            // Get the input value
+
             var inputValue = inputElement.value;
             var errorElement = document.getElementById(errorElementId);
 
             if (inputValue.length < 3) {
                 errorElement.textContent = "Input must be at least 3 characters long";
-                inputElement.focus(); // Keep focus on the input field
+                inputElement.focus(); 
             } else {
-                errorElement.textContent = ""; // Clear any previous error message
+                errorElement.textContent = ""; 
             }
         }
 

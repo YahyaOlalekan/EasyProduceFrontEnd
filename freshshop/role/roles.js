@@ -1,20 +1,23 @@
 
+ (function(){
+
 let count = 1;
 let tableBody = document.getElementById("roleTableBody");
 
-const tokenById = localStorage.getItem("token");
-const apiUrlById = `${baseUrl}api/Role/GetAllRoles`;
+const tokenByIdforRole = localStorage.getItem("token");
+const apiUrlByIdForRole = `${baseUrl}api/Role/GetAllRoles`;
 
-getWithAuthorization(apiUrlById, tokenById, false)
+getWithAuthorization(apiUrlByIdForRole, tokenByIdforRole, false)
     .then(data => {
         data.data.forEach(role => {
+            console.log(role)
             const row = `
                 <tr>
                     <td>${count}</td>
                     <td>${role.roleName}</td>
                     <td>${role.roleDescription}</td>
-                 <td><button  class="btn btn-primary mx-2"  id="${role.id}" onclick="displayUpdateForm(this.id)"> <i class="fa-solid fa-pen-to-square"></i> Edit </button> </td> 
-                 <td><button  class="btn btn-danger mx-2"  id="${role.id}" onclick="DeleteDetails(this.id)">  <i class="fa fa-trash" aria-hidden="true"></i> Remove </button> </td> 
+                 <td><button  class="btn btn-primary mx-2" onclick="displayUpdateFormForRole('${role.id}')"> <i class="fa-solid fa-pen-to-square"></i> Edit </button> </td> 
+                 <td><button  class="btn btn-danger mx-2"  onclick="DeleteDetailsForRole('${role.id}')">  <i class="fa fa-trash" aria-hidden="true"></i> Remove </button> </td> 
                 </tr>`;
             tableBody.innerHTML += row;
             count++;
@@ -29,13 +32,15 @@ getWithAuthorization(apiUrlById, tokenById, false)
             </tr>`;
     });
 
+})();
 
 
 //////////////////////////
 
-function displayUpdateForm(id) {
+ function displayUpdateFormForRole(roleId) {
+    console.log("Edit button clicked. ID:", roleId);
 
-    const body = document.querySelector(".body");
+    const body = document.querySelector(".body-role");
     body.innerHTML = `  <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-6 form-container">
@@ -71,31 +76,30 @@ function displayUpdateForm(id) {
 
     const form = document.getElementById("updateRoleForm");
 
-    form.removeEventListener("submit", handleFormSubmit);
+    form.removeEventListener("submit", handleFormSubmitForRole);
 
     form.addEventListener("submit", function (event) {
-        handleFormSubmit(event, id);
+        handleFormSubmitForRole(event, roleId);
     });
 }
 
 
-async function handleFormSubmit(event, id) {
+async function handleFormSubmitForRole(event, roleId) {
     event.preventDefault();
 
     const form = event.target;
     const formData = new FormData(form);
-
     try {
 
-        const apiUrl = `${baseUrl}api/Role/UpdateRole/${id}`;
+        const apiUrl = `${baseUrl}api/Role/UpdateRole/${roleId}`;
         const token = localStorage.getItem("token");
 
         const response = await makeApiRequest(apiUrl, 'PUT', formData, token);
 
         if (response.status) {
-            showSweetAlert(response.message);
+            showSweetAlertForRoleUpdate(response);
         } else {
-            showSweetAlertError(response.message);
+            showSweetAlertErrorForRoleUpdate(response);
         }
     } catch (error) {
         alert(error.message);
@@ -104,7 +108,7 @@ async function handleFormSubmit(event, id) {
 
 
 
-function showSweetAlert(response) {
+function showSweetAlertForRoleUpdate(response) {
     Swal.fire({
         text: response.message,
         icon: 'success',
@@ -125,7 +129,7 @@ function showSweetAlert(response) {
     });
 }
 
-function showSweetAlertError(response) {
+function showSweetAlertErrorForRoleUpdate(response) {
     Swal.fire({
         text: response.message,
         icon: 'error',
@@ -155,7 +159,7 @@ function showSweetAlertError(response) {
 
 
 // Function to delete a role
-function DeleteDetails(id) {
+function DeleteDetailsForRole(id) {
 
     Swal.fire({
 
@@ -185,9 +189,9 @@ function DeleteDetails(id) {
             deleteWithAuthorization(url, token)
                 .then(data => {
                     if (data.status) {
-                        showSweetAlert(data.message);
+                        showSweetAlertForRoleDelete(data.message);
                     } else {
-                        showSweetAlertError(data.message);
+                        showSweetAlertErrorForRoleDelete(data.message);
                     }
                 })
                 .catch(error => {
@@ -198,56 +202,9 @@ function DeleteDetails(id) {
 
 }
 
-function displayCustomerData(role) {
-
-    const body = document.querySelector(".body");
-    body.innerHTML = `
-    <div class="container mt-5">
-    <h1 class="text-center mb-4">Role Details</h1>
-    <div class="row">
-       
-        <div class="col-md-8">
-            <table class="table table-striped">
-                <tbody id="roleTableBody">
-                    <!-- Role data will be inserted here dynamically -->
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div>
-    `
-
-    const tableBody = document.getElementById("roleTableBody");
-
-    tableBody.innerHTML = "";
-
-    const properties = [
-        { label: "Role Name", value: role.roleName },
-        { label: "Role Description", value: role.roleDescription },
-
-    ];
-
-    properties.forEach(property => {
-        const row = `
-            <tr>
-                <td>${property.label}</td>
-                <td>${property.value}</td>
-            </tr>`;
-        tableBody.innerHTML += row;
-    });
-
-    const deleteButtonRow = `
-        <tr>
-            <td colspan="2">
-                <button class="btn btn-danger" onclick="deleteRole('${role.id}')">Delete</button>
-            </td>
-        </tr>`;
-    tableBody.innerHTML += deleteButtonRow;
-}
 
 
-
-function showSweetAlert(message) {
+function showSweetAlertForRoleDelete(message) {
     Swal.fire({
         text: message,
         icon: 'success',
@@ -269,7 +226,7 @@ function showSweetAlert(message) {
     });
 }
 
-function showSweetAlertError(message) {
+function showSweetAlertErrorForRoleDelete(message) {
     Swal.fire({
         text: message,
         icon: 'error',
@@ -291,5 +248,4 @@ function showSweetAlertError(message) {
 
         });
 }
-
 

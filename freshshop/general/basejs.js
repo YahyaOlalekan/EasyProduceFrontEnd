@@ -1,9 +1,15 @@
-const baseUrl = 'http://localhost:5195/';
+ const baseUrl = 'http://localhost:5195/';
 // const baseUrl = 'https://localhost:7044/';
 
+// export {baseUrl};
 
-//GetWithUserId and GetAll 
-async function getWithAuthorization(url, token, getById = false) {
+function getItemFromLocalStorage(key) {
+    return localStorage.getItem(key);
+}
+
+//GetWithUserId and GetAll
+// export {getWithAuthorization} ;
+ async function getWithAuthorization(url, token, getById = false) {
     try {
         if (!token) {
             console.error("No token found.");
@@ -42,7 +48,8 @@ async function getWithAuthorization(url, token, getById = false) {
 }
 
 //Get with a NonUserId
-async function getWithAuthorizationWithNonUserId(url, token, userId, getById = false) {
+// export {getWithAuthorizationWithNonUserId};
+ async function getWithAuthorizationWithNonUserId(url, token, userId, getById = false) {
     try {
         if (!token) {
             console.error("No token found.");
@@ -82,7 +89,8 @@ async function getWithAuthorizationWithNonUserId(url, token, userId, getById = f
 /////////////////////////
 
 // //Post and put
-async function makeApiRequest(url, method, data, token) {
+// export {makeApiRequest};
+ async function makeApiRequest(url, method, data, token) {
     try {
         let headers = {
             'Authorization': `Bearer ${token}`
@@ -139,8 +147,8 @@ async function makeApiRequest(url, method, data, token) {
 
 ///////////////////////////
 
-
-async function deleteWithAuthorization(url, token) {
+// export {deleteWithAuthorization};
+ async function deleteWithAuthorization(url, token) {
     try {
         if (!token) {
             console.error("No token found.");
@@ -179,7 +187,8 @@ async function deleteWithAuthorization(url, token) {
 /////////////////////////
 ///////////////////////////
 
-async function postFormDataWithAuthorization(url, token, formData) {
+// export {postFormDataWithAuthorization};
+ async function postFormDataWithAuthorization(url, token, formData) {
     try {
         if (!token) {
             console.error("No token found.");
@@ -219,7 +228,8 @@ async function postFormDataWithAuthorization(url, token, formData) {
 
 /////////////////////////
 
-async function putWithAuthorizationFormData(url, token, formData) {
+// export {putWithAuthorizationFormData};
+ async function putWithAuthorizationFormData(url, token, formData) {
     try {
         if (!token) {
             console.error("No token found.");
@@ -259,8 +269,8 @@ async function putWithAuthorizationFormData(url, token, formData) {
 
 
 
-
-async function putWithAuthorization(url, token, data) {
+// export {putWithAuthorization};
+ async function putWithAuthorization(url, token, data) {
     try {
         if (!token) {
             console.error("No token found.");
@@ -302,5 +312,6 @@ async function putWithAuthorization(url, token, data) {
     }
 }
 
-
+//(function() { /* ... */ })(); syntax creates an anonymous function and immediately invokes it
+// import { getWithAuthorization, makeApiRequest, deleteWithAuthorization, getWithAuthorizationWithNonUserId, putWithAuthorization, putWithAuthorizationFormData, postFormDataWithAuthorization } from '../general/basejs';
 

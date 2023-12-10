@@ -3,7 +3,7 @@ document.querySelector('#loginform').addEventListener('submit', e => {
     e.preventDefault();
     let formElement = document.querySelector('#loginform');
     const formData = new FormData(formElement);
-    console.log(formData.get('email'));
+    // console.log(formData.get('email'));
     fetch(`${baseUrl}api/User/Login`, {
         method: 'POST',
         body: formData
@@ -11,10 +11,8 @@ document.querySelector('#loginform').addEventListener('submit', e => {
         .then(response => response.json())
         .then(data => {
             if (data.status) {
-                // alert(data.message)
                 showSweetAlert(data);
             } else {
-                // document.getElementById('error').innerHTML = data.message;
                 showSweetAlertError(data);
             }
         })
@@ -23,7 +21,6 @@ document.querySelector('#loginform').addEventListener('submit', e => {
         });
 });
 
-// Function to show success SweetAlert2 modal
 function showSweetAlert(data) {
     Swal.fire({
         text: data.message,
@@ -63,7 +60,6 @@ function showSweetAlert(data) {
     });
 }
 
-// Function to show error SweetAlert2 modal
 function showSweetAlertError(data) {
     Swal.fire({
         text: data.message,
@@ -75,7 +71,6 @@ function showSweetAlertError(data) {
             title: 'custom-title-class', 
             content: 'custom-content-class', 
             actions: 'custom-actions-class', 
-            // Apply custom classes to specific elements
             icon: 'swal-icon', 
             confirmButton: 'swal-button', 
             confirmButtonText: 'swal-button-text', 
