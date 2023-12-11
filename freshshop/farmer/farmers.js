@@ -1,4 +1,4 @@
-
+(function(){
 let count = 1;
 let tableBody = document.getElementById("farmerTableBody");
 
@@ -42,6 +42,8 @@ getWithAuthorization(apiUrlById, tokenById, false)
                 <td colspan="7" class="text-danger">An error occurred while fetching data.</td>
             </tr>`;
     });
+
+})();
 
 //  <td><button  class="btn btn-primary mx-2"  id="${farmer.id}" onclick="displayUpdateForm(this.id)"> <i class="fa-solid fa-pen-to-square"></i> Edit </button> </td> 
 
@@ -119,7 +121,7 @@ function ViewDetails(id) {
                                 </li>
                             </ul>
                         </div>
-                        <a href="./farmers.html" class="btn btn-secondary">Back</a>
+                        <a href="../admin/dashboard.html" class="btn btn-secondary">Back</a>
                     </div>
                 </div>
             </div>
@@ -280,7 +282,7 @@ function displayProduceTypes(produceTypes) {
                                 `).join('')}
                             </tbody>
                         </table>
-                        <a href="./farmers.html" class="btn btn-secondary">Back</a>
+                        <a href="../admin/dashboard.html" class="btn btn-secondary">Back</a>
                     </div>
                 </div>
             </div>
@@ -337,7 +339,7 @@ function showSweetAlert(response) {
         },
         background: 'rgb(1, 6, 28)',
     }).then(() => {
-        window.location.href = './farmers.html';
+        window.location.href = '../admin/dashboard.html';
 
     });
 }
@@ -361,7 +363,7 @@ function showSweetAlertError(response) {
         background: 'rgb(1, 6, 28)',
     })
         .then(() => {
-            window.location.href = './farmers.html';
+            window.location.href = '../admin/dashboard.html';
 
         });
 }
@@ -418,7 +420,7 @@ function displayApprovedFarmerProducetypes(data) {
                         `).join('')}
                     </ul>
                     <br>
-                    <a href="./farmers.html" class="btn btn-secondary">Back</a>
+                    <a href="../admin/dashboard.html" class="btn btn-secondary">Back</a>
                 </div>
             </div>
         </div>
@@ -485,7 +487,7 @@ function AccountDetails(id) {
                                     </li>
                                 </ul>
                                 <br>
-                                  <a href="./farmers.html" class="btn btn-secondary">Back</a>
+                                  <a href="../admin/dashboard.html" class="btn btn-secondary">Back</a>
                             </div>
                         </div>
                     </div>
@@ -524,7 +526,7 @@ function displayUpdateForm(id) {
                         <input type="file" class="form-control-file" id="profilePicture" name="ProfilePicture">
                     </div>
                     <div class="text-center">
-                    <a href="./farmers.html" class="btn btn-secondary">Back</a>
+                    <a href="../admin/dashboard.html" class="btn btn-secondary">Back</a>
                     <button type="submit" id="update-button" class="btn btn-primary">Update</button>
                 </div>
                 
@@ -701,7 +703,7 @@ function showSweetAlert(message) {
         },
         background: 'rgb(1, 6, 28)',
     }).then(() => {
-        window.location.href = './farmers.html';
+        window.location.href = '../admin/dashboard.html';
 
     });
 }
@@ -724,7 +726,7 @@ function showSweetAlertError(message) {
         background: 'rgb(1, 6, 28)',
     })
         .then(() => {
-            window.location.href = './farmers.html';
+            window.location.href = '../admin/dashboard.html';
 
         });
 }

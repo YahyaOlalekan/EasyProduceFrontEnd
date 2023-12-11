@@ -18,6 +18,8 @@
     <link rel="stylesheet" href="./dashboard.css">
     <link rel="stylesheet" href="../role/update.css">
     <link rel="stylesheet" href="../manager/update.css">
+    <link rel="stylesheet" href="../producetype/update.css">
+    <link rel="stylesheet" href="../request/producetypes-requests.css">
     <link rel="stylesheet" href="../general/swal.css">
 
 
@@ -152,7 +154,7 @@
                         <ul class="sub-menu" aria-expanded="false">
 
                             <li>
-                                <a href="../farmer/farmers.html" class=" waves-effect">
+                                <a href="#farmers-section" class=" waves-effect">
                                     <span>View Farmers</span>
                                 </a>
                             </li>
@@ -170,7 +172,7 @@
                         <ul class="sub-menu" aria-expanded="false">
 
                             <li>
-                                <a href="../customer/customers.html" class=" waves-effect">
+                                <a href="#customers-section" class=" waves-effect">
                                     <span>View Customers</span>
                                 </a>
                             </li>
@@ -233,13 +235,13 @@
                         <ul class="sub-menu" aria-expanded="false">
 
                             <li>
-                                <a href="../producetype/create.html" class=" waves-effect">
+                                <a href="#create-producetype-section" class=" waves-effect">
                                     <span>Create Producetype</span>
                                 </a>
                             </li>
 
                             <li>
-                                <a href="../producetype/producetypes.html" class=" waves-effect">
+                                <a href="#producetypes-section" class=" waves-effect">
                                     <span>View Producetypes</span>
                                 </a>
                             </li>
@@ -256,7 +258,7 @@
                         <ul class="sub-menu" aria-expanded="false">
 
                             <li>
-                                <a href="../request/producetypes-requests.html" class=" waves-effect">
+                                <a href="#producetypes-requests-section" class=" waves-effect">
                                     <span>Producetype requests</span>
                                 </a>
                             </li>
@@ -529,79 +531,80 @@
         </section>
 
         <section id="categories-section" class="dashboard-section">
-        <div class="body-category">
-            <div class="container mt-5" id="categories-at-middle">
-                <h1>Categories List</h1>
-                <table class="table table-bordered table-striped">
-                    <thead>
-                        <tr>
-                            <th>S/N</th>
-                            <th>Category Name</th>
-                            <th>Category Description</th>
-                            <th>Update</th>
-                            <th>Delete</th>
-                        </tr>
-                    </thead>
-                    <tbody id="categoryTableBody">
+            <div class="body-category">
+                <div class="container mt-5" id="categories-at-middle">
+                    <h1>Categories List</h1>
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>S/N</th>
+                                <th>Category Name</th>
+                                <th>Category Description</th>
+                                <th>Update</th>
+                                <th>Delete</th>
+                            </tr>
+                        </thead>
+                        <tbody id="categoryTableBody">
 
-                         <!-- categories -->
+                            <!-- categories -->
 
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
+                </div>
             </div>
-        </div>
         </section>
 
         <section id="create-produce-section" class="dashboard-section">
-        <div id="produce-creation" class="registration-form">
+            <div id="produce-creation" class="registration-form">
 
-            <div class="accountbg"
-                style="background: url('../producePictures/woman.jpg');background-size: cover;background-position: center;">
-            </div>
+                <div class="accountbg"
+                    style="background: url('../producePictures/woman.jpg');background-size: cover;background-position: center;">
+                </div>
 
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-md-6">
-                        <div class="card">
-                            <div class="card-header bg-primary text-white text-center">
-                                <h4 class="font-size-18 mt-2">Produce Creation</h4>
-                            </div>
-                            <div class="card-body">
-                                <form id="myForm-produce-add">
-                                    <div class="mb-3">
-                                        <label class="form-label" for="CategoryId">Select Category</label>
-                                        <select class="form-control" name="CategoryId">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header bg-primary text-white text-center">
+                                    <h4 class="font-size-18 mt-2">Produce Creation</h4>
+                                </div>
+                                <div class="card-body">
+                                    <form id="myForm-produce-add">
+                                        <div class="mb-3">
+                                            <label class="form-label" for="CategoryId">Select Category</label>
+                                            <select class="form-control" name="CategoryId">
 
-                                            <!-- Produce options-->
+                                                <!-- Produce options-->
 
-                                        </select>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label" for="ProduceName">Produce Name</label>
+                                            <input type="text" class="form-control" name="ProduceName">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label" for="DescriptionOfProduce">Produce
+                                                Description</label>
+                                            <input type="text" class="form-control" name="DescriptionOfProduce">
+                                        </div>
+
+                                        <div class="mb-3 text-end">
+                                            <button class="btn btn-primary w-md waves-effect waves-light" type="submit"
+                                                id="submitButton-produce-add">Create</button>
+                                        </div>
+                                    </form>
+                                    <div class="mt-5 pt-4 text-center">
+                                        <p>©
+                                            <script>document.write(new Date().getFullYear())</script> EasyProduce <i
+                                                class="mdi mdi-heart text-danger"></i>
+                                        </p>
                                     </div>
-                                    <div class="mb-3">
-                                        <label class="form-label" for="ProduceName">Produce Name</label>
-                                        <input type="text" class="form-control" name="ProduceName">
-                                    </div>
-                                    <div class="mb-3">
-                                        <label class="form-label" for="DescriptionOfProduce">Produce Description</label>
-                                        <input type="text" class="form-control" name="DescriptionOfProduce">
-                                    </div>
-
-                                    <div class="mb-3 text-end">
-                                        <button class="btn btn-primary w-md waves-effect waves-light" type="submit"
-                                            id="submitButton-produce-add">Create</button>
-                                    </div>
-                                </form>
-                                <div class="mt-5 pt-4 text-center">
-                                    <p>©
-                                        <script>document.write(new Date().getFullYear())</script> EasyProduce <i
-                                            class="mdi mdi-heart text-danger"></i>
-                                    </p>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
         </section>
 
         <section id="produces-section" class="dashboard-section">
@@ -623,12 +626,196 @@
                         </tbody>
                     </table>
                 </div>
+            </div>
+        </section>
+
+        <section id="create-producetype-section" class="dashboard-section">
+            <div id="producetype-creation" class="registration-form">
+
+                <div class="accountbg"
+                    style="background: url('../producePictures/woman.jpg');background-size: cover;background-position: center;">
                 </div>
+
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header bg-primary text-white text-center">
+                                    <h4 class="font-size-18 mt-2">Produce Type Creation</h4>
+                                </div>
+                                <div class="card-body">
+                                    <form id="myForm-producetypeAdd">
+                                        <div class="mb-3">
+                                            <label class="form-label" for="ProduceId">Select Produce</label>
+                                            <select class="form-control" name="ProduceId">
+                                                <!-- Produce options will be populated dynamically -->
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label" for="TypeName">Produce Type Name</label>
+                                            <input type="text" class="form-control" name="TypeName">
+                                            <!-- <input type="text" class="form-control" name="ProduceName" placeholder="Produce Name"> -->
+                                        </div>
+
+                                        <div class="mb-3 text-end">
+                                            <button class="btn btn-primary w-md waves-effect waves-light" type="submit"
+                                                id="submitButton-producetypeAdd">Create</button>
+                                        </div>
+                                    </form>
+                                    <div class="mt-5 pt-4 text-center">
+                                        <p>©
+                                            <script>document.write(new Date().getFullYear())</script> EasyProduce <i
+                                                class="mdi mdi-heart text-danger"></i>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="producetypes-section" class="dashboard-section">
+            <div class="body-producetype">
+                <div class="container mt-5">
+                    <h1>Produce Type List</h1>
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>S/N</th>
+                                <th>Produce Type Name</th>
+                                <th>Update</th>
+                                <th>Delete</th>
+                            </tr>
+                        </thead>
+                        <tbody id="producetypeTableBody">
+                            <!-- producetype data -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <section id="farmers-section" class="dashboard-section">
+            <div class="body">
+                <div class="container mt-5">
+                    <h1>Farmers List</h1>
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>S/N</th>
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                                <th>Phone Number</th>
+                                <th>Address</th>
+                                <th>Registration Number</th>
+                                <th>Email</th>
+                                <th>Farmer Details</th>
+                                <th>Verify Producetype</th>
+                                <th>Verify Farmer</th>
+                                <th>Approved Producetype</th>
+                                <th>Account Details</th>
+                                <!-- <th>Update</th> -->
+                                <th>Deactivate</th>
+
+                            </tr>
+                        </thead>
+                        <tbody id="farmerTableBody">
+                            <!-- Farmer data -->
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <section id="producetypes-requests-section" class="dashboard-section">
+            <div id="produce-type-requests" class="registration-form">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header bg-primary text-white text-center">
+                                    <h4 class="font-size-18 mt-2" id="titles">Produce Type Requests</h4>
+                                </div>
+                                <div id="block">
+                                    <div class="card-body">
+                                        <form id="produceTypeRequestsForm">
+                                            <div class="mb-3">
+                                                <label class="form-label" for="requestType">Select Request Type</label>
+                                                <select class="form-control" name="requestType" id="requestType">
+                                                    <option value="1">Add New Produce Type</option>
+                                                    <option value="2">Remove From Existing Produce Type</option>
+                                                </select>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="form-label" for="requestStatus">Select Request
+                                                    Status</label>
+                                                <select class="form-control" name="requestStatus" id="requestStatus">
+                                                    <option value="">All</option>
+                                                    <option value="1">Initialized</option>
+                                                    <option value="2">Approved</option>
+                                                    <option value="3">Rejected</option>
+                                                </select>
+                                            </div>
+                                            <button type="button" class="btn btn-primary" id="filterButton">Filter
+                                                Requests</button>
+
+                                        </form>
+                                    </div>
+                                </div>
+
+                                <div id="requestLists">
+                                    <!-- Requests will be populated dynamically  -->
+
+                                    <div id="myModal" class="modal" style="display: none;">
+                                        <div class="modal-content">
+                                            <span class="close" id="closeModal">&times;</span>
+                                            <h2>Enter Rejection Reason</h2>
+                                            <input type="hidden" id="modalRequestId">
+                                            <input type="hidden" id="modalFarmerId">
+                                            <textarea id="rejectionReasonInput" rows="4" cols="50"
+                                                placeholder="Enter the reason for rejection"></textarea>
+                                            <button id="submitReason">Submit</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </section>
 
 
-
-
+        <section id="customers-section" class="dashboard-section">
+        <div class="body-customer">
+            <div class="container mt-5">
+                <h1>Customers List</h1>
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>S/N</th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Phone Number</th>
+                            <th>Address</th>
+                            <th>Registration Number</th>
+                            <th>Email</th>
+                            <th>Details</th>
+                            <th>Deactivate</th>
+                        </tr>
+                    </thead>
+                    <tbody id="customerTableBody">
+                        <!-- Customer data  -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        </section>
 
 
 
@@ -656,6 +843,11 @@
     <script src="../category/categories.js"></script>
     <script src="../produce/create.js"></script>
     <script src="../produce/produces.js"></script>
+    <script src="../producetype/create.js"></script>
+    <script src="../producetype/producetypes.js"></script>
+    <script src="../farmer/farmers.js"></script>
+    <script src="../request/producetypes-requests.js"></script>
+    <script src="../customer/customers.js"></script>
     <script src="../general/logout.js"></script>
 
 

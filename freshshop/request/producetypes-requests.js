@@ -73,7 +73,6 @@ document.addEventListener('DOMContentLoaded', function () {
         attachModalEventListeners(requestId, farmerId);
     }
 
-    // function attachModalEventListeners(requestId, farmerId) {
     function attachModalEventListeners() {
         const closeModalButton = document.getElementById('closeModal');
         const submitReasonButton = document.getElementById('submitReason');
@@ -99,8 +98,14 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-   
+
     async function approveRequest(requestId, farmerId, status) {
+
+        // const verificationData = {
+        //     RequestId: requestId,
+        //     FarmerId: farmerId,
+        //     RequestStatus: status
+        // };
         try {
             const response = await fetch(`${baseUrl}api/Request/VerifyRequest`, {
                 method: 'POST',
@@ -114,12 +119,17 @@ document.addEventListener('DOMContentLoaded', function () {
                 })
             });
 
+            // const apiUrl = `${baseUrl}api/Request/VerifyRequest`;
+            // const token = localStorage.getItem("token");
+
+            // const response = await makeApiRequest(apiUrl, 'POST', verificationData, token);
+
             if (response.ok) {
-              
-                showSweetAlert('Request Approved Successfully');
+
+                showSweetAlertForApproveRequest('Request Approved Successfully');
 
             } else {
-                showSweetAlertError('Failed to Approve Request');
+                showSweetAlertErrorForApproveRequest('Failed to Approve Request');
                 console.log('Request failed with status:', response.status);
             }
         } catch (error) {
@@ -129,6 +139,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
     async function rejectRequest(requestId, farmerId, status, rejectionReason) {
+        // const verificationData = {
+        //     RequestId: requestId,
+        //     FarmerId: farmerId,
+        //     RequestStatus: status,
+        //     RejectionReason: rejectionReason
+        // };
+
         try {
             const response = await fetch(`${baseUrl}api/Request/VerifyRequest`, {
                 method: 'POST',
@@ -143,11 +160,16 @@ document.addEventListener('DOMContentLoaded', function () {
                 }),
             });
 
+            // const apiUrl = `${baseUrl}api/Request/VerifyRequest`;
+            // const token = localStorage.getItem("token");
+
+            // const response = await makeApiRequest(apiUrl, 'POST', verificationData, token);
+
             console.log('Response:', response);
             if (response.ok) {
-                showSweetAlert('Request Rejected Successfully');
+                showSweetAlertForRejectRequest('Request Rejected Successfully');
             } else {
-                showSweetAlertError('Failed to Reject Request');
+                showSweetAlertErrorForRejectRequest('Failed to Reject Request');
                 console.log('Request failed with status:', response.status);
             }
         } catch (error) {
@@ -166,7 +188,12 @@ document.addEventListener('DOMContentLoaded', function () {
                 requestStatus: document.getElementById('requestStatus').value === '' ? null : parseInt(document.getElementById('requestStatus').value),
             }),
         })
-            .then(response => response.json())
+        .then(response => response.json())
+
+        // const tokenById = localStorage.getItem("token");
+        // const apiUrlById = `${baseUrl}api/Request/GetAllProduceTypeRequests`;
+
+        // getWithAuthorization(apiUrlById, tokenById, false)
             .then(data => {
                 console.log(data);
                 const requestList = document.getElementById('requestLists');
@@ -197,10 +224,19 @@ document.addEventListener('DOMContentLoaded', function () {
                             <hr />
                             ${getActionButtons(request.requestStatus, request.id, request.farmerId)}
                             </div>
+                            
                             `;
 
                         requestList.appendChild(requestItem);
                         console.log(request.farmerId + '\n' + request.id);
+
+                        const backButton = document.createElement('a');
+                        backButton.href = '../admin/dashboard.html';
+                        backButton.classList.add('btn', 'btn-secondary');
+                        backButton.textContent = 'Back';
+            
+                        requestList.appendChild(backButton);
+            
                     });
                 } else {
                     requestList.textContent = 'No requests found.';
@@ -221,6 +257,7 @@ document.addEventListener('DOMContentLoaded', function () {
             return `<button class="btn btn-outline-danger mx-2" data-requestId="${requestId}" data-farmerId="${farmerId}" data-action="reject" ><i class="fa fa-times-circle" aria-hidden="true"></i>Reject</button>`;
         } else if (requestStatus === 3) {
             return `<button class="btn btn-outline-info mx-2" data-requestId="${requestId}" data-farmerId="${farmerId}" data-action="approve" ><i class="fa fa-check-circle" aria-hidden="true"></i>Approve</button>`;
+            
         }
 
         return '';
@@ -250,8 +287,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    // Function to show success SweetAlert2 modal
-    function showSweetAlert(message) {
+    function showSweetAlertForApproveRequest(message) {
         Swal.fire({
             text: message,
             icon: 'success',
@@ -268,74 +304,14 @@ document.addEventListener('DOMContentLoaded', function () {
             },
             background: 'rgb(1, 6, 28)',
         }).then(() => {
-            window.location.href = './producetypes-requests.html';
-            //  Swal.close();
-            //  Swal.closeModal()
-
-            // setTimeout(() => {
-            //     Swal.close();
-            // }, 100); // Adjust the delay as needed
-
-            // onClose: () => {
-            // // This code will be executed when the modal is closed
-            // // You can add additional logic here if needed
-            // };
-
-            // onClose: () => {
-            //     // This code will be executed when the modal is closed
-            //     Swal.close();
-            // }
-
-            // willClose: () => {
-            //     // This code will be executed when the modal is about to close
-            //     // You can add additional logic here if needed
-            //     Swal.close();
-            // }
+            // window.location.href = './producetypes-requests.html';
+            window.location.href = '../admin/dashboard.html';
 
         });
     }
 
 
-
-
-    // // Function to show success SweetAlert2 modal
-    // function showSweetAlert(message) {
-    //     Swal.fire({
-    //         text: message,
-    //         icon: 'success',
-    //         confirmButtonColor: 'hsl(210, 17%, 93%)',
-    //         confirmButtonText: 'CONTINUE',
-    //         customClass: {
-    //             popup: 'animated fadeIn',
-    //             title: 'custom-title-class',
-    //             content: 'custom-content-class',
-    //             actions: 'custom-actions-class',
-    //             icon: 'swal-icon',
-    //             confirmButton: 'swal-button',
-    //             confirmButtonText: 'swal-button-text',
-    //         },
-    //         background: 'rgb(1, 6, 28)',
-    //         // onClose: () => {
-    //         //     // This code will be executed when the modal is closed
-    //         //     // You can add additional logic here if needed
-    //         //     Swal.close();
-    //         // }
-
-    //         willClose: () => {
-    //             // This code will be executed when the modal is about to close
-    //             // You can add additional logic here if needed
-    //             Swal.close();
-    //         }
-
-
-    //     });
-    // }
-
-
-
-
-    // Function to show error SweetAlert2 modal
-    function showSweetAlertError(message) {
+    function showSweetAlertErrorForApproveRequest(message) {
         Swal.fire({
             text: message,
             icon: 'error',
@@ -353,8 +329,56 @@ document.addEventListener('DOMContentLoaded', function () {
             background: 'rgb(1, 6, 28)',
         })
             .then(() => {
-                window.location.href = './producetypes-requests.html';
-                // Swal.close()
+                // window.location.href = './producetypes-requests.html';
+                window.location.href = '../admin/dashboard.html';
+
+            });
+    }
+
+    function showSweetAlertForRejectRequest(message) {
+        Swal.fire({
+            text: message,
+            icon: 'success',
+            confirmButtonColor: 'hsl(210, 17%, 93%)',
+            confirmButtonText: 'CONTINUE',
+            customClass: {
+                popup: 'animated fadeIn',
+                title: 'custom-title-class',
+                content: 'custom-content-class',
+                actions: 'custom-actions-class',
+                icon: 'swal-icon',
+                confirmButton: 'swal-button',
+                confirmButtonText: 'swal-button-text',
+            },
+            background: 'rgb(1, 6, 28)',
+        }).then(() => {
+            // window.location.href = './producetypes-requests.html';
+            window.location.href = '../admin/dashboard.html';
+
+        });
+    }
+
+
+    function showSweetAlertErrorForRejectRequest(message) {
+        Swal.fire({
+            text: message,
+            icon: 'error',
+            confirmButtonColor: 'hsl(210, 17%, 93%)',
+            confirmButtonText: 'OK',
+            customClass: {
+                popup: 'animated fadeIn',
+                title: 'custom-title-class',
+                content: 'custom-content-class',
+                actions: 'custom-actions-class',
+                icon: 'swal-icon',
+                confirmButton: 'swal-button',
+                confirmButtonText: 'swal-button-text',
+            },
+            background: 'rgb(1, 6, 28)',
+        })
+            .then(() => {
+                // window.location.href = './producetypes-requests.html';
+                window.location.href = '../admin/dashboard.html';
 
             });
     }
@@ -367,3 +391,59 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 
+//  Swal.close();
+//  Swal.closeModal()
+
+// setTimeout(() => {
+//     Swal.close();
+// }, 100); // Adjust the delay as needed
+
+// onClose: () => {
+// // This code will be executed when the modal is closed
+// // You can add additional logic here if needed
+// };
+
+// onClose: () => {
+//     // This code will be executed when the modal is closed
+//     Swal.close();
+// }
+
+// willClose: () => {
+//     // This code will be executed when the modal is about to close
+//     // You can add additional logic here if needed
+//     Swal.close();
+// }
+
+
+// // Function to show success SweetAlert2 modal
+// function showSweetAlert(message) {
+//     Swal.fire({
+//         text: message,
+//         icon: 'success',
+//         confirmButtonColor: 'hsl(210, 17%, 93%)',
+//         confirmButtonText: 'CONTINUE',
+//         customClass: {
+//             popup: 'animated fadeIn',
+//             title: 'custom-title-class',
+//             content: 'custom-content-class',
+//             actions: 'custom-actions-class',
+//             icon: 'swal-icon',
+//             confirmButton: 'swal-button',
+//             confirmButtonText: 'swal-button-text',
+//         },
+//         background: 'rgb(1, 6, 28)',
+//         // onClose: () => {
+//         //     // This code will be executed when the modal is closed
+//         //     // You can add additional logic here if needed
+//         //     Swal.close();
+//         // }
+
+//         willClose: () => {
+//             // This code will be executed when the modal is about to close
+//             // You can add additional logic here if needed
+//             Swal.close();
+//         }
+
+
+//     });
+// }

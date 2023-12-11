@@ -1,5 +1,5 @@
 
-function populateCategoryDropdown() {
+function populateCategoryDropdownn() {
    
     const tokenById = localStorage.getItem("token");
     const apiUrlById = `${baseUrl}api/Produce/GetAllProduce`;
@@ -21,14 +21,14 @@ function populateCategoryDropdown() {
         });
 }
 
-window.addEventListener('load', populateCategoryDropdown);
+window.addEventListener('load', populateCategoryDropdownn);
 
-document.getElementById('submitButton').addEventListener('click',async function (e) {
+document.getElementById('submitButton-producetypeAdd').addEventListener('click',async function (e) {
     e.preventDefault();
-    const formElement = document.getElementById('myForm');
+    const formElement = document.getElementById('myForm-producetypeAdd');
     const formData = new FormData(formElement);
 
-    const selectedCategory = document.querySelector('select[name="ProduceId"]').value;
+    // const selectedCategory = document.querySelector('select[name="ProduceId"]').value;
    
     try {
 
@@ -38,9 +38,9 @@ document.getElementById('submitButton').addEventListener('click',async function 
         const response = await makeApiRequest(apiUrl, 'POST', formData, token);
 
         if (response.status) {
-            showSweetAlert(response);
+            showSweetAlertForProducetypeAdd(response);
         } else {
-            showSweetAlertError(response);
+            showSweetAlertErrorForProducetypeAdd(response);
         }
     } catch (error) {
         alert(error.message);
@@ -48,7 +48,7 @@ document.getElementById('submitButton').addEventListener('click',async function 
 
 });
 
-function showSweetAlert(response) {
+function showSweetAlertForProducetypeAdd(response) {
     Swal.fire({
         text: response.message,
         icon: 'success',
@@ -69,7 +69,7 @@ function showSweetAlert(response) {
     });
 }
 
-function showSweetAlertError(response) {
+function showSweetAlertErrorForProducetypeAdd(response) {
     Swal.fire({
         text: response.message,
         icon: 'error',

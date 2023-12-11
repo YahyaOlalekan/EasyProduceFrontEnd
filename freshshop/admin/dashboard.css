@@ -11,19 +11,17 @@
 #create-role-section {
     padding: 20px;
     margin: 20px;
-
 }
 
 .roles-style {
-
     margin-left: 200px;
     padding-left: 30px;
 }
 
 
 #view-roles-section {
-    margin-left: 400px;
-    padding-left: 400px;
+    /* margin-left: 400px;
+    padding-left: 400px; */
 
     margin-left: 200px;
     padding-left: 30px;
@@ -31,7 +29,6 @@
 
 #manager-registration-section {
 
-    /* padding: 1px; */
     margin: 60px;
     margin-right: 40px;
     margin-left: 20px;
@@ -42,13 +39,9 @@
 .manager-registration {
     margin-left: 650px;
     padding-left: 30px;
-
 }
 
 #view-managers-section {
-    /* padding: 20px;
-    margin: 20px; */
-
     margin-left: 200px;
     padding-left: 30px;
 }
@@ -59,7 +52,7 @@
 }
 
 #categories-at-middle {
-  
+
     margin-left: 230px;
     padding-left: 30px;
 }
@@ -70,9 +63,23 @@
     padding-left: 3px;
     border-top: -100px;
 } */
+
 .body-produce {
-  
     margin-left: 200px;
     padding-left: 3px;
-    /* border-top: -100px; */
+}
+
+.body-producetype {
+    margin-left: 200px;
+    padding-left: 3px;
+}
+
+.body{
+    margin-left: 200px;
+    padding-left: 3px;
+}
+
+.body-customer{
+    margin-left: 200px;
+    padding-left: 3px;
 }
