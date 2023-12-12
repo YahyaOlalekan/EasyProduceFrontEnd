@@ -1,15 +1,7 @@
 (function () {
     let count = 1;
     let tableBody = document.getElementById("customerTableBody");
-
-    // fetch(`${baseUrl}api/Customer/GetAllCustomers`)
-    //     .then(response => {
-    //         if (!response.ok) {
-    //             throw new Error("Network response was not ok");
-    //         }
-    //         return response.json();
-    //     })
-
+   
     const tokenById = getItemFromLocalStorage("token");
     const apiUrlById = `${baseUrl}api/Customer/GetAllCustomers`;
 
@@ -57,14 +49,7 @@ function ViewDetailsForCustomer(id) {
 
     getWithAuthorizationWithNonUserId(`${baseUrl}api/Customer/GetCustomerById/${id}`, token, userId)
 
-        // fetch(`${baseUrl}api/Customer/GetCustomerById/${id}`)
-        //     .then(response => {
-        //         if (!response.ok) {
-        //             throw new Error("Network response was not ok");
-        //         }
-        //         return response.json();
-        //     })
-        .then(data => {
+               .then(data => {
             displayCustomerData(data.data);
         })
         .catch(error => {

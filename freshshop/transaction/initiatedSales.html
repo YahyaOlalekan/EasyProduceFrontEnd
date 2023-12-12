@@ -10,7 +10,6 @@
         integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-    <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <!-- Site CSS -->
     <link rel="stylesheet" href="css/style.css">
@@ -22,16 +21,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.css">
     <link rel="stylesheet" href="../general/swal.css">
 
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta content="Premium Multipurpose Admin & Dashboard Template" name="description">
-    <meta content="Themesbrand" name="author">
-    <!-- App favicon -->
-    <!-- <link rel="shortcut icon" href="../assets/images/favicon.ico"> -->
     <link rel="shortcut icon" href="../producePictures/4905.jpg">
-
-    <!-- Bootstrap Css -->
-    <!-- <link href="/assets/libs/bootstrap/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css"> -->
     <link href="../assets/libs/bootstrap/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css">
     <!-- Icons Css -->
     <link href="../assets/css/icons.ico" rel="stylesheet" type="text/css">
@@ -45,10 +35,7 @@
 
 <body>
     <div id="producetype-creation" class="registration-form">
-        <!-- Customer registration form fields and content -->
 
-        <!-- <body class="account-pages"> -->
-        <!-- Begin page -->
         <div class="accountbg"
             style="background: url('../producePictures/woman.jpg');background-size: cover;background-position: center;">
         </div>
@@ -61,8 +48,6 @@
                             <h2 class="font-size-18 mt-2">Initiated Sales</h2>
                         </div>
                         <div class="card-body">
-
-                            <!-- <h1>Initiated Sales</h1> -->
 
                             <div id="salesList"></div>
 
@@ -79,9 +64,8 @@
         </div>
 
 
-
-
     </div>
+
     <script src="../general/basejs.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
@@ -92,18 +76,25 @@
 
     <script>
 
-        async function getInitiatedSales() {
-            const response = await fetch(`${baseUrl}api/Transaction/GetAllInitiatedProducetypeSales`);
-            if (response.ok) {
-                const sales = await response.json();
-                const salesList = document.getElementById('salesList');
-                salesList.innerHTML = ''; // Clear previous content
 
-                if (sales.data && sales.data.length > 0) {
-                    sales.data.forEach((sale, index) => {
-                        const saleItem = document.createElement('div');
-                        saleItem.className = 'sale-item'; // Apply the sale-item class
-                        saleItem.innerHTML = `
+        async function getInitiatedSales() {
+            // const response = await fetch(`${baseUrl}api/Transaction/GetAllInitiatedProducetypeSales`);
+            // if (response.ok) {
+            //     const sales = await response.json();
+
+            const tokenById = localStorage.getItem("token");
+            const apiUrlById = `${baseUrl}api/Transaction/GetAllInitiatedProducetypeSales`;
+
+            const sales = await getWithAuthorization(apiUrlById, tokenById, false)
+
+            const salesList = document.getElementById('salesList');
+            salesList.innerHTML = '';
+
+            if (sales.data && sales.data.length > 0) {
+                sales.data.forEach((sale, index) => {
+                    const saleItem = document.createElement('div');
+                    saleItem.className = 'sale-item';
+                    saleItem.innerHTML = `
                     <p><strong>Price:</strong> ${sale.price}</p>
                     <p><strong>Quantity:</strong> ${sale.quantity}</p>
                     <p><strong>Unit Of Measurement:</strong> ${sale.unitOfMeasurement}</p>
@@ -114,60 +105,75 @@
                     <button class="btn btn-outline-danger mx-2 sale-button" id="${sale.id}" onclick="VerifyInitiatedProducetypeSales(this.id, 3)"> <i class="fa fa-times-circle" aria-hidden="true"></i> Decline </button>
                 `;
 
-                        if (index % 2 === 0) {
-                            saleItem.style.backgroundColor = '#fff';
-                        }
+                    if (index % 2 === 0) {
+                        saleItem.style.backgroundColor = '#fff';
+                    }
 
-                        salesList.appendChild(saleItem);
-                    });
-                } else {
-                    salesList.innerHTML = '<p>No initiated sales found.</p>';
-                }
+                    salesList.appendChild(saleItem);
+                });
+            } else {
+                salesList.innerHTML = '<p>No initiated sales found.</p>';
             }
+            // }
         }
 
 
 
-        function VerifyInitiatedProducetypeSales(id, transactionStatus) {
+        async function VerifyInitiatedProducetypeSales(id, transactionStatus) {
             const verificationData = {
                 Id: id,
                 TransactionStatus: transactionStatus
             };
 
-            fetch(`${baseUrl}api/Transaction/VerifyInitiatedProducetypeSales`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(verificationData)
-            })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error("Network response was not ok");
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    if (data.status) {
-                        // alert("Farmer verification successful!");
-                        showSweetAlert(data);
-                    } else {
-                        // alert("Farmer verification failed.");
-                        showSweetAlertError(data);
-                    }
-                })
-                .catch(error => {
-                    console.error("Error:", error);
-                    alert("An error occurred while verifying the farmer.");
-                });
+            try {
+
+                const apiUrl = `${baseUrl}api/Transaction/VerifyInitiatedProducetypeSales`;
+                const token = localStorage.getItem("token");
+
+                const response = await makeApiRequest(apiUrl, 'POST', verificationData, token);
+
+                if (response.status) {
+                    showSweetAlertForInitiatedSales(response);
+                } else {
+                    showSweetAlertErrorForInitiatedSales(response);
+                }
+            } catch (error) {
+                alert(error.message);
+            }
+
+            // fetch(`${baseUrl}api/Transaction/VerifyInitiatedProducetypeSales`, {
+            //     method: 'POST',
+            //     headers: {
+            //         'Content-Type': 'application/json'
+            //     },
+            //     body: JSON.stringify(verificationData)
+            // })
+            //     .then(response => {
+            //         if (!response.ok) {
+            //             throw new Error("Network response was not ok");
+            //         }
+            //         return response.json();
+            //     })
+            //     .then(data => {
+            //         if (data.status) {
+            //             // alert("Farmer verification successful!");
+            //             showSweetAlert(data);
+            //         } else {
+            //             // alert("Farmer verification failed.");
+            //             showSweetAlertError(data);
+            //         }
+            //     })
+            //     .catch(error => {
+            //         console.error("Error:", error);
+            //         alert("An error occurred while verifying the farmer.");
+            //     });
         }
 
 
 
-        // Function to show success SweetAlert2 modal
-        function showSweetAlert(data) {
+        function showSweetAlertForInitiatedSales(response) {
             Swal.fire({
-                text: data.message,
+                text: response.message,
                 icon: 'success',
                 confirmButtonColor: 'hsl(210, 17%, 93%)',
                 confirmButtonText: 'CONTINUE',
@@ -182,16 +188,15 @@
                 },
                 background: 'rgb(1, 6, 28)',
             }).then(() => {
-                // window.location.replace('./transaction/initiatedSales.html');
-                window.location.href = '../transaction/initiatedSales.html';
+                window.location.href = '../manager/dashboard.html';
 
             });
         }
 
-        // Function to show error SweetAlert2 modal
-        function showSweetAlertError(data) {
+        function showSweetAlertErrorForInitiatedSales(response) {
             Swal.fire({
-                text: data.message,
+                text: response.message,
+                // html: `<div>${response.message}</div>`,
                 icon: 'error',
                 confirmButtonColor: 'hsl(210, 17%, 93%)',
                 confirmButtonText: 'OK',
@@ -207,12 +212,11 @@
                 background: 'rgb(1, 6, 28)',
             })
                 .then(() => {
-                    window.location.href = '../transaction/initiatedSales.html';
+                    window.location.href = '../manager/dashboard.html';
 
                 });
         }
 
-        // Load initiated sales when the page loads
         getInitiatedSales();
 
 

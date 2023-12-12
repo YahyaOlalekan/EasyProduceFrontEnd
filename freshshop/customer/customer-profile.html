@@ -47,7 +47,7 @@
                                     </li>
                                 </ul>
                                 <!-- <div class="text-center pt-3" >
-                                    <a href="./customer-update.html" class="btn btn-secondary">Back</a>
+                                    <a href="./manager-update.html" class="btn btn-secondary">Back</a>
                                 </div> -->
                             </div>
                         </div>
@@ -58,47 +58,30 @@
     </div>
 
 
-    <!-- Add Bootstrap and your JavaScript file -->
     <script src="../general/basejs.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
-
-    <!-- <script src="./customer-profile.js"></script> -->
     <script src="../general/login.js"></script>
 
     <script>
-        // JavaScript for getting a single customer by ID
-        // const customerId = 'bc88be3c-832b-43bb-ac07-74d3f51b0455';
-        const token = localStorage.getItem("token");
 
+        (function () {
+            const tokenById = localStorage.getItem("token");
+            const apiUrlById = `${baseUrl}api/Customer/GetCustomerById`;
 
-        fetch(`${baseUrl}api/Customer/GetCustomerById/`,
-            {
-                method: "GET",
-                headers: {
-                    "Authorization": `Bearer ${token}`
-                }
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error("Network response was not ok");
-                }
-                return response.json();
-            })
-            .then(data => {
-                // Assuming the returned data is an object with customer attributes
-                displayCustomerData(data.data);
-            })
-            .catch(error => {
-                console.error("Error:", error);
-                // Display an error message to the user
-                displayError();
-            });
+            getWithAuthorization(apiUrlById, tokenById, true)
+                .then(data => {
+                    displayCustomerData(data.data);
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                    displayError();
+                });
+
+        })();
 
         function displayCustomerData(customer) {
-            // Select the elements for customer details
             const firstName = document.getElementById("firstName");
             const lastName = document.getElementById("lastName");
             const phoneNumber = document.getElementById("phoneNumber");
@@ -107,7 +90,6 @@
             const email = document.getElementById("email");
             const profilePicture = document.getElementById("profilePicture");
 
-            // Set the customer details
             firstName.textContent = `${customer.firstName}`;
             lastName.textContent = `${customer.lastName}`;
             phoneNumber.textContent = `${customer.phoneNumber}`;
@@ -115,15 +97,14 @@
             registrationNumber.textContent = `${customer.registrationNumber}`;
             email.textContent = `${customer.email}`;
 
-            // Set the profile picture source
             profilePicture.src = `${baseUrl}Upload/images/${customer.profilePicture}`;
             console.log(customer.profilePicture);
             profilePicture.alt = "Profile Picture";
         }
 
         function displayError() {
-            const customerDetails = document.querySelector(".card-body");
-            customerDetails.innerHTML = `<p class="text-danger">An error occurred while fetching customer data.</p>`;
+            const customer = document.querySelector(".card-body");
+            customer.innerHTML = `<p class="text-danger">An error occurred while fetching customer data.</p>`;
         }
     </script>
 

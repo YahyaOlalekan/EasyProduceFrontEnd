@@ -1,93 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
-    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-        integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <!-- Site CSS -->
-    <link rel="stylesheet" href="css/style.css">
-    <!-- Responsive CSS -->
-    <link rel="stylesheet" href="css/responsive.css">
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="css/custom.css">
-    <link rel="stylesheet" href="../transaction/initiatedSales.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.css">
-    <link rel="stylesheet" href="../general/swal.css">
-
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta content="Premium Multipurpose Admin & Dashboard Template" name="description">
-    <meta content="Themesbrand" name="author">
-
-    <link rel="shortcut icon" href="../producePictures/4905.jpg">
-
-    <link href="../assets/libs/bootstrap/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css">
-    <!-- Icons Css -->
-    <link href="../assets/css/icons.ico" rel="stylesheet" type="text/css">
-    <link href="../assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css">
-
-    <!-- App Css-->
-    <link href="../assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css">
-
-    <title>Confirmed Initiated Produce Sales</title>
-</head>
-
-<body>
-    <div id="producetype-creation" class="registration-form">
-
-        <div class="accountbg"
-            style="background: url('../producePictures/woman.jpg');background-size: cover;background-position: center;">
-        </div>
-
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-md-6">
-                    <div class="card">
-                        <div class="card-header bg-primary text-white text-center">
-                            <h2 class="font-size-18 mt-2">Confirmed Initiated Produce Sales</h2>
-                        </div>
-                        <div class="card-body">
-
-                            <div id="confirmedSalesList"></div>
-
-                            <div id="otpContainer" style="display: none;">
-                                <label for="otpInput" class="form-label">Enter OTP:</label>
-                                <input type="text" class="form-control" id="otpInput" placeholder="Enter OTP">
-                                <button class="btn btn-primary mt-3" id="submitOtp">Submit OTP</button>
-                            </div>
-
-
-                            <div class="mt-5 pt-4 text-center">
-                                <p>©
-                                    <script>document.write(new Date().getFullYear())</script> EasyProduce <i
-                                        class="mdi mdi-heart text-danger"></i>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    </div>
-
-    <script src="../general/basejs.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <!-- <script src="./create.js"></script> -->
-
-
-    <script>
 
         function showOTPContainer() {
             const otpContainer = document.getElementById('otpContainer');
@@ -97,20 +7,26 @@
         async function getConfirmedInitiatedSales() {
             // const response = await fetch(`${baseUrl}api/Transaction/GetAllConfirmedProducetypeSales`);
             // if (response.ok) {
-            // const sales = await response.json();
+            //     const sales = await response.json();
 
             const tokenById = localStorage.getItem("token");
             const apiUrlById = `${baseUrl}api/Transaction/GetAllConfirmedProducetypeSales`;
 
             const sales = await getWithAuthorization(apiUrlById, tokenById, false)
-            const salesList = document.getElementById('confirmedSalesList');
-            salesList.innerHTML = '';
+                const salesList = document.getElementById('confirmedSalesList');
 
-            if (sales.data && sales.data.length > 0) {
-                sales.data.forEach((sale, index) => {
-                    const saleItem = document.createElement('div');
-                    saleItem.className = 'sale-item'; //Note: Apply the sale-item class
-                    saleItem.innerHTML = `
+                if (!salesList) {
+                    console.error("Element with ID 'confirmedSalesList' not found.");
+                    return;
+                }
+
+                salesList.innerHTML = ''; 
+
+                if (sales.data && sales.data.length > 0) {
+                    sales.data.forEach((sale, index) => {
+                        const saleItem = document.createElement('div');
+                        saleItem.className = 'sale-item'; //Note: Apply the sale-item class
+                        saleItem.innerHTML = `
                     <p><strong>Price:</strong> ${sale.price}</p>
                     <p><strong>Quantity:</strong> ${sale.quantity}</p>
                     <p><strong>Unit Of Measurement:</strong> ${sale.unitOfMeasurement}</p>
@@ -121,15 +37,15 @@
                     <button class="btn btn-outline-success mx-2 sale-button" id="${sale.id}" onclick="MakePayment(this.id)"> </i> Pay </button>
                 `;
 
-                    if (index % 2 === 0) {
-                        saleItem.style.backgroundColor = '#fff';
-                    }
+                        if (index % 2 === 0) {
+                            saleItem.style.backgroundColor = '#fff';
+                        }
 
-                    salesList.appendChild(saleItem);
-                });
-            } else {
-                salesList.innerHTML = '<p>No Confirmed initiated sales found.</p>';
-            }
+                        salesList.appendChild(saleItem);
+                    });
+                } else {
+                    salesList.innerHTML = '<p>No Confirmed initiated sales found.</p>';
+                }
             // }
         }
 
@@ -161,8 +77,8 @@
                 });
         }
 
-
-
+       
+       
         function generateOTP(transferCode) {
             const otpInput = document.getElementById('otpInput');
             const submitOtpButton = document.getElementById('submitOtp');
@@ -249,12 +165,3 @@
 
         getConfirmedInitiatedSales();
 
-
-
-    </script>
-
-
-
-</body>
-
-</html>

@@ -1,0 +1,21 @@
+.dashboard-section {
+    display: none;
+}
+
+    .content-page {
+        padding: 20px; 
+        margin: 30px; 
+        border: 1px solid #ddd; 
+    }
+
+    #customer-profile {
+        padding: 20px; 
+        margin: 60px; 
+    }
+
+     
+    #customer-update{
+        padding: 20px;
+        margin: 40px;
+        background-color: #f8f9fa; 
+    }

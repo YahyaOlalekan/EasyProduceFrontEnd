@@ -3,7 +3,6 @@ let countNumber = 1;
 let managerTableBody = document.getElementById("managerTableBody");
 
 const tokenById = getItemFromLocalStorage("token");
-// const tokenById = localStorage.getItem("token");
 const apiUrlById = `${baseUrl}api/Manager/GetAllManagers`;
 
 getWithAuthorization(apiUrlById, tokenById, false)

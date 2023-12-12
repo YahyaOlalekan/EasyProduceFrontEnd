@@ -1,0 +1,22 @@
+.dashboard-section {
+    display: none;
+}
+
+    .content-page {
+        padding: 20px; 
+        margin: 30px; 
+        border: 1px solid #ddd; 
+    }
+
+    #manager-profile {
+        padding: 20px; 
+        margin: 60px; 
+       /* margin-right: 80px ; */
+    }
+
+     
+    #manager-update{
+        padding: 20px;
+        margin: 40px;
+        background-color: #f8f9fa; 
+    }

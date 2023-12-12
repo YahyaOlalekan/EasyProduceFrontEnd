@@ -7,7 +7,7 @@
     <!-- Add Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
-   
+
 
     <title>Manager Details</title>
 </head>
@@ -22,7 +22,8 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-3 text-center">
-                                <img id="profilePicture" src="" alt="Profile Picture" style="max-width: 100%;" class="rounded-circle">
+                                <img id="profilePicture" src="" alt="Profile Picture" style="max-width: 100%;"
+                                    class="rounded-circle">
                             </div>
                             <div class="col-md-9">
                                 <ul class="list-group">
@@ -55,7 +56,7 @@
             </div>
         </div>
     </div>
-    
+
 
     <script src="../general/basejs.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
@@ -64,32 +65,24 @@
     <script src="../general/login.js"></script>
 
     <script>
-       
-        //  const managerId = 'c023face-464b-4520-a9bd-69f39ec12b97';
-        //  const managerId = '89bea525-a7f2-4eb8-8b11-62624c6f593f';
-         const managerId = localStorage.getItem("id");
 
-        // const baseUrl = 'http://localhost:5195/';
-        fetch(`${baseUrl}api/Manager/GetManagerById/${managerId}`)
-        // fetch(`${baseUrl}api/Manager/GetManagerById/${managerId}`)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error("Network response was not ok");
-                }
-                return response.json();
-            })
-            .then(data => {
-                // Assuming the returned data is an object with customer attributes
-                displayManagerData(data.data);
-            })
-            .catch(error => {
-                console.error("Error:", error);
-                // Display an error message to the user
-                displayError();
-            });
+        (function () {
+            const tokenById = localStorage.getItem("token");
+            // const apiUrlById = `${baseUrl}api/Manager/GetManagerById/${managerId}`;
+            const apiUrlById = `${baseUrl}api/Manager/GetManagerById`;
+
+            getWithAuthorization(apiUrlById, tokenById, true)
+                .then(data => {
+                    displayManagerData(data.data);
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                    displayError();
+                });
+
+        })();
 
         function displayManagerData(manager) {
-            // Select the elements for manager details
             const firstName = document.getElementById("firstName");
             const lastName = document.getElementById("lastName");
             const phoneNumber = document.getElementById("phoneNumber");
@@ -98,7 +91,6 @@
             const email = document.getElementById("email");
             const profilePicture = document.getElementById("profilePicture");
 
-            // Set the manager details
             firstName.textContent = `${manager.firstName}`;
             lastName.textContent = `${manager.lastName}`;
             phoneNumber.textContent = `${manager.phoneNumber}`;
@@ -106,8 +98,7 @@
             registrationNumber.textContent = `${manager.registrationNumber}`;
             email.textContent = `${manager.email}`;
 
-            // Set the profile picture source
-            profilePicture.src =`${baseUrl}Upload/images/${manager.profilePicture}`;
+            profilePicture.src = `${baseUrl}Upload/images/${manager.profilePicture}`;
             console.log(manager.profilePicture);
             profilePicture.alt = "Profile Picture";
         }
@@ -121,6 +112,3 @@
 </body>
 
 </html>
-
-
-

@@ -1,74 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.css">
-    <link rel="stylesheet" href="update.css">
-    <link rel="stylesheet" href="../general/swal.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <title>Customer Update </title>
-</head>
-
-<body>
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-6 form-container">
-                <h1>Customer Update Form</h1>
-                <form id="updateCustomerForm">
-                    <div class="form-group">
-                        <label for="address">Address:</label>
-                        <input type="text" class="form-control" id="address" name="Address" placeholder="Address"
-                            required oninput="validateInputForCustomerUpdate(this, 'AddressError')">
-                        <span class="text-danger" id="AddressError"></span>
-
-                    </div>
-                    <div class="form-group">
-                        <label for="password">Password:</label>
-                        <input type="password" class="form-control" id="password" name="Password" placeholder="Password"
-                            required oninput="validateInputForCustomerUpdate(this, 'PasswordError')">
-                        <span class="text-danger" id="PasswordError"></span>
-
-                    </div>
-                    <div class="form-group">
-                        <label for="phoneNumber">Phone Number:</label>
-                        <input type="tel" class="form-control" id="phoneNumber" name="PhoneNumber" required
-                            placeholder="Phone Number" oninput="validateInputForCustomerUpdate(this, 'PhoneNumberError')">
-                        <span class="text-danger" id="PhoneNumberError"></span>
-
-                    </div>
-                    <div class="form-group">
-                        <label for="profilePicture">Profile Picture:</label>
-                        <input required type="file" class="form-control-file" id="profilePicture" name="ProfilePicture">
-                    </div>
-                    <div class="text-center">
-                        <button type="submit" id="update-botton" class="btn btn-primary">Update</button>
-                    </div>
-
-                    <div class="mb-3" id="error">
-                        <!-- This is where the error message will be displayed -->
-                    </div>
-
-                </form>
-                <div id="updateResult" class="mt-3"></div>
-            </div>
-        </div>
-    </div>
-
-
-    <script src="../general/basejs.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="../general/login.js"></script>
-
-
-    <script>
-
-        var form = document.getElementById("updateCustomerForm")
+       
+       var form = document.getElementById("updateCustomerForm")
         form.addEventListener("submit", (event) => {
             event.preventDefault();
            
@@ -189,8 +120,4 @@
             }
         }
 
-    </script>
-
-</body>
-
-</html>
+  
