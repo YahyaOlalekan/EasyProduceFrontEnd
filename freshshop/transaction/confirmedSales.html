@@ -52,19 +52,13 @@
                 <div class="col-md-6">
                     <div class="card">
                         <div class="card-header bg-primary text-white text-center">
-                            <h2 class="font-size-18 mt-2">Confirmed Initiated Produce Sales</h2>
+                            <h2 class="font-size-18 mt-2">Confirmed Produce Sales</h2>
                         </div>
                         <div class="card-body">
 
                             <div id="confirmedSalesList"></div>
 
-                            <div id="otpContainer" style="display: none;">
-                                <label for="otpInput" class="form-label">Enter OTP:</label>
-                                <input type="text" class="form-control" id="otpInput" placeholder="Enter OTP">
-                                <button class="btn btn-primary mt-3" id="submitOtp">Submit OTP</button>
-                            </div>
-
-
+                           
                             <div class="mt-5 pt-4 text-center">
                                 <p>©
                                     <script>document.write(new Date().getFullYear())</script> EasyProduce <i
@@ -89,15 +83,9 @@
 
     <script>
 
-        function showOTPContainer() {
-            const otpContainer = document.getElementById('otpContainer');
-            otpContainer.style.display = 'block';
-        }
+       
 
         async function getConfirmedInitiatedSales() {
-            // const response = await fetch(`${baseUrl}api/Transaction/GetAllConfirmedProducetypeSales`);
-            // if (response.ok) {
-            // const sales = await response.json();
 
             const tokenById = localStorage.getItem("token");
             const apiUrlById = `${baseUrl}api/Transaction/GetAllConfirmedProducetypeSales`;
@@ -109,16 +97,16 @@
             if (sales.data && sales.data.length > 0) {
                 sales.data.forEach((sale, index) => {
                     const saleItem = document.createElement('div');
-                    saleItem.className = 'sale-item'; //Note: Apply the sale-item class
+                    saleItem.className = 'sale-item'; 
                     saleItem.innerHTML = `
-                    <p><strong>Price:</strong> ${sale.price}</p>
+                    <p><strong>Price:</strong> #${sale.price}</p>
                     <p><strong>Quantity:</strong> ${sale.quantity}</p>
                     <p><strong>Unit Of Measurement:</strong> ${sale.unitOfMeasurement}</p>
-                    <p><strong>Total Amount:</strong> ${sale.totalAmount}</p>
+                    <p><strong>Total Amount:</strong> #${sale.totalAmount}</p>
                     <p><strong>Transaction Number:</strong> ${sale.transactionNum}</p>
                     <p><strong>Farmer Registration Number:</strong> ${sale.registrationNumber}</p>
                    
-                    <button class="btn btn-outline-success mx-2 sale-button" id="${sale.id}" onclick="MakePayment(this.id)"> </i> Pay </button>
+                    <button class="btn btn-outline-success mx-2 sale-button" id="${sale.id}" onclick="GenerateReceipt(this.id)"> </i> Generate Receipt </button>
                 `;
 
                     if (index % 2 === 0) {
@@ -130,13 +118,13 @@
             } else {
                 salesList.innerHTML = '<p>No Confirmed initiated sales found.</p>';
             }
-            // }
+            
         }
 
 
 
-        function MakePayment(id) {
-            fetch(`${baseUrl}api/Transaction/InitiatePayment/${id}`)
+        function GenerateReceipt(id) {
+            fetch(`${baseUrl}api/Transaction/GenerateReceipt/${id}`)
                 .then(response => {
                     if (!response.ok) {
                         throw new Error("Network response was not ok");
@@ -145,12 +133,9 @@
                 })
                 .then(data => {
                     if (data.status) {
-                        // Assuming "transferCode" is a property in the response data
-                        const transferCode = data.data;
 
-                        showOTPContainer();
-
-                        generateOTP(transferCode);
+                        showSweetAlert(data)
+                       
                     } else {
                         showSweetAlertError(data);
                     }
@@ -163,44 +148,7 @@
 
 
 
-        function generateOTP(transferCode) {
-            const otpInput = document.getElementById('otpInput');
-            const submitOtpButton = document.getElementById('submitOtp');
-
-            otpInput.style.display = 'block';
-            submitOtpButton.style.display = 'block';
-
-            submitOtpButton.addEventListener('click', () => {
-                const otp = otpInput.value;
-
-                finalizePayment(transferCode, otp);
-            });
-        }
-
-        function finalizePayment(transferCode, otp) {
-            fetch(`${baseUrl}api/Transaction/FinalizePayment/${transferCode}?otp=${otp}`)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error("Network response was not ok");
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    if (data.status) {
-                        showSweetAlert(data);
-                    } else {
-                        showSweetAlertError(data);
-                    }
-                })
-                .catch(error => {
-                    console.error("Error:", error);
-                    alert("An error occurred while finalizing the payment.");
-                });
-        }
-
-
-
-
+      
         function showSweetAlert(data) {
             Swal.fire({
                 text: data.message,
@@ -218,12 +166,11 @@
                 },
                 background: 'rgb(1, 6, 28)',
             }).then(() => {
-                window.location.href = '../transaction/confirmedSales.html';
+                window.location.href = '../manager/dashboard.html';
 
             });
         }
 
-        // Function to show error SweetAlert2 modal
         function showSweetAlertError(data) {
             Swal.fire({
                 text: data.message,
@@ -242,7 +189,7 @@
                 background: 'rgb(1, 6, 28)',
             })
                 .then(() => {
-                    window.location.href = '../transaction/confirmedSales.html';
+                    window.location.href = '../manager/dashboard.html';
 
                 });
         }

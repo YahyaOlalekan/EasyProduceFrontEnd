@@ -1,14 +1,12 @@
  const baseUrl = 'http://localhost:5195/';
 // const baseUrl = 'https://localhost:7044/';
 
-// export {baseUrl};
 
 function getItemFromLocalStorage(key) {
     return localStorage.getItem(key);
 }
 
 //GetWithUserId and GetAll
-// export {getWithAuthorization} ;
  async function getWithAuthorization(url, token, getById = false) {
     try {
         if (!token) {

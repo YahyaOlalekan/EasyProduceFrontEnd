@@ -1,9 +1,6 @@
 
         async function getInitiatedSales() {
-            // const response = await fetch(`${baseUrl}api/Transaction/GetAllInitiatedProducetypeSales`);
-            // if (response.ok) {
-            //     const sales = await response.json();
-
+           
             const tokenById = localStorage.getItem("token");
             const apiUrlById = `${baseUrl}api/Transaction/GetAllInitiatedProducetypeSales`;
 
@@ -19,13 +16,13 @@
                     const saleItem = document.createElement('div');
                     saleItem.className = 'sale-item';
                     saleItem.innerHTML = `
-                    <p><strong>Price:</strong> ${sale.price}</p>
+                    <p><strong>Price:</strong> #${sale.price}</p>
                     <p><strong>Quantity:</strong> ${sale.quantity}</p>
                     <p><strong>Unit Of Measurement:</strong> ${sale.unitOfMeasurement}</p>
-                    <p><strong>Total Amount:</strong> ${sale.totalAmount}</p>
+                    <p><strong>Total Amount:</strong> #${sale.totalAmount}</p>
                     <p><strong>Transaction Number:</strong> ${sale.transactionNum}</p>
                     <p><strong>Farmer Registration Number:</strong> ${sale.registrationNumber}</p>
-                    <button class="btn btn-outline-info mx-2 sale-button" id="${sale.id}" onclick="VerifyInitiatedProducetypeSales(this.id, 2)"><i class="fa fa-check-circle" aria-hidden="true"></i> Confirm</button>
+                    <button class="btn btn-outline-info mx-2 sale-button" id="${sale.id}" onclick="VerifyInitiatedProducetypeSales(this.id, 2)"><i class="fa fa-check-circle" aria-hidden="true"></i> Pay</button>
                     <button class="btn btn-outline-danger mx-2 sale-button" id="${sale.id}" onclick="VerifyInitiatedProducetypeSales(this.id, 3)"> <i class="fa fa-times-circle" aria-hidden="true"></i> Decline </button>
                 `;
 
@@ -38,7 +35,7 @@
             } else {
                 salesList.innerHTML = '<p>No initiated sales found.</p>';
             }
-            // }
+           
         }
 
 

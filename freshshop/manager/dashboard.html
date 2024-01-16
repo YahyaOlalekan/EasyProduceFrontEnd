@@ -155,9 +155,8 @@
                             </ul>
                         </li>
 
-                        <li>
+                        <!-- <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
-                                <!-- <i class="ti-email"></i> -->
                                 <span>Chat</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="false">
@@ -175,7 +174,7 @@
                                 </li>
 
                             </ul>
-                        </li>
+                        </li> -->
 
 
 
@@ -325,18 +324,30 @@
                             <div class="col-md-6">
                                 <div class="card">
                                     <div class="card-header bg-primary text-white text-center">
-                                        <h2 class="font-size-18 mt-2">Confirmed Initiated Produce Sales</h2>
+                                        <h2 class="font-size-18 mt-2">Confirmed Produce Sales</h2>
                                     </div>
                                     <div class="card-body">
             
                                         <div id="confirmedSalesList"></div>
-            
-                                        <div id="otpContainer" style="display: none;">
-                                            <label for="otpInput" class="form-label">Enter OTP:</label>
-                                            <input type="text" class="form-control" id="otpInput" placeholder="Enter OTP">
-                                            <button class="btn btn-primary mt-3" id="submitOtp">Submit OTP</button>
+
+                                        
+                                        <div class="modal fade" id="receiptModal" tabindex="-1" role="dialog" aria-labelledby="receiptModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="receiptModalLabel">Receipt Details</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body" id="receiptDetails"></div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
-            
+
             
                                         <div class="mt-5 pt-4 text-center">
                                             <p>©
@@ -362,14 +373,17 @@
     </div> <!-- Close the layout-wrapper div -->
 
 
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
     <script src="../general/basejs.js"></script>
-    <script src="../assets/libs/jquery/jquery.min.js"></script>
-    <script src="../assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="../assets/libs/metismenu/metisMenu.min.js"></script>
+       <script src="../assets/libs/metismenu/metisMenu.min.js"></script>
     <script src="../assets/libs/simplebar/simplebar.min.js"></script>
     <script src="../assets/libs/node-waves/waves.min.js"></script>
     <script src="../assets/js/app.js"></script>
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <script src="../manager/manager-profile.js"></script>
     <script src="../manager/manager-update.js"></script>
     <script src="../transaction/initiatedSales.js"></script>

@@ -3,6 +3,14 @@ document.getElementById('submitButton-role').addEventListener('click', async fun
     const formElement = document.getElementById('myRoleForm');
     const formData = new FormData(formElement);
 
+    const roleName = formData.get('RoleName');
+    const roleDescription = formData.get('RoleDescription');
+
+    if (!roleName || !roleDescription) {
+        alert('Please fill out all required fields');
+        return;
+    }
+
     try {
 
         const apiUrl = `${baseUrl}api/Role/AddRole`;
