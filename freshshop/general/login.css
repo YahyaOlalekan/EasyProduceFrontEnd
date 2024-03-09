@@ -1,0 +1,29 @@
+﻿body {
+    margin: 60px;
+}
+
+.login-container {
+    display: flex;
+    align-items: stretch;
+    height: 80vh;
+}
+
+.login-form {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 100px;
+}
+
+.login-image {
+    flex: 1;
+    background-size: cover;
+    background-position: center;
+    margin-left: 20px;
+    margin-right: 40px;
+}
+
+.login-heading {
+    margin-right: 80px;
+}
